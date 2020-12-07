@@ -1,0 +1,28 @@
+﻿.gridStyle {
+    border: 1px solid rgb(212, 212, 212);
+    height: 600px
+}
+
+.WhiteRow {
+    background-color: white !important;
+}
+
+.GreyRow {
+    background-color: gray !important;
+}
+
+.GreenRow {
+    background-color: green !important;
+}
+
+.OrangeRow {
+    background-color: orange !important;
+}
+
+.RedRow {
+    background-color: red !important;
+}
+
+.PurpleRow {
+    background-color: purple !important;
+}

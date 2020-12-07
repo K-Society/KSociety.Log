@@ -1,0 +1,5 @@
+11/29/20 19:23:50.865 [INF] [Serilog.AspNetCore.RequestLoggingMiddleware] [ThreadId: ] HTTP "POST" "/Log/negotiate?negotiateVersion=1" responded 200 in 86.6351 ms
+11/29/20 19:23:51.022 [INF] [Serilog.AspNetCore.RequestLoggingMiddleware] [ThreadId: ] HTTP "GET" "/" responded 200 in 244.8462 ms
+11/29/20 19:23:51.150 [INF] [Serilog.AspNetCore.RequestLoggingMiddleware] [ThreadId: ] HTTP "POST" "/log/negotiate?negotiateVersion=1" responded 200 in 3.2505 ms
+11/29/20 19:25:48.054 [INF] [Serilog.AspNetCore.RequestLoggingMiddleware] [ThreadId: ] HTTP "GET" "/Log?id=STpXT48LOgFOu94ILiaWPw" responded 101 in 117120.6238 ms
+11/29/20 19:25:49.611 [INF] [Serilog.AspNetCore.RequestLoggingMiddleware] [ThreadId: ] HTTP "GET" "/log?id=PWo6RzEDNFctJXTj5xwAog" responded 101 in 118364.5092 ms

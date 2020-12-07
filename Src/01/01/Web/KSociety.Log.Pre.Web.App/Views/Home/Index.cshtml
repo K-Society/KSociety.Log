@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div class="container">
+    <div ng-app="eventLogApp">
+        <div id="scope" ng-controller="EventLogCtrl">
+            <div class="gridStyle" ui-grid="gridOptions"></div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <link rel="stylesheet" type="text/css" href="/lib/angular-ui-grid/ui-grid.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/logging.css" />
+    <script src="/lib/angular.js/angular.min.js"></script>
+    <script type="text/javascript" src="/lib/angular-ui-grid/ui-grid.min.js"></script>
+    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/logging.js"></script>
+}
+

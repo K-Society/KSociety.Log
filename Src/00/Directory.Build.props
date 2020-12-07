@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) K-Society and contributors. All rights reserved. Licensed under the K-Society License. See LICENSE.TXT file in the project root for full license information. -->
+
+<Project>
+  <PropertyGroup>
+    <!--TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks-->
+	<TargetFramework>net3.5</TargetFramework>
+	
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <!--MSBuildErrorsAsMessages>NU1202</MSBuildErrorsAsMessages-->
+
+    <ProjectName Condition=" '$(ProjectName)' == '' ">$(MSBuildProjectName)</ProjectName>
+    <BaseOutputPath>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)Log\$(ProjectName)\))</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(BaseOutputPath)obj\</BaseIntermediateOutputPath>
+    <OutputPath>$(BaseOutputPath)bin\$(Configuration)\</OutputPath>
+
+    <Authors>maniglia</Authors>
+    <Company>K-Society</Company>
+    <Copyright>Copyright (c) K-Society and contributors. All rights reserved.</Copyright>
+	<PackageLicenseExpression>MS-RL</PackageLicenseExpression>
+    <Product>K-Society Log</Product>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>https://github.com/K-Society/Std.Master.Log</PackageProjectUrl>
+  </PropertyGroup>
+
+<!--
+  <Import Project="Cpp.Build.props" Condition=" Exists('Cpp.Build.props') And '$(MSBuildProjectExtension)'=='.vcxproj' " />
+  <Import Project="Wix.Build.props" Condition=" Exists('Wix.Build.props') And '$(MSBuildProjectExtension)'=='.wixproj' " />
+  <Import Project="Custom.Build.props" Condition=" Exists('Custom.Build.props') " />
+-->
+  <Import Project="Custom.Build.props" Condition=" Exists('Custom.Build.props') " />
+</Project>

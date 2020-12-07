@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/9vljfx6a0tsib30g?svg=true)](https://ci.appveyor.com/project/maniglia/std-master-log)
+[![Build status](https://ci.appveyor.com/api/projects/status/30w1cj6jnexc0mai?svg=true)](https://ci.appveyor.com/project/maniglia/ksociety-log)
 
 # KSociety.Log - Log System
 

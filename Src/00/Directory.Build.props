@@ -3,14 +3,13 @@
 
 <Project>
   <PropertyGroup>
-    <!--TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks-->
 	<TargetFramework>net3.5</TargetFramework>
 	
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <!--MSBuildErrorsAsMessages>NU1202</MSBuildErrorsAsMessages-->
 
     <ProjectName Condition=" '$(ProjectName)' == '' ">$(MSBuildProjectName)</ProjectName>
-    <BaseOutputPath>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)Log\$(ProjectName)\))</BaseOutputPath>
+    <BaseOutputPath>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)$(ProjectName)\))</BaseOutputPath>
     <BaseIntermediateOutputPath>$(BaseOutputPath)obj\</BaseIntermediateOutputPath>
     <OutputPath>$(BaseOutputPath)bin\$(Configuration)\</OutputPath>
 
@@ -20,7 +19,7 @@
 	<PackageLicenseExpression>MS-RL</PackageLicenseExpression>
     <Product>K-Society Log</Product>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageProjectUrl>https://github.com/K-Society/Std.Master.Log</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/K-Society/KSociety.Log</PackageProjectUrl>
   </PropertyGroup>
 
 <!--

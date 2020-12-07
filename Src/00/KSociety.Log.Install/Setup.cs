@@ -2,7 +2,7 @@
 using WixSharp;
 using WixSharp.Bootstrapper;
 
-namespace Std.Install.Log
+namespace KSociety.Log.Install
 {
     internal static class Setup
     {
@@ -178,7 +178,7 @@ namespace Std.Install.Log
         private static string BuildMsiLogPresenter()
         {
             Environment.SetEnvironmentVariable("LogPresenter",
-                @"..\..\..\..\build\KSociety.Log.Pre.Web.App\Release\net5.0\publish");
+                @"..\..\..\build\KSociety.Log.Pre.Web.App\Release\net5.0\publish");
 
             #region [Firewall]
 
@@ -247,7 +247,7 @@ namespace Std.Install.Log
         private static string BuildMsiLogServer()
         {
             Environment.SetEnvironmentVariable("LogServer",
-                @"..\..\..\..\build\KSociety.Log.Srv.Host\Release\net5.0\publish");
+                @"..\..\..\build\KSociety.Log.Srv.Host\Release\net5.0\publish");
 
             #region [Firewall]
 

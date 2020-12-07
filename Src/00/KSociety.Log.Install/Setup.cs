@@ -2,7 +2,7 @@
 using WixSharp;
 using WixSharp.Bootstrapper;
 
-namespace Std.Install.Log
+namespace KSociety.Log.Install
 {
     internal static class Setup
     {
@@ -58,7 +58,7 @@ namespace Std.Install.Log
                         UpgradeCode = new Guid("97C9A7F8-AFBB-4634-AD96-91EBC5F07419"),
                         Version = new Version(_logSystemVersion),
                         Manufacturer = Manufacturer,
-                        AboutUrl = "https://github.com/K-Society/Std.Master.Log",
+                        AboutUrl = "https://github.com/K-Society/KSociety.Log",
                         Variables = new[]
                         {
                             new Variable("UNINSTALLER_PATH",
@@ -178,7 +178,7 @@ namespace Std.Install.Log
         private static string BuildMsiLogPresenter()
         {
             Environment.SetEnvironmentVariable("LogPresenter",
-                @"..\..\..\..\build\Std.Pre.Log.Web.App\Release\net5.0\publish");
+                @"..\..\..\build\KSociety.Log.Pre.Web.App\Release\net5.0\publish");
 
             #region [Firewall]
 
@@ -208,8 +208,8 @@ namespace Std.Install.Log
             Project project = new Project("LogPresenter",
                 new Dir(new Id("INSTALLDIR"), @"%ProgramFiles%\" + Manufacturer + @"\" + Product,
                     new Dir(new Id("DIAPRESENTERDIR"), logPresenter, "LogPresenter",
-                        new Files(logPresenter, @"%LogPresenter%\*.*", f => !f.Contains("Std.Pre.Log.Web.App.exe")),
-                        logPresenterFile = new File(logPresenter, @"%LogPresenter%\Std.Pre.Log.Web.App.exe", serviceLogPresenterFw)
+                        new Files(logPresenter, @"%LogPresenter%\*.*", f => !f.Contains("KSociety.Log.Pre.Web.App.exe")),
+                        logPresenterFile = new File(logPresenter, @"%LogPresenter%\KSociety.Log.Pre.Web.App.exe", serviceLogPresenterFw)
                     ) // DIAPRESENTERDIR.
                 ) // INSTALLDIR.
             )
@@ -247,7 +247,7 @@ namespace Std.Install.Log
         private static string BuildMsiLogServer()
         {
             Environment.SetEnvironmentVariable("LogServer",
-                @"..\..\..\..\build\Std.Srv.Host.Log\Release\net5.0\publish");
+                @"..\..\..\build\KSociety.Log.Srv.Host\Release\net5.0\publish");
 
             #region [Firewall]
 
@@ -278,8 +278,8 @@ namespace Std.Install.Log
             Project project = new Project("LogServer",
                 new Dir(new Id("INSTALLDIR"), @"%ProgramFiles%\" + Manufacturer + @"\" + Product,
                     new Dir(new Id("LOGSERVERDIR"), logServer, "LogServer",
-                        new Files(logServer, @"%LogServer%\*.*", f => !f.Contains("Std.Srv.Host.Log.exe")),
-                        logService = new File(logServer, @"%LogServer%\Std.Srv.Host.Log.exe", serviceLogServerFw)
+                        new Files(logServer, @"%LogServer%\*.*", f => !f.Contains("KSociety.Log.Srv.Host.exe")),
+                        logService = new File(logServer, @"%LogServer%\KSociety.Log.Srv.Host.exe", serviceLogServerFw)
                     ) // LOGSERVER.
                 ) // INSTALLDIR.
                 //new Dir(new Id("PROGRAMMENU"),@"%ProgramMenu%\K-Society\Log System\LogServer",

@@ -60,7 +60,6 @@ namespace KSociety.Log.Srv.Host
         {
             services.Configure<KestrelServerOptions>(
                 Configuration.GetSection("Kestrel"));
-            //services.Replace(ServiceDescriptor.Singleton(typeof(ILogger<>), typeof(StdLogger<>)));
 
             services.AddCodeFirstGrpc();
         }

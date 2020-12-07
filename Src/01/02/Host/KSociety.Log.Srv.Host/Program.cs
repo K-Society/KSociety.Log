@@ -16,9 +16,6 @@ namespace KSociety.Log.Srv.Host
         public static async Task Main(string[] args)
         {
             Configuration.ProtoBufConfiguration();
-            //LogManager.Setup().SetupExtensions(s =>
-            //    s.RegisterTarget<Std.Log.Driver.Targets.SignalRLogTarget>(
-            //        "SignalR"));
 
             //// NLog: setup the logger first to catch all errors
             //var logger = LogManager.GetCurrentClassLogger();

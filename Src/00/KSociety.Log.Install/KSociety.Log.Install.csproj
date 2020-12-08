@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
     <ProjectGuid>{22184C01-2551-4907-9F42-C9923D29CCD7}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Std.Install.Log</RootNamespace>
-    <AssemblyName>Std.Install.Log</AssemblyName>
+    <RootNamespace>KSociety.Log.Install</RootNamespace>
+    <AssemblyName>KSociety.Log.Install</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

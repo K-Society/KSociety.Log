@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Std.Pre.Log.Web.App": {
+    "KSociety.Log.Pre.Web.App": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

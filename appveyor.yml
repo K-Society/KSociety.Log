@@ -25,7 +25,7 @@ build_script:
   - appveyor.cmd
   
 after_build:
-  - ps: $logSystemPath = Resolve-Path .\Src\00\KSociety.Install\LogSystem.exe; $array = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$logSystemPath").FileVersion -split "\."; $env:LogSystemVersion = $array[0] + "." + $array[1] + "." + $array[2]; Write-Host "$env:LogSystemVersion"
+  - ps: $logSystemPath = Resolve-Path .\Src\00\KSociety.Log.Install\LogSystem.exe; $array = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$logSystemPath").FileVersion -split "\."; $env:LogSystemVersion = $array[0] + "." + $array[1] + "." + $array[2]; Write-Host "$env:LogSystemVersion"
 
 test: off
 
@@ -59,7 +59,7 @@ deploy:
   - provider: NuGet
     server: 
     api_key:
-      secure: fL2Nnz8m7x6pnxRuzlqwIEa+xyVogAvpi1qmO+WGdiTZ7/aZLEW1ObQ0MPXq6VaQ
+      secure: LkTQAh9Tv+IgjhWD5LBCRs7Jc9y5eDKDo+TdnwjuBXVdfuin8jpb1ewtMb30pMxz
     skip_symbols: true
     symbol_server: 
     artifact: /.*\.nupkg/

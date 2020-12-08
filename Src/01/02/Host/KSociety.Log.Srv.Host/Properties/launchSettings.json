@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Std.Srv.Host.Log": {
+    "KSociety.Log.Srv.Host": {
       "commandName": "Project",
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development"

@@ -25,7 +25,7 @@ build_script:
   - appveyor.cmd
   
 after_build:
-  - ps: $logSystemPath = Resolve-Path .\Src\00\KSociety.Log.Install\LogSystem.exe; $array = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$logSystemPath").FileVersion -split "\."; $env:LogSystemVersion = $array[0] + "." + $array[1] + "." + $array[2]; Write-Host "$env:LogSystemVersion"
+  - ps: $logSystemPath = Resolve-Path .\Src\00\KSociety.Log.Install\K-Society.Log.exe; $array = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$logSystemPath").FileVersion -split "\."; $env:LogSystemVersion = $array[0] + "." + $array[1] + "." + $array[2]; Write-Host "$env:LogSystemVersion"
 
 test: off
 
@@ -44,7 +44,7 @@ skip_tags: true
 artifacts:
   - path: build\**\Release\*.nupkg
     name: nuget
-  - path: Src\00\KSociety.Log.Install\LogSystem.exe
+  - path: Src\00\KSociety.Log.Install\K-Society.Log.exe
     name: logsysteminstaller
 
 deploy:
@@ -67,8 +67,8 @@ deploy:
       branch: master
          
   - provider: GitHub
-    release: LogSystem $(LogSystemVersion) #LogViewer-v$(appveyor_build_version)
-    description: 'LogSystem $(LogSystemVersion)'
+    release: K-Society.Log $(LogSystemVersion) #LogViewer-v$(appveyor_build_version)
+    description: 'K-Society.Log $(LogSystemVersion)'
     auth_token:
       secure: 7XvMBiUsnXWGCogi909uIzQVH/68TW4lAipl0RN+ZAwHrlqZChxEBroMRWEcrWGM
     artifact: logsysteminstaller

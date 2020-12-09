@@ -6,7 +6,7 @@ namespace KSociety.Log.Install
 {
     internal static class Setup
     {
-        private const string Product = "LogSystem";
+        private const string Product = "Log";
         private const string Manufacturer = "K-Society";
         private static string _logSystemVersion = "1.0.0.0";
 
@@ -62,22 +62,17 @@ namespace KSociety.Log.Install
                         Variables = new[]
                         {
                             new Variable("UNINSTALLER_PATH",
-                                $@"{Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)}\{"Package Cache"}\{"[WixBundleProviderKey]"}\{Product}.exe")
+                                $@"{Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)}\{"Package Cache"}\{"[WixBundleProviderKey]"}\{Manufacturer + "." + Product}.exe")
                         }
                     
                     };
 
-            bootstrapper.Build(Product + ".exe");
+            bootstrapper.Build(Manufacturer + "." + Product + ".exe");
 
             if (System.IO.File.Exists(productMsiUninstall))
             {
                 System.IO.File.Delete(productMsiUninstall);
             }
-
-            //if (System.IO.File.Exists(productMsiLogViewer))
-            //{
-            //    System.IO.File.Delete(productMsiLogViewer);
-            //}
 
             if (System.IO.File.Exists(productMsiLogPresenter))
             {
@@ -115,65 +110,6 @@ namespace KSociety.Log.Install
             
             return project.BuildMsi();
         }
-
-        //private static string BuildMsiLogViewer()
-        //{
-        //    Environment.SetEnvironmentVariable("LogViewer",
-        //        @"..\..\..\..\build\Std.Pre.Log.LogViewer\Release\net5.0-windows\publish");
-
-        //    #region [Firewall]
-
-        //    var serviceLogViewerFw = new FirewallException
-        //    {
-        //        Id = "LOG_VIEWER_ID",
-        //        Description = "LogViewer",
-        //        Name = "LogViewer",
-        //        IgnoreFailure = true,
-        //        Profile = FirewallExceptionProfile.all,
-        //        Scope = FirewallExceptionScope.any
-        //    };
-
-        //    #endregion
-
-        //    #region [Feature]
-
-        //    Feature binaries = new Feature("Binaries", "Binaries", true, false);
-        //    Feature logViewer = new Feature("LogViewer", "LogViewer", true);
-
-        //    binaries.Children.Add(logViewer);
-
-        //    #endregion
-
-        //    Project project =
-        //        new Project("LogViewer",
-        //            new Dir(new Id("INSTALLDIR"), @"%ProgramFiles%\" + Manufacturer + @"\" + Product,
-        //                new Dir(new Id("LOGVIEWERDIR"), logViewer, "LogViewer",
-        //                    new Files(logViewer, @"%LogViewer%\*.*", f => !f.Contains("Std.Pre.Log.LogViewer.exe")),
-        //                    new File(logViewer, @"%LogViewer%\Std.Pre.Log.LogViewer.exe", serviceLogViewerFw)
-        //                ) // LOGVIEWER.
-        //            ), // INSTALLDIR.
-        //            new Dir(new Id("PROGRAMMENU"), @"%ProgramMenu%\" + Manufacturer + @"\" + Product + @"\LogViewer",
-        //                //new ExeFileShortcut(new Id("LOGVIEWERUNINSTALL"), logViewer, "Uninstall Log Viewer", "[SystemFolder]msiexec.exe",
-        //                //    "/x [ProductCode]"),
-        //                new ExeFileShortcut(new Id("LOGVIEWERSHORTCUT"), logViewer, "LogViewer", "[LOGVIEWERDIR]Std.Pre.Log.LogViewer.exe", "")
-        //            ) //Shortcut
-        //        )
-        //        {
-        //            //InstallPrivileges = InstallPrivileges.elevated,
-        //            InstallScope = InstallScope.perMachine,
-        //            Platform = Platform.x64,
-        //            Version = new Version("1.0.0.0"),
-        //            GUID = new Guid("59C71F78-7112-477C-94DA-2A84E090D47B"),
-        //            UI = WUI.WixUI_ProgressOnly,
-        //            ControlPanelInfo = new ProductInfo
-        //            {
-        //                Manufacturer = Manufacturer
-        //            }
-        //        };
-        //            project.PreserveTempFiles = false;
-        //            project.PreserveDbgFiles = false;
-        //            return project.BuildMsi();
-        //}
 
         private static string BuildMsiLogPresenter()
         {

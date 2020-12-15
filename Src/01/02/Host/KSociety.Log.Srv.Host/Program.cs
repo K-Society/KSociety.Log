@@ -1,13 +1,14 @@
+using Autofac.Extensions.DependencyInjection;
+using KSociety.Log.Serilog.Sinks.RabbitMq.ProtoModel;
+//using KSociety.Log.Serilog.Sinks.SignalR;
+//using KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR.Output;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Serilog;
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using Autofac.Extensions.DependencyInjection;
-using KSociety.Log.Serilog.Sinks.RabbitMq.ProtoModel;
-using KSociety.Log.Serilog.Sinks.SignalR;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-using Serilog;
-using Serilog.Formatting.Json;
 
 namespace KSociety.Log.Srv.Host
 {
@@ -30,19 +31,21 @@ namespace KSociety.Log.Srv.Host
             //    .ReadFrom.Configuration(config)
             //    .CreateLogger();
 
-            global::Serilog.Log.Logger = new LoggerConfiguration()
-                .Enrich.FromLogContext()
-                .WriteTo.Console()
-                .WriteTo.File(@"C:\JOB\LOG\log-.txt", rollingInterval: RollingInterval.Day/*, rollOnFileSizeLimit: true*/)
-                .WriteTo.SignalR((proxy, signalRConfiguration) =>
-                {
-                    proxy.Uri = "http://localhost:61000/LoggingHub";
+            //global::Serilog.Log.Logger = new LoggerConfiguration()
+            //    .Enrich.FromLogContext()
+            //    .WriteTo.Console()
+            //    .WriteTo.File(@"C:\JOB\LOG\log-.txt", rollingInterval: RollingInterval.Day/*, rollOnFileSizeLimit: true*/)
+            //    .WriteTo.SignalR((proxy, signalRConfiguration) =>
+            //    {
+            //        proxy.Uri = "http://localhost:61000/LoggingHub";
 
-                    signalRConfiguration.TextFormatter = new JsonFormatter();
-                    
+            //        signalRConfiguration.TextFormatter = new LogEventFormatter();
+            //    }).MinimumLevel.Verbose().CreateLogger();
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
 
-
-                }).MinimumLevel.Verbose().CreateLogger();
+            global::Serilog.Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
 
             try
             {

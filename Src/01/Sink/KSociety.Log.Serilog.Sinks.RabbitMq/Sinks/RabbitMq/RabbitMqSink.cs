@@ -45,8 +45,8 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
             _loggerFactory = LoggerFactory.Create(builder =>
             {
                 builder
-                    .AddFilter("Microsoft", Microsoft.Extensions.Logging.LogLevel.Warning)
-                    .AddFilter("System", Microsoft.Extensions.Logging.LogLevel.Warning);
+                    .AddFilter("Microsoft", LogLevel.Warning)
+                    .AddFilter("System", LogLevel.Warning);
             });
 
             Initialize();

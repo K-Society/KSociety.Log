@@ -84,19 +84,6 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
             int batchPostingLimit = 0, TimeSpan period = default, ITextFormatter textFormatter = null
         )
         {
-            Console.WriteLine("mqHostName: " + mqHostName);
-            Console.WriteLine("mqUserName: " + mqUserName);
-            Console.WriteLine("mqPassword: " + mqPassword);
-            Console.WriteLine("brokerName: " + brokerName);
-            Console.WriteLine("exchangeType: " + exchangeType);
-            Console.WriteLine("exchangeDurable: " + exchangeDurable);
-            Console.WriteLine("exchangeAutoDelete: " + exchangeAutoDelete);
-            Console.WriteLine("queueDurable: " + queueDurable);
-            Console.WriteLine("queueExclusive: " + queueExclusive);
-            Console.WriteLine("queueAutoDelete: " + queueAutoDelete);
-            Console.WriteLine("batchPostingLimit: " + batchPostingLimit);
-            Console.WriteLine("period: " + period);
-            Console.WriteLine("textFormatter: " + textFormatter);
 
             //RabbitMqClientConfiguration clientConfiguration = new RabbitMqClientConfiguration
             //{

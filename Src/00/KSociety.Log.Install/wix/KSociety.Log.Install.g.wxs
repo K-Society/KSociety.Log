@@ -6,43 +6,50 @@
 </auto-generated>
 -->
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="92ce0201-b483-441a-89d2-7831b250d071" Name="LogSystem Uninstall" Language="1033" Codepage="Windows-1252" Version="1.0.0.0" UpgradeCode="92ce0201-b483-441a-89d2-7831a250d070" Manufacturer="K-Society">
-    <Package InstallerVersion="200" Compressed="yes" SummaryCodepage="Windows-1252" InstallScope="perMachine" Languages="1033" />
-    <Media Id="1" Cabinet="LogSystem_Uninstall.cab" EmbedCab="yes" />
+  <Product Id="9223cb10-3b93-4516-9567-cbc291e3ac35" Name="Log RegistryX64" Language="1033" Codepage="Windows-1252" Version="1.0.0.0" UpgradeCode="9223cb10-3b93-4516-9567-cbc281e3ac34" Manufacturer="K-Society">
+    <Package InstallerVersion="200" Compressed="yes" Platform="x64" SummaryCodepage="Windows-1252" InstallScope="perMachine" Languages="1033" />
+    <Media Id="1" Cabinet="Log_RegistryX64_.cab" EmbedCab="yes" />
 
     <Directory Id="TARGETDIR" Name="SourceDir">
-      <Directory Id="ProgramMenuFolder" Name="ProgramMenuFolder">
-        <Directory Id="ProgramMenuFolder.K_Society" Name="K-Society">
-          <Directory Id="PROGRAMMENUUNINSTALL" Name="LogSystem">
+      <Directory Id="ProgramFiles64Folder" Name="ProgramFiles64Folder">
 
-            <Component Id="Component.Uninstall_LogSystem" Guid="92ce0201-b483-441a-89d2-7831751c5243">
-              <Shortcut Id="PROGRAMMENUUNINSTALL.Uninstall_LogSystem" WorkingDirectory="UNINSTALLER_PATH" Target="[UNINSTALLER_PATH]" Name="Uninstall LogSystem.lnk" />
+        <Component Id="Component.ProgramFiles64Folder.EmptyDirectory" Guid="9223cb10-3b93-4516-9567-cbc2d2773588" KeyPath="yes" Win64="yes">
+          <CreateFolder />
+          <RemoveFolder Id="ProgramFiles64Folder" On="uninstall" />
+        </Component>
 
-              <CreateFolder />
-              <RemoveFolder Id="PROGRAMMENUUNINSTALL" On="uninstall" />
+        <Component Id="Registry.1" Guid="9223cb10-3b93-4516-9567-cbc27e007ab3" KeyPath="yes" Win64="yes">
+          <RegistryKey Root="HKLM" Key="SOFTWARE\K-Society\Log">
+            <RegistryValue Id="Version" Type="string" KeyPath="no" Value="0.0.14.31425" Name="Version" />
+          </RegistryKey>
 
-              <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
-                <RegistryValue Value="0" Type="string" KeyPath="yes" />
-              </RegistryKey>
-            </Component>
+          <CreateFolder />
+        </Component>
 
-          </Directory>
+        <Component Id="RemoveRegistryValue" Guid="9223cb10-3b93-4516-9567-cbc268982d44" KeyPath="yes" Win64="yes">
+          <RemoveRegistryValue Id="RemoveRegistryValue" Root="HKLM" Key="SOFTWARE\K-Society\Log" />
 
-          <Component Id="ProgramMenuFolder.K_Society" Guid="92ce0201-b483-441a-89d2-7831fdb12df6">
-            <RemoveFolder Id="ProgramMenuFolder.K_Society" On="uninstall" />
+          <CreateFolder />
+        </Component>
 
-            <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
-              <RegistryValue Value="0" Type="string" KeyPath="yes" />
-            </RegistryKey>
-          </Component>
-
-        </Directory>
       </Directory>
+
+      <Component Id="TARGETDIR" Guid="9223cb10-3b93-4516-9567-cbc2f4b31ca7" KeyPath="yes" Win64="yes">
+        <CreateFolder />
+        <RemoveFolder Id="TARGETDIR" On="uninstall" />
+      </Component>
+
     </Directory>
 
+    <Feature Id="RegistryX64_" Title="RegistryX64" Absent="allow" Level="1">
+      <ComponentRef Id="Registry.1" />
+      <ComponentRef Id="RemoveRegistryValue" />
+      <ComponentRef Id="TARGETDIR" />
+    </Feature>
+
     <Feature Id="Complete" Title="Complete" Absent="allow" Level="1">
-      <ComponentRef Id="Component.Uninstall_LogSystem" />
-      <ComponentRef Id="ProgramMenuFolder.K_Society" />
+      <ComponentRef Id="Component.ProgramFiles64Folder.EmptyDirectory" />
+      <ComponentRef Id="TARGETDIR" />
     </Feature>
 
   </Product>

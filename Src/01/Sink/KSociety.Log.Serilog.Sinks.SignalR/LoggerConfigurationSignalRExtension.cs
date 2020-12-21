@@ -2,6 +2,7 @@
 using KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR;
 using Serilog;
 using Serilog.Configuration;
+using Serilog.Formatting;
 
 namespace KSociety.Log.Serilog.Sinks.SignalR
 {
@@ -39,6 +40,21 @@ namespace KSociety.Log.Serilog.Sinks.SignalR
 
             //var formatter = new OutputTemplateRenderer(appliedTheme, outputTemplate, formatProvider);
             //MessageTemplateTextFormatter
+            return RegisterSink(loggerConfiguration, proxy, signalRSinkConfiguration);
+        }
+
+        public static LoggerConfiguration SignalR(
+            this LoggerSinkConfiguration loggerConfiguration,
+            string uri,
+            ITextFormatter textFormatter
+        )
+        {
+            var proxy = new HubProxy(uri);
+            var signalRSinkConfiguration = new SignalRSinkConfiguration
+            {
+                TextFormatter = textFormatter
+            };
+            
             return RegisterSink(loggerConfiguration, proxy, signalRSinkConfiguration);
         }
 

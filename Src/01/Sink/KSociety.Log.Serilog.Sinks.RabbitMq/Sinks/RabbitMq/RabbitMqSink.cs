@@ -45,8 +45,8 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
             _loggerFactory = LoggerFactory.Create(builder =>
             {
                 builder
-                    .AddFilter("Microsoft", Microsoft.Extensions.Logging.LogLevel.Warning)
-                    .AddFilter("System", Microsoft.Extensions.Logging.LogLevel.Warning);
+                    .AddFilter("Microsoft", LogLevel.Warning)
+                    .AddFilter("System", LogLevel.Warning);
             });
 
             Initialize();
@@ -70,8 +70,6 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
             {
                 var sw = new StringWriter();
                 _formatter.Format(logEvent, sw);
-
-                
 
                 await _eventBus.Publish(new WriteLogEvent(sw.ToString(), logEvent.Timestamp.DateTime, 1,
                     (int)logEvent.Level, "LoggerName")).ConfigureAwait(false);

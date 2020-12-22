@@ -81,9 +81,10 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
             string mqHostName, string mqUserName, string mqPassword, string brokerName, KSociety.Base.EventBus.ExchangeType exchangeType,
             bool exchangeDurable = false, bool exchangeAutoDelete = false,
             bool queueDurable = false, bool queueExclusive = false, bool queueAutoDelete = false, 
-            int batchPostingLimit = 0, TimeSpan period = default, ITextFormatter formatter = null
+            int batchPostingLimit = 0, TimeSpan period = default, ITextFormatter textFormatter = null
         )
         {
+
             //RabbitMqClientConfiguration clientConfiguration = new RabbitMqClientConfiguration
             //{
             //    Username = username,
@@ -120,7 +121,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
             {
                 BatchPostingLimit = batchPostingLimit,
                 Period = period,
-                TextFormatter = formatter
+                TextFormatter = textFormatter
             };
 
             return RegisterSink(loggerConfiguration, connectionFactory, exchangeDeclareParameters, queueDeclareParameters, sinkConfiguration);

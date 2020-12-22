@@ -16,6 +16,11 @@ namespace KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR
             Uri = "http://localhost:61000/LoggingHub";
         }
 
+        public HubProxy(string uri)
+        {
+            Uri = uri;
+        }
+
         public async ValueTask Log(LogEvent logEvent)
         {
 

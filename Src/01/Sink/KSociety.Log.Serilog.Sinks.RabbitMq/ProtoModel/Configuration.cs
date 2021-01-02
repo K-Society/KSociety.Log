@@ -15,7 +15,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq.ProtoModel
                 ProtoBuf.Meta.RuntimeTypeModel.Default.Add(typeof(IntegrationLogEvent), true)
                     .AddSubType(6000, typeof(WriteLogEvent));
 
-                ProtoBuf.Meta.RuntimeTypeModel.Default.Add(typeof(KbAppList<WriteLog>), true)
+                ProtoBuf.Meta.RuntimeTypeModel.Default.Add(typeof(AppList<WriteLog>), true)
                     .AddSubType(6001, typeof(App.Dto.Req.Biz.List.WriteLog));
             }
             catch (Exception ex)

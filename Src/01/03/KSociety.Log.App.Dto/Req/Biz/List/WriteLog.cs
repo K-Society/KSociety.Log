@@ -5,7 +5,7 @@ using ProtoBuf;
 namespace KSociety.Log.App.Dto.Req.Biz.List
 {
     [ProtoContract]
-    public class WriteLog : KbAppList<Biz.WriteLog>
+    public class WriteLog : AppList<Biz.WriteLog>
     {
         public WriteLog(){}
 

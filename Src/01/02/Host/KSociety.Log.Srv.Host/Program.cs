@@ -1,7 +1,5 @@
 using Autofac.Extensions.DependencyInjection;
 using KSociety.Log.Serilog.Sinks.RabbitMq.ProtoModel;
-//using KSociety.Log.Serilog.Sinks.SignalR;
-//using KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR.Output;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;

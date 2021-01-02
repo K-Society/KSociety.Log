@@ -27,7 +27,7 @@ namespace KSociety.Log.Srv.Host
         private string MqUserName { get; }
         private string MqPassword { get; }
         private string BrokerName { get; }
-        private KSociety.Base.EventBus.ExchangeType ExchangeType { get; }
+        private Base.EventBus.ExchangeType ExchangeType { get; }
         private bool ExchangeDurable { get; }
         private bool ExchangeAutoDelete { get; }
         private bool QueueDurable { get; }
@@ -43,7 +43,7 @@ namespace KSociety.Log.Srv.Host
             MqPassword = Configuration.GetValue<string>("MessageBroker:ConnectionFactory:MqPassword");
 
             BrokerName = Configuration.GetValue<string>("MessageBroker:ExchangeDeclareParameters:BrokerName");
-            ExchangeType = Configuration.GetValue<KSociety.Base.EventBus.ExchangeType>("MessageBroker:ExchangeDeclareParameters:ExchangeType");
+            ExchangeType = Configuration.GetValue<Base.EventBus.ExchangeType>("MessageBroker:ExchangeDeclareParameters:ExchangeType");
             ExchangeDurable = Configuration.GetValue<bool>("MessageBroker:ExchangeDeclareParameters:ExchangeDurable");
             ExchangeAutoDelete = Configuration.GetValue<bool>("MessageBroker:ExchangeDeclareParameters:ExchangeAutoDelete");
 
@@ -79,7 +79,7 @@ namespace KSociety.Log.Srv.Host
                 builder.RegisterModule(new KSociety.Base.Srv.Host.Shared.Bindings.AutoMapper(AssemblyTool.GetAssembly()));
 
                 //CommandHdlr.
-                builder.RegisterModule(new KSociety.Base.Srv.Host.Shared.Bindings.CommandHdlr(AssemblyTool.GetAssembly()));
+                builder.RegisterModule(new CommandHdlr(AssemblyTool.GetAssembly()));
 
                 //RabbitMQ.
                 builder.RegisterModule(

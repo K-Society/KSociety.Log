@@ -49,7 +49,7 @@ namespace KSociety.Log.Serilog.Sinks.Test
                 connectionFactory.DispatchConsumersAsync = true;
 
                 exchangeDeclareParameters.BrokerName = "k-society_log_test";
-                exchangeDeclareParameters.ExchangeType = KSociety.Base.EventBus.ExchangeType.Direct.ToString().ToLower();
+                exchangeDeclareParameters.ExchangeType = Base.EventBus.ExchangeType.Direct.ToString().ToLower();
                 exchangeDeclareParameters.ExchangeDurable = false;
                 exchangeDeclareParameters.ExchangeAutoDelete = true;
 

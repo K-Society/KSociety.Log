@@ -9,15 +9,15 @@ using ProtoBuf.Grpc.Client;
 
 namespace KSociety.Log.Srv.Agent.Biz
 {
-    public class Biz : KSociety.Base.Srv.Agent.Connection
+    public class Biz : Base.Srv.Agent.Connection
     {
-        public Biz(KSociety.Base.Srv.Agent.IAgentConfiguration agentConfiguration, ILoggerFactory loggerFactory)
+        public Biz(Base.Srv.Agent.IAgentConfiguration agentConfiguration, ILoggerFactory loggerFactory)
             : base(agentConfiguration, loggerFactory)
         {
 
         }
 
-        public WriteLog WriteLog(KSociety.Log.App.Dto.Req.Biz.WriteLog request, CancellationToken cancellationToken = default)
+        public WriteLog WriteLog(App.Dto.Req.Biz.WriteLog request, CancellationToken cancellationToken = default)
         {
             CallOptions = CallOptions.WithCancellationToken(cancellationToken);
             CallContext = new CallContext(CallOptions, CallContextFlags.IgnoreStreamTermination);
@@ -40,7 +40,7 @@ namespace KSociety.Log.Srv.Agent.Biz
             return output;
         }
 
-        public WriteLog WriteLogs(KSociety.Log.App.Dto.Req.Biz.List.WriteLog request, CancellationToken cancellationToken = default)
+        public WriteLog WriteLogs(App.Dto.Req.Biz.List.WriteLog request, CancellationToken cancellationToken = default)
         {
             CallOptions = CallOptions.WithCancellationToken(cancellationToken);
             CallContext = new CallContext(CallOptions, CallContextFlags.IgnoreStreamTermination);
@@ -63,7 +63,7 @@ namespace KSociety.Log.Srv.Agent.Biz
             return output;
         }
 
-        public async ValueTask<WriteLog> WriteLogAsync(KSociety.Log.App.Dto.Req.Biz.WriteLog request, CancellationToken cancellationToken = default)
+        public async ValueTask<WriteLog> WriteLogAsync(App.Dto.Req.Biz.WriteLog request, CancellationToken cancellationToken = default)
         {
             CallOptions = CallOptions.WithCancellationToken(cancellationToken);
             CallContext = new CallContext(CallOptions, CallContextFlags.IgnoreStreamTermination);
@@ -86,7 +86,7 @@ namespace KSociety.Log.Srv.Agent.Biz
             return await new ValueTask<WriteLog>();
         }
 
-        public async ValueTask<WriteLog> WriteLogsAsync(KSociety.Log.App.Dto.Req.Biz.List.WriteLog request, CancellationToken cancellationToken = default)
+        public async ValueTask<WriteLog> WriteLogsAsync(App.Dto.Req.Biz.List.WriteLog request, CancellationToken cancellationToken = default)
         {
             CallOptions = CallOptions.WithCancellationToken(cancellationToken);
             CallContext = new CallContext(CallOptions, CallContextFlags.IgnoreStreamTermination);

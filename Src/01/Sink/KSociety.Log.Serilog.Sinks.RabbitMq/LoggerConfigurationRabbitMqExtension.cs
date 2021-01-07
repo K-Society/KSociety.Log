@@ -58,7 +58,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
         /// </summary>
         public static LoggerConfiguration RabbitMq(
             this LoggerSinkConfiguration loggerConfiguration,
-            string mqHostName, string mqUserName, string mqPassword, string brokerName, KSociety.Base.EventBus.ExchangeType exchangeType,
+            string mqHostName, string mqUserName, string mqPassword, string brokerName, Base.EventBus.ExchangeType exchangeType,
             bool exchangeDurable = false, bool exchangeAutoDelete = false,
             bool queueDurable = false, bool queueExclusive = false, bool queueAutoDelete = false,
             int batchPostingLimit = 0,
@@ -78,7 +78,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
         /// </summary>
         public static LoggerConfiguration RabbitMq(
             this LoggerSinkConfiguration loggerConfiguration,
-            string mqHostName, string mqUserName, string mqPassword, string brokerName, KSociety.Base.EventBus.ExchangeType exchangeType,
+            string mqHostName, string mqUserName, string mqPassword, string brokerName, Base.EventBus.ExchangeType exchangeType,
             bool exchangeDurable = false, bool exchangeAutoDelete = false,
             bool queueDurable = false, bool queueExclusive = false, bool queueAutoDelete = false, 
             int batchPostingLimit = 0, TimeSpan period = default, ITextFormatter textFormatter = null

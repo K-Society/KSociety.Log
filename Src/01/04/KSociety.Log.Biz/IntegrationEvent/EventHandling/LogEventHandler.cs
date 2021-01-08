@@ -23,13 +23,6 @@ namespace KSociety.Log.Biz.IntegrationEvent.EventHandling
 
             await Task.Run(() =>
             {
-                //var logger = LogManager.GetLogger();
-
-                //var log = new LogEventInfo(LogLevel.FromOrdinal(@event.Level), @event.LoggerName, @event.Message)
-                //{
-                //    TimeStamp = @event.TimeStamp
-                //};
-                //logger.Log(log);
                 try
                 {
 

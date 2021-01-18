@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using KSociety.Base.EventBus.Abstractions.Handler;
+﻿using KSociety.Base.EventBus.Abstractions.Handler;
 using KSociety.Log.Biz.IntegrationEvent.Event;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace KSociety.Log.Biz.IntegrationEvent.EventHandling
 {
@@ -27,7 +27,6 @@ namespace KSociety.Log.Biz.IntegrationEvent.EventHandling
                 {
 
                     _logger = _loggerFactory.CreateLogger(@event.LoggerName);
-
                     _logger.Log((LogLevel)@event.Level, @event.Message);
                 }
                 catch (Exception ex)

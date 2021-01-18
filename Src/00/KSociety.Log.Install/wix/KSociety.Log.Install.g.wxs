@@ -20,7 +20,7 @@
 
         <Component Id="Registry.1" Guid="9223cb10-3b93-4516-9567-cbc27e007ab3" KeyPath="yes" Win64="yes">
           <RegistryKey Root="HKLM" Key="SOFTWARE\K-Society\Log">
-            <RegistryValue Id="Version" Type="string" KeyPath="no" Value="0.0.29.31243" Name="Version" />
+            <RegistryValue Id="Version" Type="string" KeyPath="no" Value="0.0.41.1766" Name="Version" />
           </RegistryKey>
 
           <CreateFolder />

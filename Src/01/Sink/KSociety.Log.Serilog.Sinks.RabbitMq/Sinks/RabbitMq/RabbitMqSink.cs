@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using KSociety.Base.EventBus;
+﻿using KSociety.Base.EventBus;
 using KSociety.Base.EventBus.Abstractions.EventBus;
 using KSociety.Base.EventBusRabbitMQ;
 using KSociety.Log.Biz.IntegrationEvent.Event;
@@ -11,6 +7,10 @@ using RabbitMQ.Client;
 using Serilog.Events;
 using Serilog.Formatting;
 using Serilog.Sinks.PeriodicBatching;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
 {
@@ -71,8 +71,18 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
                 var sw = new StringWriter();
                 _formatter.Format(logEvent, sw);
 
+                var loggerName = "Default";
+                if (logEvent.Properties.TryGetValue(global::Serilog.Core.Constants.SourceContextPropertyName, out LogEventPropertyValue sourceContext))
+                {
+                    var sv = sourceContext as ScalarValue;
+                    if (sv?.Value is string value)
+                    {
+                        loggerName = value;
+                    }
+                }
+
                 await _eventBus.Publish(new WriteLogEvent(sw.ToString(), logEvent.Timestamp.DateTime, 1,
-                    (int)logEvent.Level, "LoggerName")).ConfigureAwait(false);
+                    (int)logEvent.Level, loggerName)).ConfigureAwait(false);
             }
         }
 

@@ -18,6 +18,7 @@ namespace KSociety.Log.Biz.IntegrationEvent.EventHandling
         {
             _loggerFactory = loggerFactory;
         }
+
         public async ValueTask Handle(WriteLogEvent @event, CancellationToken cancellationToken = default)
         {
 
@@ -25,7 +26,6 @@ namespace KSociety.Log.Biz.IntegrationEvent.EventHandling
             {
                 try
                 {
-
                     _logger = _loggerFactory.CreateLogger(@event.LoggerName);
                     _logger.Log((LogLevel)@event.Level, @event.Message);
                 }

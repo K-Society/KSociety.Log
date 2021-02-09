@@ -3,7 +3,7 @@
 
 <Project>
   <PropertyGroup>
-	<TargetFramework>net3.5</TargetFramework>
+	<TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
 	
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <!--MSBuildErrorsAsMessages>NU1202</MSBuildErrorsAsMessages-->

@@ -39,7 +39,7 @@ namespace KSociety.Log.App.ReqHdlr.Biz
             }
             catch (Exception ex)
             {
-                _logger.LogError("StartGrabReqHdlr Execute:  " + ex.Message + " - " + ex.StackTrace);
+                _logger.LogError("WriteLogsReqHdlr Execute:  " + ex.Message + " - " + ex.StackTrace);
             }
 
             return output;
@@ -56,7 +56,7 @@ namespace KSociety.Log.App.ReqHdlr.Biz
             }
             catch (Exception ex)
             {
-                _logger.LogError("StartGrabReqHdlr Execute:  " + ex.Message + " - " + ex.StackTrace);
+                _logger.LogError("WriteLogsReqHdlr Execute:  " + ex.Message + " - " + ex.StackTrace);
             }
 
             return output;

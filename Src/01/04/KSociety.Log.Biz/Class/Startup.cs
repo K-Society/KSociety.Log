@@ -18,12 +18,12 @@ namespace KSociety.Log.Biz.Class
             _loggerFactory = loggerFactory;
             _logger = _loggerFactory.CreateLogger<Startup>();
             _biz = biz;
-            _logger.LogInformation("C20052.Biz.Log startup! ");
+            _logger.LogInformation("KSociety.Log startup! ");
         }
 
         public void Start()
         {
-            _logger.LogTrace("C20052.Biz.Log staring...");
+            _logger.LogTrace("KSociety.Log staring...");
             _biz.LoadEventBus();
 
         }

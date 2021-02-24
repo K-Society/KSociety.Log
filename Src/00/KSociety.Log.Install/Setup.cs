@@ -17,7 +17,6 @@ namespace KSociety.Log.Install
             _logSystemVersion = fileVersionInfo.FileVersion;
 
             var productMsiUninstall = BuildMsiUninstall();
-            //var productMsiLogViewer = BuildMsiLogViewer();
             var productMsiLogPresenter = BuildMsiLogPresenter();
             var productMsiLogServer = BuildMsiLogServer();
             var productMsiRegistryX86 = BuildMsiRegistryX86();
@@ -33,12 +32,6 @@ namespace KSociety.Log.Install
                             Cache = false,
                             MsiProperties = "UNINSTALLER_PATH=[UNINSTALLER_PATH]"
                         },
-                        //new MsiPackage(productMsiLogViewer)
-                        //{
-                        //    DisplayInternalUI = false,
-                        //    Compressed = true,
-                        //    Visible = false
-                        //},
                         new MsiPackage(productMsiLogPresenter)
                         {
                             DisplayInternalUI = false,

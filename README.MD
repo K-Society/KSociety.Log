@@ -1,4 +1,5 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/30w1cj6jnexc0mai?svg=true)](https://ci.appveyor.com/project/maniglia/ksociety-log)
+![GitHub all releases](https://img.shields.io/github/downloads/K-Society/KSociety.Log/total)
 
 # KSociety.Log - Log System
 

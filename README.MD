@@ -5,7 +5,8 @@
 
 ## Introduction
 
-This is the README file for KSociety.Log. It support .Net 5.0
+This is the README file for KSociety.Log.
+KSociety.Log is a .NET 5.0 centralized log system, to work properly it needs [RabbitMQ](https://github.com/K-Society/KSociety.RabbitMQ.Install/releases).
 
 
 ## Port numbers

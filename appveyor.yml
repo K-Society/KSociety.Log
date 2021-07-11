@@ -72,7 +72,7 @@ deploy:
     release: K-Society.Log $(LogSystemVersion) #LogViewer-v$(appveyor_build_version)
     description: 'K-Society.Log $(LogSystemVersion)'
     auth_token:
-      secure: 7XvMBiUsnXWGCogi909uIzQVH/68TW4lAipl0RN+ZAwHrlqZChxEBroMRWEcrWGM
+      secure: ENcLoui/QOEIlADrbVlH5ZeIjOaJih6C65EM9p7Rs+KX45w7p8Y4J6KTHPRk5LbY
     artifact: logsysteminstaller
     draft: false
     prerelease: false

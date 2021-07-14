@@ -34,7 +34,7 @@ namespace KSociety.Log.Biz.Class
             _connectionFactory = connectionFactory;
             _exchangeDeclareParameters = exchangeDeclareParameters;
             _queueDeclareParameters = queueDeclareParameters;
-            _logger.LogInformation("C20052.Biz.Log biz! ");
+            _logger.LogInformation("KSociety.Log.Biz.Class.Biz! ");
 
             PersistentConnection = new DefaultRabbitMqPersistentConnection(_connectionFactory, _loggerFactory);
         }

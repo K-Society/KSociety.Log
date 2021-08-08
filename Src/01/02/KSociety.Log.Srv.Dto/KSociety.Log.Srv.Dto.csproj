@@ -8,9 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KSociety.Base.EventBusRabbitMQ" Version="0.0.130" />
-    <PackageReference Include="KSociety.Base.Srv.Host.Shared" Version="0.0.130" />
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.4.220" PrivateAssets="All" />
+    <PackageReference Include="KSociety.Base.EventBusRabbitMQ" Version="0.0.140" />
+    <PackageReference Include="KSociety.Base.Srv.Host.Shared" Version="0.0.140" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.4.231" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>

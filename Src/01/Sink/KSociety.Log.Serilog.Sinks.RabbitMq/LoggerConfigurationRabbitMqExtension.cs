@@ -135,7 +135,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
             RabbitMqSinkConfiguration sinkConfiguration)
         {
             // guards
-            if (loggerConfiguration == null) throw new ArgumentNullException("loggerConfiguration");
+            if (loggerConfiguration == null) throw new ArgumentNullException(nameof(loggerConfiguration));
             //if (connectionFactory.HostN == 0) throw new ArgumentException("hostnames cannot be empty, specify at least one hostname", "hostnames");
             if (string.IsNullOrEmpty(connectionFactory.UserName)) throw new ArgumentException("username cannot be 'null' or and empty string.");
             if (connectionFactory.Password == null) throw new ArgumentException("password cannot be 'null'. Specify an empty string if password is empty.");

@@ -26,10 +26,10 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
             /*Action<RabbitMqClientConfiguration, RabbitMqSinkConfiguration> configure*/)
         {
             //RabbitMqClientConfiguration clientConfiguration = new RabbitMqClientConfiguration();
-            ConnectionFactory connectionFactory = new ConnectionFactory();
+            ConnectionFactory connectionFactory = new();
             IExchangeDeclareParameters exchangeDeclareParameters = new ExchangeDeclareParameters();
             IQueueDeclareParameters queueDeclareParameters = new QueueDeclareParameters();
-            RabbitMqSinkConfiguration sinkConfiguration = new RabbitMqSinkConfiguration();
+            RabbitMqSinkConfiguration sinkConfiguration = new();
             configure(connectionFactory, exchangeDeclareParameters, queueDeclareParameters, sinkConfiguration);
 
             return RegisterSink(loggerConfiguration, connectionFactory, exchangeDeclareParameters,
@@ -120,7 +120,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
             IExchangeDeclareParameters exchangeDeclareParameters = new ExchangeDeclareParameters(brokerName, exchangeType, exchangeDurable, exchangeAutoDelete);
             IQueueDeclareParameters queueDeclareParameters = new QueueDeclareParameters(queueDurable, queueExclusive, queueAutoDelete);
 
-            RabbitMqSinkConfiguration sinkConfiguration = new RabbitMqSinkConfiguration
+            RabbitMqSinkConfiguration sinkConfiguration = new()
             {
                 BatchPostingLimit = batchPostingLimit,
                 Period = period,
@@ -145,7 +145,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
             if (connectionFactory.Password == null) throw new ArgumentException("password cannot be 'null'. Specify an empty string if password is empty.");
             //if (connectionFactory.Port <= 0 || clientConfiguration.Port > 65535) throw new ArgumentOutOfRangeException("port", "port must be in a valid range (1 and 65535)");
 
-            sinkConfiguration.BatchPostingLimit = (sinkConfiguration.BatchPostingLimit == default(int)) ? DefaultBatchPostingLimit : sinkConfiguration.BatchPostingLimit;
+            sinkConfiguration.BatchPostingLimit = (sinkConfiguration.BatchPostingLimit == default) ? DefaultBatchPostingLimit : sinkConfiguration.BatchPostingLimit;
             sinkConfiguration.Period = (sinkConfiguration.Period == default) ? DefaultPeriod : sinkConfiguration.Period;
 
             var rabbitMqSink = new RabbitMqSink(connectionFactory, exchangeDeclareParameters, queueDeclareParameters,

@@ -8,6 +8,7 @@ using RabbitMQ.Client;
 using Serilog.Events;
 using Serilog.Formatting;
 using Serilog.Sinks.PeriodicBatching;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
@@ -58,16 +59,24 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
 
         private async ValueTask InitializeAsync()
         {
-            _persistentConnection = new DefaultRabbitMqPersistentConnection(_connectionFactory, _loggerFactory);
+            try
+            {
+                _persistentConnection = new DefaultRabbitMqPersistentConnection(_connectionFactory, _loggerFactory);
 
-            _eventBus = new EventBusRabbitMqTyped(
-                _persistentConnection,
-                _loggerFactory,
-                null,
-                _exchangeDeclareParameters, _queueDeclareParameters,
-                "LogQueueDriver", CancellationToken.None);
+                _eventBus = new EventBusRabbitMqTyped(
+                    _persistentConnection,
+                    _loggerFactory,
+                    null,
+                    _exchangeDeclareParameters, _queueDeclareParameters,
+                    "LogQueueDriver", CancellationToken.None);
 
-            await _eventBus.Initialization;
+                await _eventBus.Initialization;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("RabbitMqSink InitializeAsync: " + ex.Message + " " + ex.StackTrace);
+            }
+            
         }
 
         protected override async Task EmitBatchAsync(IEnumerable<LogEvent> events)

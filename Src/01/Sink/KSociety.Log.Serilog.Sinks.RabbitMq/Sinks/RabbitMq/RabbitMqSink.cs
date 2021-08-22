@@ -1,6 +1,7 @@
 ﻿using KSociety.Base.EventBus;
 using KSociety.Base.EventBus.Abstractions.EventBus;
 using KSociety.Base.EventBusRabbitMQ;
+using KSociety.Base.InfraSub.Shared.Interface;
 using KSociety.Log.Biz.IntegrationEvent.Event;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
@@ -17,7 +18,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
     /// <summary>
     /// Serilog RabbitMq Sink - Lets you log to RabbitMq using Serilog
     /// </summary>
-    public class RabbitMqSink : PeriodicBatchingSink
+    public class RabbitMqSink : PeriodicBatchingSink, IAsyncInitialization
     {
         private readonly ITextFormatter _formatter;
 
@@ -28,6 +29,8 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
         private ILoggerFactory _loggerFactory { get; }
         private IRabbitMqPersistentConnection _persistentConnection { get; set; }
         private IEventBus _eventBus;
+
+        public ValueTask Initialization { get; private set; }
 
         public RabbitMqSink(
             IConnectionFactory connectionFactory,
@@ -49,10 +52,11 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
                     .AddFilter("System", LogLevel.Warning);
             });
 
-            Initialize();
+            Initialization = InitializeAsync();
+            //Initialize();
         }
 
-        private void Initialize()
+        private async ValueTask InitializeAsync()
         {
             _persistentConnection = new DefaultRabbitMqPersistentConnection(_connectionFactory, _loggerFactory);
 
@@ -62,6 +66,8 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
                 null,
                 _exchangeDeclareParameters, _queueDeclareParameters,
                 "LogQueueDriver", CancellationToken.None);
+
+            await _eventBus.Initialization;
         }
 
         protected override async Task EmitBatchAsync(IEnumerable<LogEvent> events)

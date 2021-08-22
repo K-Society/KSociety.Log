@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using KSociety.Base.EventBus;
 using KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq;
 using RabbitMQ.Client;
@@ -19,7 +20,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
         /// <summary>
         /// Adds a sink that lets you push log messages to RabbitMQ
         /// </summary>
-        public static LoggerConfiguration RabbitMq(
+        public static ValueTask<LoggerConfiguration> RabbitMq(
             this LoggerSinkConfiguration loggerConfiguration,
             Action<ConnectionFactory, IExchangeDeclareParameters, IQueueDeclareParameters, RabbitMqSinkConfiguration> configure
             /*Action<RabbitMqClientConfiguration, RabbitMqSinkConfiguration> configure*/)
@@ -40,7 +41,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
         /// If you need to overrule the text formatter, you will need to supply it here as a separate parameter instead of supplying it via the RabbitMQSinkConfiguration instance
         /// which will not work when configuring via configuration file
         /// </summary>
-        public static LoggerConfiguration RabbitMq(
+        public static ValueTask<LoggerConfiguration> RabbitMq(
             this LoggerSinkConfiguration loggerConfiguration,
             IConnectionFactory connectionFactory,
             IExchangeDeclareParameters exchangeDeclareParameters,
@@ -56,7 +57,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
         /// Will be used when configuring via configuration file
         /// Is for backward-compatibility with previous version
         /// </summary>
-        public static LoggerConfiguration RabbitMq(
+        public static ValueTask<LoggerConfiguration> RabbitMq(
             this LoggerSinkConfiguration loggerConfiguration,
             string mqHostName, string mqUserName, string mqPassword, string brokerName, Base.EventBus.ExchangeType exchangeType,
             bool exchangeDurable = false, bool exchangeAutoDelete = false,
@@ -76,7 +77,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
         /// Will be used when configuring via configuration file
         /// Is for backward-compatibility with previous version but gives possibility to use multiple hosts
         /// </summary>
-        public static LoggerConfiguration RabbitMq(
+        public static ValueTask<LoggerConfiguration> RabbitMq(
             this LoggerSinkConfiguration loggerConfiguration,
             string mqHostName, string mqUserName, string mqPassword, string brokerName, Base.EventBus.ExchangeType exchangeType,
             bool exchangeDurable = false, bool exchangeAutoDelete = false,
@@ -124,10 +125,11 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
                 TextFormatter = textFormatter
             };
 
-            return RegisterSink(loggerConfiguration, connectionFactory, exchangeDeclareParameters, queueDeclareParameters, sinkConfiguration);
+            return RegisterSink(loggerConfiguration, connectionFactory, exchangeDeclareParameters,
+                queueDeclareParameters, sinkConfiguration);
         }
 
-        static LoggerConfiguration RegisterSink(
+        async static ValueTask<LoggerConfiguration> RegisterSink(
             LoggerSinkConfiguration loggerConfiguration, 
             IConnectionFactory connectionFactory,
             IExchangeDeclareParameters exchangeDeclareParameters,
@@ -135,7 +137,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
             RabbitMqSinkConfiguration sinkConfiguration)
         {
             // guards
-            if (loggerConfiguration == null) throw new ArgumentNullException("loggerConfiguration");
+            if (loggerConfiguration == null) throw new ArgumentNullException(nameof(loggerConfiguration));
             //if (connectionFactory.HostN == 0) throw new ArgumentException("hostnames cannot be empty, specify at least one hostname", "hostnames");
             if (string.IsNullOrEmpty(connectionFactory.UserName)) throw new ArgumentException("username cannot be 'null' or and empty string.");
             if (connectionFactory.Password == null) throw new ArgumentException("password cannot be 'null'. Specify an empty string if password is empty.");
@@ -144,9 +146,14 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
             sinkConfiguration.BatchPostingLimit = (sinkConfiguration.BatchPostingLimit == default(int)) ? DefaultBatchPostingLimit : sinkConfiguration.BatchPostingLimit;
             sinkConfiguration.Period = (sinkConfiguration.Period == default) ? DefaultPeriod : sinkConfiguration.Period;
 
+            var rabbitMqSink = new RabbitMqSink(connectionFactory, exchangeDeclareParameters, queueDeclareParameters,
+                sinkConfiguration);
+
+            await rabbitMqSink.Initialization;
+
             return
                 loggerConfiguration
-                    .Sink(new RabbitMqSink(connectionFactory, exchangeDeclareParameters, queueDeclareParameters, sinkConfiguration), sinkConfiguration.RestrictedToMinimumLevel);
+                    .Sink(rabbitMqSink, sinkConfiguration.RestrictedToMinimumLevel);
         }
     }
 }

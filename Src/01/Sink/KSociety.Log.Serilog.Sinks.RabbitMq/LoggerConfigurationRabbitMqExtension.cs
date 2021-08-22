@@ -20,7 +20,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
         /// <summary>
         /// Adds a sink that lets you push log messages to RabbitMQ
         /// </summary>
-        public static ValueTask<LoggerConfiguration> RabbitMq(
+        public static LoggerConfiguration RabbitMq(
             this LoggerSinkConfiguration loggerConfiguration,
             Action<ConnectionFactory, IExchangeDeclareParameters, IQueueDeclareParameters, RabbitMqSinkConfiguration> configure
             /*Action<RabbitMqClientConfiguration, RabbitMqSinkConfiguration> configure*/)
@@ -32,7 +32,8 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
             RabbitMqSinkConfiguration sinkConfiguration = new RabbitMqSinkConfiguration();
             configure(connectionFactory, exchangeDeclareParameters, queueDeclareParameters, sinkConfiguration);
 
-            return RegisterSink(loggerConfiguration, connectionFactory, exchangeDeclareParameters, queueDeclareParameters, sinkConfiguration);
+            return RegisterSink(loggerConfiguration, connectionFactory, exchangeDeclareParameters,
+                queueDeclareParameters, sinkConfiguration).Result;
         }
 
         /// <summary>
@@ -41,7 +42,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
         /// If you need to overrule the text formatter, you will need to supply it here as a separate parameter instead of supplying it via the RabbitMQSinkConfiguration instance
         /// which will not work when configuring via configuration file
         /// </summary>
-        public static ValueTask<LoggerConfiguration> RabbitMq(
+        public static LoggerConfiguration RabbitMq(
             this LoggerSinkConfiguration loggerConfiguration,
             IConnectionFactory connectionFactory,
             IExchangeDeclareParameters exchangeDeclareParameters,
@@ -49,7 +50,8 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
             RabbitMqSinkConfiguration sinkConfiguration, ITextFormatter textFormatter = null)
         {
             if (textFormatter != null) sinkConfiguration.TextFormatter = textFormatter;
-            return RegisterSink(loggerConfiguration, connectionFactory, exchangeDeclareParameters, queueDeclareParameters, sinkConfiguration);
+            return RegisterSink(loggerConfiguration, connectionFactory, exchangeDeclareParameters,
+                queueDeclareParameters, sinkConfiguration).Result;
         }
 
         /// <summary>
@@ -57,7 +59,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
         /// Will be used when configuring via configuration file
         /// Is for backward-compatibility with previous version
         /// </summary>
-        public static ValueTask<LoggerConfiguration> RabbitMq(
+        public static LoggerConfiguration RabbitMq(
             this LoggerSinkConfiguration loggerConfiguration,
             string mqHostName, string mqUserName, string mqPassword, string brokerName, Base.EventBus.ExchangeType exchangeType,
             bool exchangeDurable = false, bool exchangeAutoDelete = false,
@@ -66,9 +68,9 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
             TimeSpan period = default, ITextFormatter formatter = null, IFormatProvider formatProvider = null
         )
         {
-            return loggerConfiguration.RabbitMq(mqHostName, mqUserName, mqPassword, 
-                brokerName, exchangeType, exchangeDurable, exchangeAutoDelete, 
-                queueDurable, queueExclusive, queueAutoDelete, 
+            return loggerConfiguration.RabbitMq(mqHostName, mqUserName, mqPassword,
+                brokerName, exchangeType, exchangeDurable, exchangeAutoDelete,
+                queueDurable, queueExclusive, queueAutoDelete,
                 batchPostingLimit, period, formatter);
         }
 
@@ -77,7 +79,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
         /// Will be used when configuring via configuration file
         /// Is for backward-compatibility with previous version but gives possibility to use multiple hosts
         /// </summary>
-        public static ValueTask<LoggerConfiguration> RabbitMq(
+        public static LoggerConfiguration RabbitMq(
             this LoggerSinkConfiguration loggerConfiguration,
             string mqHostName, string mqUserName, string mqPassword, string brokerName, Base.EventBus.ExchangeType exchangeType,
             bool exchangeDurable = false, bool exchangeAutoDelete = false,
@@ -126,7 +128,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
             };
 
             return RegisterSink(loggerConfiguration, connectionFactory, exchangeDeclareParameters,
-                queueDeclareParameters, sinkConfiguration);
+                queueDeclareParameters, sinkConfiguration).Result;
         }
 
         async static ValueTask<LoggerConfiguration> RegisterSink(

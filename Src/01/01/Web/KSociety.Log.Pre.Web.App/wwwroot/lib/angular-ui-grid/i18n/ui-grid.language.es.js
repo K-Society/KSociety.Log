@@ -1,6 +1,6 @@
 /*!
- * ui-grid - v4.9.1 - 2020-10-26
- * Copyright (c) 2020 ; License: MIT 
+ * ui-grid - v4.11.0 - 2021-08-12
+ * Copyright (c) 2021 ; License: MIT 
  */
 
 (function () {
@@ -23,6 +23,13 @@
           next: 'Página Siguiente',
           previous: 'Página Anterior',
           last: 'Última Página'
+        },
+        selection: {
+          aria: {
+            row: 'Fila'
+          },
+          selectAll: 'Seleccionar Todo',
+          displayName: 'Seleccionar Fila'
         },
         menu: {
           text: 'Elegir columnas:'

@@ -48,7 +48,7 @@ namespace KSociety.Log.Biz.Class
                 _exchangeDeclareParameters, _queueDeclareParameters,
                 "LogQueueServer", CancellationToken.None);
 
-            await _eventBus.Initialization;
+            //await _eventBus.Initialization;
 
             ((IEventBusTyped)_eventBus).Subscribe<WriteLogEvent, LogEventHandler>("log");
         }

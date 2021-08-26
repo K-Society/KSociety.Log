@@ -151,7 +151,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
             var rabbitMqSink = new RabbitMqSink(connectionFactory, exchangeDeclareParameters, queueDeclareParameters,
                 sinkConfiguration);
 
-            await rabbitMqSink.Initialization;
+            //await rabbitMqSink.Initialization;
 
             return
                 loggerConfiguration

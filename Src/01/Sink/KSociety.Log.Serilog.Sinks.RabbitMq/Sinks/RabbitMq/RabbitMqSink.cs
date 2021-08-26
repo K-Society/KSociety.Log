@@ -30,7 +30,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
         private IRabbitMqPersistentConnection _persistentConnection { get; set; }
         private Lazy<IEventBus> _eventBus;
 
-        public ValueTask Initialization { get; private set; }
+        //public ValueTask Initialization { get; private set; }
 
         public RabbitMqSink(
             IConnectionFactory connectionFactory,

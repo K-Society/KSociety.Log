@@ -1,6 +1,6 @@
 /*!
- * ui-grid - v4.9.1 - 2020-10-26
- * Copyright (c) 2020 ; License: MIT 
+ * ui-grid - v4.11.0 - 2021-08-12
+ * Copyright (c) 2021 ; License: MIT 
  */
 
 (function() {
@@ -423,6 +423,9 @@ function ( i18nService, uiGridConstants, gridUtil ) {
       $scope.$on( '$destroy', deregFunction );
     },
 
+    getGridOption: function( $scope, option ) {
+      return typeof($scope.grid) !== 'undefined' && $scope.grid && $scope.grid.options && $scope.grid.options[option];
+    },
 
     /**
      * @ngdoc boolean
@@ -440,7 +443,7 @@ function ( i18nService, uiGridConstants, gridUtil ) {
      *
      */
     sortable: function( $scope ) {
-      return Boolean( $scope.grid.options.enableSorting && typeof($scope.col) !== 'undefined' && $scope.col && $scope.col.enableSorting);
+      return Boolean( this.getGridOption($scope, 'enableSorting') && typeof($scope.col) !== 'undefined' && $scope.col && $scope.col.enableSorting);
     },
 
     /**
@@ -487,7 +490,12 @@ function ( i18nService, uiGridConstants, gridUtil ) {
      *
      */
     hideable: function( $scope ) {
-      return !(typeof($scope.col) !== 'undefined' && $scope.col && $scope.col.colDef && $scope.col.colDef.enableHiding === false );
+      return Boolean(
+        (this.getGridOption($scope, 'enableHiding') &&
+        typeof($scope.col) !== 'undefined' && $scope.col &&
+        ($scope.col.colDef && $scope.col.colDef.enableHiding !== false || !$scope.col.colDef)) ||
+        (!this.getGridOption($scope, 'enableHiding') && $scope.col && $scope.col.colDef && $scope.col.colDef.enableHiding)
+      );
     },
 
 
@@ -669,6 +677,11 @@ function ($timeout, gridUtil, uiGridConstants, uiGridColumnMenuService, $documen
       $scope.menuItems = $scope.defaultMenuItems;
       uiGridColumnMenuService.setColMenuItemWatch( $scope );
 
+      function updateCurrentColStatus(menuShown) {
+        if ($scope.col) {
+          $scope.col.menuShown = menuShown;
+        }
+      }
 
       /**
        * @ngdoc method
@@ -683,8 +696,11 @@ function ($timeout, gridUtil, uiGridConstants, uiGridColumnMenuService, $documen
        * @param {element} $columnElement the column element we want to position below
        */
       $scope.showMenu = function(column, $columnElement, event) {
+        // Update the menu status for the current column
+        updateCurrentColStatus(false);
         // Swap to this column
         $scope.col = column;
+        updateCurrentColStatus(true);
 
         // Get the position information for the column element
         var colElementPosition = uiGridColumnMenuService.getColumnElementPosition( $scope, column, $columnElement );
@@ -718,6 +734,7 @@ function ($timeout, gridUtil, uiGridConstants, uiGridColumnMenuService, $documen
        */
       $scope.hideMenu = function( broadcastTrigger ) {
         $scope.menuShown = false;
+        updateCurrentColStatus(false);
         if ( !broadcastTrigger ) {
           $scope.$broadcast('hide-menu');
         }
@@ -1210,6 +1227,7 @@ function ($timeout, gridUtil, uiGridConstants, uiGridColumnMenuService, $documen
 
             // Hide the menu by default
             $scope.menuShown = false;
+            $scope.col.menuShown = false;
 
             // Put asc and desc sort directions in scope
             $scope.asc = uiGridConstants.ASC;
@@ -1428,9 +1446,7 @@ function ($timeout, gridUtil, uiGridConstants, uiGridColumnMenuService, $documen
               var oldFilterable = $scope.col.filterable;
               $scope.col.filterable = Boolean(uiGridCtrl.grid.options.enableFiltering && $scope.col.enableFiltering);
 
-              $scope.$applyAsync(function () {
-                setFilter(oldFilterable !== $scope.col.filterable);
-              });
+              setFilter(oldFilterable !== $scope.col.filterable);
 
               // figure out whether we support column menus
               $scope.colMenu = ($scope.col.grid.options && $scope.col.grid.options.enableColumnMenus !== false &&
@@ -1490,13 +1506,8 @@ function ($timeout, gridUtil, uiGridConstants, uiGridColumnMenuService, $documen
 
             $scope.handleClick = function(event) {
               // If the shift key is being held down, add this column to the sort
-              var add = false;
-              if (event.shiftKey) {
-                add = true;
-              }
-
               // Sort this column then rebuild the grid's rows
-              uiGridCtrl.grid.sortColumn($scope.col, add)
+              uiGridCtrl.grid.sortColumn($scope.col, event.shiftKey)
                 .then(function () {
                   if (uiGridCtrl.columnMenuScope) { uiGridCtrl.columnMenuScope.hideMenu(); }
                   uiGridCtrl.grid.refresh();
@@ -1504,30 +1515,21 @@ function ($timeout, gridUtil, uiGridConstants, uiGridColumnMenuService, $documen
             };
 
             $scope.headerCellArrowKeyDown = function(event) {
-              if (event.keyCode === 32 || event.keyCode === 13) {
+              if (event.keyCode === uiGridConstants.keymap.SPACE || event.keyCode === uiGridConstants.keymap.ENTER) {
                 event.preventDefault();
                 $scope.toggleMenu(event);
               }
             };
 
             $scope.toggleMenu = function(event) {
-
               event.stopPropagation();
 
-              // If the menu is already showing...
-              if (uiGridCtrl.columnMenuScope.menuShown) {
-                // ... and we're the column the menu is on...
-                if (uiGridCtrl.columnMenuScope.col === $scope.col) {
-                  // ... hide it
-                  uiGridCtrl.columnMenuScope.hideMenu();
-                }
-                // ... and we're NOT the column the menu is on
-                else {
-                  // ... move the menu to our column
-                  uiGridCtrl.columnMenuScope.showMenu($scope.col, $elm);
-                }
+              // If the menu is already showing and we're the column the menu is on
+              if (uiGridCtrl.columnMenuScope.menuShown && uiGridCtrl.columnMenuScope.col === $scope.col) {
+                // ... hide it
+                uiGridCtrl.columnMenuScope.hideMenu();
               }
-              // If the menu is NOT showing
+              // If the menu is NOT showing or is showing in a different column
               else {
                 // ... show it on our column
                 uiGridCtrl.columnMenuScope.showMenu($scope.col, $elm);
@@ -1944,17 +1946,10 @@ angular.module('ui.grid')
         return isColumnVisible(colDef) ? 'ui-grid-icon-ok' : 'ui-grid-icon-cancel';
       }
 
-      // add header for columns
-      showHideColumns.push({
-        title: i18nService.getSafeText('gridMenu.columns'),
-        order: 300,
-        templateUrl: 'ui-grid/ui-grid-menu-header-item'
-      });
-
       $scope.grid.options.gridMenuTitleFilter = $scope.grid.options.gridMenuTitleFilter ? $scope.grid.options.gridMenuTitleFilter : function( title ) { return title; };
 
       $scope.grid.options.columnDefs.forEach( function( colDef, index ) {
-        if ( colDef.enableHiding !== false ) {
+        if ( $scope.grid.options.enableHiding !== false && colDef.enableHiding !== false || colDef.enableHiding ) {
           // add hide menu item - shows an OK icon as we only show when column is already visible
           var menuItem = {
             icon: getColumnIcon(colDef),
@@ -1983,6 +1978,16 @@ angular.module('ui.grid')
           showHideColumns.push( menuItem );
         }
       });
+
+      // add header for columns
+      if ( showHideColumns.length ) {
+        showHideColumns.unshift({
+          title: i18nService.getSafeText('gridMenu.columns'),
+          order: 300,
+          templateUrl: 'ui-grid/ui-grid-menu-header-item'
+        });
+      }
+
       return showHideColumns;
     },
 
@@ -2061,6 +2066,16 @@ function (gridUtil, uiGridConstants, uiGridGridMenuService, i18nService) {
       uiGridGridMenuService.initialize($scope, uiGridCtrl.grid);
 
       $scope.shown = false;
+
+      $scope.toggleOnKeydown = function(event) {
+        if (
+          event.keyCode === uiGridConstants.keymap.ENTER ||
+          event.keyCode === uiGridConstants.keymap.SPACE ||
+          (event.keyCode === uiGridConstants.keymap.ESC && $scope.shown)
+        ) {
+          $scope.toggleMenu();
+        }
+      };
 
       $scope.toggleMenu = function () {
         if ( $scope.shown ) {
@@ -2196,14 +2211,10 @@ function ($compile, $timeout, $window, $document, gridUtil, uiGridConstants, i18
 
         // Turn off an existing document click handler
         angular.element(document).off('click touchstart', applyHideMenu);
-        $elm.off('keyup', checkKeyUp);
-        $elm.off('keydown', checkKeyDown);
 
         // Turn on the document click handler, but in a timeout so it doesn't apply to THIS click if there is one
         $timeout(function() {
           angular.element(document).on(docEventType, applyHideMenu);
-          $elm.on('keyup', checkKeyUp);
-          $elm.on('keydown', checkKeyDown);
         });
       };
 
@@ -2228,8 +2239,6 @@ function ($compile, $timeout, $window, $document, gridUtil, uiGridConstants, i18
         }
 
         angular.element(document).off('click touchstart', applyHideMenu);
-        $elm.off('keyup', checkKeyUp);
-        $elm.off('keydown', checkKeyDown);
       };
 
       $scope.$on('hide-menu', function (event, args) {
@@ -2257,28 +2266,22 @@ function ($compile, $timeout, $window, $document, gridUtil, uiGridConstants, i18
         }
       };
 
-      // close menu on ESC and keep tab cyclical
-      var checkKeyUp = function(event) {
-        if (event.keyCode === 27) {
-          $scope.hideMenu();
-        }
-      };
-
-      var checkKeyDown = function(event) {
+      $scope.checkKeyDown = function(event) {
         var setFocus = function(elm) {
           elm.focus();
           event.preventDefault();
-          return false;
         };
-        if (event.keyCode === 9) {
+        if (event.keyCode === uiGridConstants.keymap.ESC) {
+          $scope.hideMenu();
+        } else if (event.keyCode === uiGridConstants.keymap.TAB) {
           var firstMenuItem, lastMenuItem;
           var menuItemButtons = $elm[0].querySelectorAll('button:not(.ng-hide)');
           if (menuItemButtons.length > 0) {
             firstMenuItem = menuItemButtons[0];
             lastMenuItem = menuItemButtons[menuItemButtons.length - 1];
-            if (event.target === lastMenuItem && !event.shiftKey) {
+            if (event.target.parentElement.id === lastMenuItem.parentElement.id && !event.shiftKey) {
               setFocus(firstMenuItem);
-            } else if (event.target === firstMenuItem && event.shiftKey) {
+            } else if (event.target.parentElement.id === firstMenuItem.parentElement.id && event.shiftKey) {
               setFocus(lastMenuItem);
             }
           }
@@ -2296,8 +2299,6 @@ function ($compile, $timeout, $window, $document, gridUtil, uiGridConstants, i18
       $scope.$on('$destroy', function unbindEvents() {
         angular.element($window).off('resize', applyHideMenu);
         angular.element(document).off('click touchstart', applyHideMenu);
-        $elm.off('keyup', checkKeyUp);
-        $elm.off('keydown', checkKeyDown);
       });
 
       if (uiGridCtrl) {
@@ -3752,6 +3753,13 @@ function uiGridDirective($window, gridUtil, uiGridConstants) {
           next: 'Next Page',
           previous: 'Previous Page',
           last: 'Last Page'
+        },
+        selection: {
+          aria: {
+            row: 'Row'
+          },
+          selectAll: 'Select All',
+          displayName: 'Row Selection Checkbox'
         },
         menu: {
           text: 'Choose Columns:'
@@ -5526,7 +5534,7 @@ angular.module('ui.grid')
 
     // gridUtil.logDebug('viewPortHeight', viewPortHeight);
 
-    return viewPortHeight;
+    return viewPortHeight > 0 ? viewPortHeight : 0;
   };
 
   Grid.prototype.getViewportWidth = function getViewportWidth() {
@@ -5798,7 +5806,7 @@ angular.module('ui.grid')
       direction = directionOrAdd;
     }
 
-    if (!add) {
+    if (!add || (self.options && self.options.suppressMultiSort)) {
       self.resetColumnSorting(column);
       column.sort.priority = undefined;
       // Get the actual priority since there may be columns which have suppressRemoveSort set
@@ -6091,13 +6099,12 @@ angular.module('ui.grid')
       var container = self.renderContainers[i],
         prevScrollTop = getPrevScrollValue(rowsAdded, container.prevScrollTop),
         prevScrollLeft = getPrevScrollValue(rowsAdded, container.prevScrollLeft),
-        prevScrolltopPercentage = rowsAdded || prevScrollTop > 0 ? null : container.prevScrolltopPercentage,
-        prevScrollleftPercentage = rowsAdded || prevScrollLeft > 0 ? null : container.prevScrollleftPercentage;
+        prevScrolltopPercentage = rowsAdded || prevScrollTop > 0 ? null : container.prevScrolltopPercentage;
 
       // gridUtil.logDebug('redrawing container', i);
 
       container.adjustRows(prevScrollTop, prevScrolltopPercentage);
-      container.adjustColumns(prevScrollLeft, prevScrollleftPercentage);
+      container.adjustColumns(prevScrollLeft);
     }
   };
 
@@ -7045,6 +7052,18 @@ angular.module('ui.grid')
    * <pre>  $scope.gridOptions.columnDefs = [ { field: 'field1', width: 100},
    *                                          { field: 'field2', width: '20%'},
    *                                          { field: 'field3', width: '*' }]; </pre>
+   *
+   */
+
+  /**
+   * @ngdoc property
+   * @name allowFloatWidth
+   * @propertyOf ui.grid.class:GridOptions.columnDef
+   * @description Allows float number in column width calculation
+   * @example
+   * <pre>  $scope.gridOptions.columnDefs = [ { field: 'field1', width: 50.5, allowFloatWidth: true},
+   *                                          { field: 'field2', width: '20%', allowFloatWidth: true},
+   *                                          { field: 'field3', width: '*', allowFloatWidth: true }]; </pre>
    *
    */
 
@@ -8183,6 +8202,17 @@ angular.module('ui.grid')
 
       /**
        * @ngdoc boolean
+       * @name enableHiding
+       * @propertyOf ui.grid.class:GridOptions
+       * @description True by default. When enabled, this setting adds ability to hide
+       * the column headers, allowing hiding of the column from the grid.
+       * Column hiding can then be disabled / enabled on individual columns using the columnDefs,
+       * if it set, it will override GridOptions enableHiding setting.
+       */
+      baseOptions.enableHiding = baseOptions.enableHiding !== false;
+
+      /**
+       * @ngdoc boolean
        * @name enableSorting
        * @propertyOf ui.grid.class:GridOptions
        * @description True by default. When enabled, this setting adds sort
@@ -8191,6 +8221,16 @@ angular.module('ui.grid')
        * if it set, it will override GridOptions enableSorting setting.
        */
       baseOptions.enableSorting = baseOptions.enableSorting !== false;
+
+      /**
+       * @ngdoc boolean
+       * @name suppressMultiSort
+       * @propertyOf ui.grid.class:GridOptions
+       * @description False by default. When enabled, this setting disables the ability
+       * to sort multiple columns by using the shift key or interacting with the column
+       * menu. Instead, each column sort will remove all other sorting.
+       */
+      baseOptions.suppressMultiSort = baseOptions.suppressMultiSort === true;
 
       /**
        * @ngdoc boolean
@@ -8615,7 +8655,7 @@ angular.module('ui.grid')
 
     viewPortHeight = viewPortHeight + adjustment.height;
 
-    return viewPortHeight;
+    return viewPortHeight > 0 ? viewPortHeight : 0;
   };
 
   GridRenderContainer.prototype.getViewportWidth = function getViewportWidth() {
@@ -8787,7 +8827,7 @@ angular.module('ui.grid')
       scrollLeft = (this.getCanvasWidth() - this.getViewportWidth()) * scrollPercentage;
     }
 
-    this.adjustColumns(scrollLeft, scrollPercentage);
+    this.adjustColumns(scrollLeft);
 
     this.prevScrollLeft = scrollLeft;
     this.prevScrollleftPercentage = scrollPercentage;
@@ -8844,7 +8884,7 @@ angular.module('ui.grid')
     self.prevRowScrollIndex = rowIndex;
   };
 
-  GridRenderContainer.prototype.adjustColumns = function adjustColumns(scrollLeft, scrollPercentage) {
+  GridRenderContainer.prototype.adjustColumns = function adjustColumns(scrollLeft) {
     var self = this;
 
     var minCols = self.minColumnsToRender();
@@ -8852,17 +8892,7 @@ angular.module('ui.grid')
     var columnCache = self.visibleColumnCache;
     var maxColumnIndex = columnCache.length - minCols;
 
-    // Calculate the scroll percentage according to the scrollLeft location, if no percentage was provided
-    if ((typeof(scrollPercentage) === 'undefined' || scrollPercentage === null) && scrollLeft) {
-      scrollPercentage = scrollLeft / self.getHorizontalScrollLength();
-    }
-
-    var colIndex = Math.ceil(Math.min(maxColumnIndex, maxColumnIndex * scrollPercentage));
-
-    // Define a max row index that we can't scroll past
-    if (colIndex > maxColumnIndex) {
-      colIndex = maxColumnIndex;
-    }
+    var colIndex = Math.min(maxColumnIndex, self.getLeftIndex(scrollLeft));
 
     var newRange = [];
     if (columnCache.length > self.grid.options.columnVirtualizationThreshold && self.getCanvasWidth() > self.getViewportWidth()) {
@@ -8881,6 +8911,21 @@ angular.module('ui.grid')
 
     self.prevColumnScrollIndex = colIndex;
   };
+
+  GridRenderContainer.prototype.getLeftIndex = function getLeftIndex(scrollLeft) {
+    var wholeLeftWidth = 0;
+    var index = 0
+    for (index; index < this.visibleColumnCache.length; index++) {
+      if (this.visibleColumnCache[index] && this.visibleColumnCache[index].visible) {
+        // accumulate the whole width of columns on the left side, till the point of visibility is surpassed, this is our wanted index
+        wholeLeftWidth += this.visibleColumnCache[index].drawnWidth;
+        if (wholeLeftWidth >= scrollLeft) {
+          break;
+        }
+      }
+    }
+    return index;
+  }
 
   // Method for updating the visible rows
   GridRenderContainer.prototype.updateViewableRowRange = function updateViewableRowRange(renderedRange) {
@@ -8992,7 +9037,12 @@ angular.module('ui.grid')
 
       if (angular.isNumber(column.width)) {
         // pixel width, set to this value
-        width = parseInt(column.width, 10);
+        if (column.colDef.allowFloatWidth) {
+          width = parseFloat(column.width);
+        } else {
+          width = parseInt(column.width, 10);
+        }
+
         usedWidthSum = usedWidthSum + width;
         column.drawnWidth = width;
 
@@ -9001,7 +9051,12 @@ angular.module('ui.grid')
         // percentage width, set to percentage of the viewport
         // round down to int - some browsers don't play nice with float maxWidth
         var percentageIntegerValue = parseInt(column.width.replace(/%/g, ''), 10);
-        width = parseInt(percentageIntegerValue / 100 * availableWidth);
+        if (column.colDef.allowFloatWidth) {
+          width = parseFloat(percentageIntegerValue / 100 * availableWidth);
+        } else {
+          width = parseInt(percentageIntegerValue / 100 * availableWidth, 10);
+        }
+
 
         if (width > column.maxWidth) {
           width = column.maxWidth;
@@ -9032,6 +9087,11 @@ angular.module('ui.grid')
 
       asterisksArray.forEach(function (column) {
         var width = parseInt(column.width.length * asteriskVal, 10);
+
+        if (column.colDef.allowFloatWidth) {
+          width = parseFloat(column.width.length * asteriskVal);
+        }
+
 
         if (width > column.maxWidth) {
             width = column.maxWidth;
@@ -9214,6 +9274,14 @@ angular.module('ui.grid')
       *  @description A reference to an item in gridOptions.data[]
       */
     this.entity = entity;
+
+    /**
+      *  @ngdoc object
+      *  @name index
+      *  @propertyOf  ui.grid.class:GridRow
+      *  @description The current position of the row in the array
+      */
+     this.index = index;
 
      /**
       *  @ngdoc object
@@ -9860,7 +9928,10 @@ angular.module('ui.grid')
 var module = angular.module('ui.grid');
 
 function escapeRegExp(str) {
-  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+  // based on https://github.com/sindresorhus/escape-string-regexp
+  // Escape characters with special meaning either inside or outside character sets.
+  // Use a simple backslash escape when it’s always valid, and a `\xnn` escape when the simpler form would be disallowed by Unicode patterns’ stricter grammar.
+  return str.replace(/[|\\{}()[\]^$+?*.]/g, '\\$&').replace(/-/g, '\\x2d');
 }
 
 
@@ -9935,13 +10006,10 @@ module.service('rowSearcher', ['gridUtil', 'uiGridConstants', function (gridUtil
 
     var term = rowSearcher.getTerm(filter);
 
-    if (/\*/.test(term)) {
-      var regexpFlags = '';
-      if (!filter.flags || !filter.flags.caseSensitive) {
-        regexpFlags += 'i';
-      }
-
-      var reText = term.replace(/(\\)?\*/g, function ($0, $1) { return $1 ? $0 : '[\\s\\S]*?'; });
+    if (/\*/.test(term)) {// this would check only start and end -> /^\*|\*$/
+      var regexpFlags = (!filter.flags || !filter.flags.caseSensitive) ? 'i' : '';
+      term = escapeRegExp(term);
+      var reText = term.replace(/\\\*/g, '.*?');// this would check only start and end -> /^\\\*|\\\*$/g
       return new RegExp('^' + reText + '$', regexpFlags);
     }
     // Otherwise default to default condition
@@ -12561,7 +12629,7 @@ angular.module('ui.grid').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('ui-grid/ui-grid-menu-button',
-    "<div class=\"ui-grid-menu-button\"><div role=\"button\" ui-grid-one-bind-id-grid=\"'grid-menu'\" class=\"ui-grid-icon-container\" ng-click=\"toggleMenu()\" aria-haspopup=\"true\"><i class=\"ui-grid-icon-menu\" ui-grid-one-bind-aria-label=\"i18n.aria.buttonLabel\">&nbsp;</i></div><div ui-grid-menu menu-items=\"menuItems\"></div></div>"
+    "<div class=\"ui-grid-menu-button\"><div role=\"button\" ui-grid-one-bind-id-grid=\"'grid-menu'\" ui-grid-one-bind-aria-label=\"i18n.aria.buttonLabel\" tabindex=\"0\" class=\"ui-grid-icon-container\" ng-click=\"toggleMenu()\" ng-keydown=\"toggleOnKeydown($event)\" aria-expanded=\"{{shown}}\" aria-haspopup=\"true\"><i class=\"ui-grid-icon-menu\" ui-grid-one-bind-aria-label=\"i18n.aria.buttonLabel\">&nbsp;</i></div><div ui-grid-menu menu-items=\"menuItems\"></div></div>"
   );
 
 
@@ -12632,12 +12700,12 @@ angular.module('ui.grid').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('ui-grid/uiGridHeaderCell',
-    "<div role=\"columnheader\" ng-class=\"{ 'sortable': sortable, 'ui-grid-header-cell-last-col': isLastCol }\" ui-grid-one-bind-aria-labelledby-grid=\"col.uid + '-header-text ' + col.uid + '-sortdir-text'\" aria-sort=\"{{col.sort.direction == asc ? 'ascending' : ( col.sort.direction == desc ? 'descending' : (!col.sort.direction ? 'none' : 'other'))}}\"><div role=\"button\" tabindex=\"0\" ng-keydown=\"handleKeyDown($event)\" class=\"ui-grid-cell-contents ui-grid-header-cell-primary-focus\" col-index=\"renderIndex\" title=\"TOOLTIP\"><span class=\"ui-grid-header-cell-label\" ui-grid-one-bind-id-grid=\"col.uid + '-header-text'\">{{ col.displayName CUSTOM_FILTERS }}</span> <span ui-grid-one-bind-id-grid=\"col.uid + '-sortdir-text'\" ui-grid-visible=\"col.sort.direction\" aria-label=\"{{getSortDirectionAriaLabel()}}\"><i ng-class=\"{ 'ui-grid-icon-up-dir': col.sort.direction == asc, 'ui-grid-icon-down-dir': col.sort.direction == desc, 'ui-grid-icon-blank': !col.sort.direction }\" title=\"{{isSortPriorityVisible() ? i18n.headerCell.priority + ' ' + ( col.sort.priority + 1 )  : null}}\" aria-hidden=\"true\"></i> <sub ui-grid-visible=\"isSortPriorityVisible()\" class=\"ui-grid-sort-priority-number\">{{col.sort.priority + 1}}</sub></span></div><div role=\"button\" tabindex=\"0\" ui-grid-one-bind-id-grid=\"col.uid + '-menu-button'\" class=\"ui-grid-column-menu-button\" ng-if=\"grid.options.enableColumnMenus && !col.isRowHeader  && col.colDef.enableColumnMenu !== false\" ng-click=\"toggleMenu($event)\" ng-keydown=\"headerCellArrowKeyDown($event)\" ui-grid-one-bind-aria-label=\"i18n.headerCell.aria.columnMenuButtonLabel\" aria-haspopup=\"true\"><i class=\"ui-grid-icon-angle-down\" aria-hidden=\"true\">&nbsp;</i></div><div ui-grid-filter ng-if=\"col.filterContainer === 'headerCell'\"></div></div>"
+    "<div role=\"columnheader\" ng-class=\"{ 'sortable': sortable, 'ui-grid-header-cell-last-col': isLastCol }\" ui-grid-one-bind-aria-labelledby-grid=\"col.uid + '-header-text ' + col.uid + '-sortdir-text'\" aria-sort=\"{{col.sort.direction == asc ? 'ascending' : ( col.sort.direction == desc ? 'descending' : (!col.sort.direction ? 'none' : 'other'))}}\"><div role=\"button\" tabindex=\"0\" ng-keydown=\"handleKeyDown($event)\" class=\"ui-grid-cell-contents ui-grid-header-cell-primary-focus\" col-index=\"renderIndex\" title=\"TOOLTIP\"><span class=\"ui-grid-header-cell-label\" ui-grid-one-bind-id-grid=\"col.uid + '-header-text'\">{{ col.displayName CUSTOM_FILTERS }}</span> <span ui-grid-one-bind-id-grid=\"col.uid + '-sortdir-text'\" ui-grid-visible=\"col.sort.direction\" aria-label=\"{{getSortDirectionAriaLabel()}}\"><i ng-class=\"{ 'ui-grid-icon-up-dir': col.sort.direction == asc, 'ui-grid-icon-down-dir': col.sort.direction == desc, 'ui-grid-icon-blank': !col.sort.direction }\" title=\"{{isSortPriorityVisible() ? i18n.headerCell.priority + ' ' + ( col.sort.priority + 1 )  : null}}\" aria-hidden=\"true\"></i> <sub ui-grid-visible=\"isSortPriorityVisible()\" class=\"ui-grid-sort-priority-number\">{{col.sort.priority + 1}}</sub></span></div><div role=\"button\" tabindex=\"0\" ui-grid-one-bind-id-grid=\"col.uid + '-menu-button'\" class=\"ui-grid-column-menu-button\" ng-if=\"grid.options.enableColumnMenus && !col.isRowHeader  && col.colDef.enableColumnMenu !== false\" ng-click=\"toggleMenu($event)\" ng-keydown=\"headerCellArrowKeyDown($event)\" ui-grid-one-bind-aria-label=\"i18n.headerCell.aria.columnMenuButtonLabel\" aria-expanded=\"{{col.menuShown}}\" aria-haspopup=\"true\"><i class=\"ui-grid-icon-angle-down\" aria-hidden=\"true\">&nbsp;</i></div><div ui-grid-filter ng-hide=\"col.filterContainer === 'columnMenu'\"></div></div>"
   );
 
 
   $templateCache.put('ui-grid/uiGridMenu',
-    "<div class=\"ui-grid-menu\" ng-show=\"shown\"><style ui-grid-style>{{dynamicStyles}}</style><div class=\"ui-grid-menu-mid\" ng-show=\"shownMid\"><div class=\"ui-grid-menu-inner\" ng-if=\"shown\"><ul role=\"menu\" class=\"ui-grid-menu-items\"><li ng-repeat=\"item in menuItems\" role=\"menuitem\" ui-grid-menu-item ui-grid-one-bind-id=\"'menuitem-'+$index\" action=\"item.action\" name=\"item.title\" active=\"item.active\" icon=\"item.icon\" shown=\"item.shown\" context=\"item.context\" template-url=\"item.templateUrl\" leave-open=\"item.leaveOpen\" screen-reader-only=\"item.screenReaderOnly\"></li><li ng-if=\"col.filterable && col.filterContainer === 'columnMenu'\"><div ui-grid-filter></div></li></ul></div></div></div>"
+    "<div class=\"ui-grid-menu\" ng-keydown=\"checkKeyDown($event)\" ng-show=\"shown\"><style ui-grid-style>{{dynamicStyles}}</style><div class=\"ui-grid-menu-mid\" ng-show=\"shownMid\"><div class=\"ui-grid-menu-inner\" ng-if=\"shown\"><ul role=\"menu\" class=\"ui-grid-menu-items\"><li ng-repeat=\"item in menuItems\" role=\"menuitem\" ui-grid-menu-item ui-grid-one-bind-id=\"'menuitem-'+$index\" action=\"item.action\" name=\"item.title\" active=\"item.active\" icon=\"item.icon\" shown=\"item.shown\" context=\"item.context\" template-url=\"item.templateUrl\" leave-open=\"item.leaveOpen\" screen-reader-only=\"item.screenReaderOnly\"></li><li ng-if=\"col.filterable && col.filterContainer === 'columnMenu'\"><div ui-grid-filter></div></li></ul></div></div></div>"
   );
 
 

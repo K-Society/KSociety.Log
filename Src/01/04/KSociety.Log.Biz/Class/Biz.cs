@@ -39,7 +39,7 @@ namespace KSociety.Log.Biz.Class
             PersistentConnection = new DefaultRabbitMqPersistentConnection(_connectionFactory, _loggerFactory);
         }
 
-        public void LoadEventBus()
+        public async void LoadEventBus()
         {
             _eventBus = new EventBusRabbitMqTyped(
                 PersistentConnection, 
@@ -47,6 +47,8 @@ namespace KSociety.Log.Biz.Class
                 new LogEventHandler(_loggerFactory), null, 
                 _exchangeDeclareParameters, _queueDeclareParameters,
                 "LogQueueServer", CancellationToken.None);
+
+            //await _eventBus.Initialization;
 
             ((IEventBusTyped)_eventBus).Subscribe<WriteLogEvent, LogEventHandler>("log");
         }

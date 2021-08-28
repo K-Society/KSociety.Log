@@ -1,6 +1,6 @@
 /*!
- * ui-grid - v4.9.1 - 2020-10-26
- * Copyright (c) 2020 ; License: MIT 
+ * ui-grid - v4.11.0 - 2021-08-12
+ * Copyright (c) 2021 ; License: MIT 
  */
 
 (function () {
@@ -23,6 +23,13 @@
           next: 'Prossima',
           previous: 'Precedente',
           last: 'Ultima'
+        },
+        selection: {
+          aria: {
+            row: 'Riga'
+          },
+          selectAll: 'Seleccionar Todo',
+          displayName: 'Seleziona Riga'
         },
         menu: {
           text: 'Scegli le colonne:'

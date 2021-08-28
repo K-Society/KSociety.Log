@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using KSociety.Base.EventBus;
 using KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq;
 using RabbitMQ.Client;
@@ -25,13 +26,14 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
             /*Action<RabbitMqClientConfiguration, RabbitMqSinkConfiguration> configure*/)
         {
             //RabbitMqClientConfiguration clientConfiguration = new RabbitMqClientConfiguration();
-            ConnectionFactory connectionFactory = new ConnectionFactory();
+            ConnectionFactory connectionFactory = new();
             IExchangeDeclareParameters exchangeDeclareParameters = new ExchangeDeclareParameters();
             IQueueDeclareParameters queueDeclareParameters = new QueueDeclareParameters();
-            RabbitMqSinkConfiguration sinkConfiguration = new RabbitMqSinkConfiguration();
+            RabbitMqSinkConfiguration sinkConfiguration = new();
             configure(connectionFactory, exchangeDeclareParameters, queueDeclareParameters, sinkConfiguration);
 
-            return RegisterSink(loggerConfiguration, connectionFactory, exchangeDeclareParameters, queueDeclareParameters, sinkConfiguration);
+            return RegisterSink(loggerConfiguration, connectionFactory, exchangeDeclareParameters,
+                queueDeclareParameters, sinkConfiguration).Result;
         }
 
         /// <summary>
@@ -48,7 +50,8 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
             RabbitMqSinkConfiguration sinkConfiguration, ITextFormatter textFormatter = null)
         {
             if (textFormatter != null) sinkConfiguration.TextFormatter = textFormatter;
-            return RegisterSink(loggerConfiguration, connectionFactory, exchangeDeclareParameters, queueDeclareParameters, sinkConfiguration);
+            return RegisterSink(loggerConfiguration, connectionFactory, exchangeDeclareParameters,
+                queueDeclareParameters, sinkConfiguration).Result;
         }
 
         /// <summary>
@@ -65,9 +68,9 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
             TimeSpan period = default, ITextFormatter formatter = null, IFormatProvider formatProvider = null
         )
         {
-            return loggerConfiguration.RabbitMq(mqHostName, mqUserName, mqPassword, 
-                brokerName, exchangeType, exchangeDurable, exchangeAutoDelete, 
-                queueDurable, queueExclusive, queueAutoDelete, 
+            return loggerConfiguration.RabbitMq(mqHostName, mqUserName, mqPassword,
+                brokerName, exchangeType, exchangeDurable, exchangeAutoDelete,
+                queueDurable, queueExclusive, queueAutoDelete,
                 batchPostingLimit, period, formatter);
         }
 
@@ -117,17 +120,18 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
             IExchangeDeclareParameters exchangeDeclareParameters = new ExchangeDeclareParameters(brokerName, exchangeType, exchangeDurable, exchangeAutoDelete);
             IQueueDeclareParameters queueDeclareParameters = new QueueDeclareParameters(queueDurable, queueExclusive, queueAutoDelete);
 
-            RabbitMqSinkConfiguration sinkConfiguration = new RabbitMqSinkConfiguration
+            RabbitMqSinkConfiguration sinkConfiguration = new()
             {
                 BatchPostingLimit = batchPostingLimit,
                 Period = period,
                 TextFormatter = textFormatter
             };
 
-            return RegisterSink(loggerConfiguration, connectionFactory, exchangeDeclareParameters, queueDeclareParameters, sinkConfiguration);
+            return RegisterSink(loggerConfiguration, connectionFactory, exchangeDeclareParameters,
+                queueDeclareParameters, sinkConfiguration).Result;
         }
 
-        static LoggerConfiguration RegisterSink(
+        async static ValueTask<LoggerConfiguration> RegisterSink(
             LoggerSinkConfiguration loggerConfiguration, 
             IConnectionFactory connectionFactory,
             IExchangeDeclareParameters exchangeDeclareParameters,
@@ -135,18 +139,23 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
             RabbitMqSinkConfiguration sinkConfiguration)
         {
             // guards
-            if (loggerConfiguration == null) throw new ArgumentNullException("loggerConfiguration");
+            if (loggerConfiguration == null) throw new ArgumentNullException(nameof(loggerConfiguration));
             //if (connectionFactory.HostN == 0) throw new ArgumentException("hostnames cannot be empty, specify at least one hostname", "hostnames");
             if (string.IsNullOrEmpty(connectionFactory.UserName)) throw new ArgumentException("username cannot be 'null' or and empty string.");
             if (connectionFactory.Password == null) throw new ArgumentException("password cannot be 'null'. Specify an empty string if password is empty.");
             //if (connectionFactory.Port <= 0 || clientConfiguration.Port > 65535) throw new ArgumentOutOfRangeException("port", "port must be in a valid range (1 and 65535)");
 
-            sinkConfiguration.BatchPostingLimit = (sinkConfiguration.BatchPostingLimit == default(int)) ? DefaultBatchPostingLimit : sinkConfiguration.BatchPostingLimit;
+            sinkConfiguration.BatchPostingLimit = (sinkConfiguration.BatchPostingLimit == default) ? DefaultBatchPostingLimit : sinkConfiguration.BatchPostingLimit;
             sinkConfiguration.Period = (sinkConfiguration.Period == default) ? DefaultPeriod : sinkConfiguration.Period;
+
+            var rabbitMqSink = new RabbitMqSink(connectionFactory, exchangeDeclareParameters, queueDeclareParameters,
+                sinkConfiguration);
+
+            //await rabbitMqSink.Initialization;
 
             return
                 loggerConfiguration
-                    .Sink(new RabbitMqSink(connectionFactory, exchangeDeclareParameters, queueDeclareParameters, sinkConfiguration), sinkConfiguration.RestrictedToMinimumLevel);
+                    .Sink(rabbitMqSink, sinkConfiguration.RestrictedToMinimumLevel);
         }
     }
 }

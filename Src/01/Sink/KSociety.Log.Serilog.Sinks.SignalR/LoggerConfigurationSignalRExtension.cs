@@ -19,8 +19,8 @@ namespace KSociety.Log.Serilog.Sinks.SignalR
             Action<HubProxy, SignalRSinkConfiguration> configure
             )
         {
-            SignalRSinkConfiguration sinkConfiguration = new SignalRSinkConfiguration();
-            HubProxy proxy = new HubProxy();
+            SignalRSinkConfiguration sinkConfiguration = new();
+            HubProxy proxy = new();
 
             configure(proxy, sinkConfiguration);
 

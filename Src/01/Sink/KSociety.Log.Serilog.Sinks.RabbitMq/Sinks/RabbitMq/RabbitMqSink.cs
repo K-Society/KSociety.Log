@@ -7,6 +7,7 @@ using RabbitMQ.Client;
 using Serilog.Events;
 using Serilog.Formatting;
 using Serilog.Sinks.PeriodicBatching;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
@@ -17,7 +18,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
     /// <summary>
     /// Serilog RabbitMq Sink - Lets you log to RabbitMq using Serilog
     /// </summary>
-    public class RabbitMqSink : PeriodicBatchingSink
+    public class RabbitMqSink : PeriodicBatchingSink //, IAsyncInitialization
     {
         private readonly ITextFormatter _formatter;
 
@@ -27,7 +28,9 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
 
         private ILoggerFactory _loggerFactory { get; }
         private IRabbitMqPersistentConnection _persistentConnection { get; set; }
-        private IEventBus _eventBus;
+        private Lazy<IEventBus> _eventBus;
+
+        //public ValueTask Initialization { get; private set; }
 
         public RabbitMqSink(
             IConnectionFactory connectionFactory,
@@ -48,21 +51,39 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
                     .AddFilter("Microsoft", LogLevel.Warning)
                     .AddFilter("System", LogLevel.Warning);
             });
-
-            Initialize();
-        }
-
-        private void Initialize()
-        {
             _persistentConnection = new DefaultRabbitMqPersistentConnection(_connectionFactory, _loggerFactory);
 
-            _eventBus = new EventBusRabbitMqTyped(
+            _eventBus = new Lazy<IEventBus>(new EventBusRabbitMqTyped(
                 _persistentConnection,
                 _loggerFactory,
                 null,
                 _exchangeDeclareParameters, _queueDeclareParameters,
-                "LogQueueDriver", CancellationToken.None);
+                "LogQueueDriver", CancellationToken.None));
+            //Initialization = InitializeAsync();
+            //Initialize();
         }
+
+        //private async ValueTask InitializeAsync()
+        //{
+        //    try
+        //    {
+                
+
+        //        _eventBus = new EventBusRabbitMqTyped(
+        //            _persistentConnection,
+        //            _loggerFactory,
+        //            null,
+        //            _exchangeDeclareParameters, _queueDeclareParameters,
+        //            "LogQueueDriver", CancellationToken.None);
+
+        //        //await _eventBus.Initialization;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine("RabbitMqSink InitializeAsync: " + ex.Message + " " + ex.StackTrace);
+        //    }
+            
+        //}
 
         protected override async Task EmitBatchAsync(IEnumerable<LogEvent> events)
         {
@@ -81,7 +102,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
                     }
                 }
 
-                await _eventBus.Publish(new WriteLogEvent(sw.ToString(), logEvent.Timestamp.DateTime, 1,
+                await _eventBus.Value.Publish(new WriteLogEvent(sw.ToString(), logEvent.Timestamp.DateTime, 1,
                     (int)logEvent.Level, loggerName)).ConfigureAwait(false);
             }
         }

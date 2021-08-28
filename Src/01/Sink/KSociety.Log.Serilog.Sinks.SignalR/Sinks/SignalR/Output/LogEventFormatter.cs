@@ -6,7 +6,7 @@ namespace KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR.Output
 {
     public class LogEventFormatter : ITextFormatter
     {
-        public static LogEventFormatter Formatter { get; } = new LogEventFormatter();
+        public static LogEventFormatter Formatter { get; } = new();
 
         public void Format(LogEvent logEvent, TextWriter output)
         {

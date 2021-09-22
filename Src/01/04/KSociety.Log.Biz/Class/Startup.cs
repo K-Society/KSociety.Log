@@ -25,7 +25,6 @@ namespace KSociety.Log.Biz.Class
         {
             _logger.LogTrace("KSociety.Log staring...");
             _biz.LoadEventBus();
-
         }
     }
 }

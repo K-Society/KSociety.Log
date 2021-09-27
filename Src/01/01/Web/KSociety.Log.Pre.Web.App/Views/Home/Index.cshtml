@@ -4,18 +4,21 @@
 
 
 <div class="container">
-    <div ng-app="eventLogApp">
-        <div id="scope" ng-controller="EventLogCtrl">
-            <div class="gridStyle" ui-grid="gridOptions"></div>
+    <div id="eventLogApp">
+        <input type="text" name="filter" v-model="filter" placeholder="Filter..." />
+        <div class="logGrid">
+            <template v-for="log in filteredMessages" :key="log">
+                <span :class="{...getRowColor(log.level), cell: true}">{{getFormattedDate(log.timeStamp)}}</span>
+                <span :class="{...getRowColor(log.level), cell: true}">{{log.message}}</span>
+            </template>
         </div>
     </div>
 </div>
 
 @section scripts {
-    <link rel="stylesheet" type="text/css" href="/lib/angular-ui-grid/ui-grid.min.css" />
     <link rel="stylesheet" type="text/css" href="/css/logging.css" />
-    <script src="/lib/angular.js/angular.min.js"></script>
-    <script type="text/javascript" src="/lib/angular-ui-grid/ui-grid.min.js"></script>
+    <script src="~/lib/lodash.js/lodash.min.js"></script>
+    <script src="~/lib/vue/dist/vue.min.js"></script>
     <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/js/logging.js"></script>
 }

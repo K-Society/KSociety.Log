@@ -11,16 +11,22 @@
       ]
     },
     {
-      "provider": "cdnjs",
-      "library": "angular-ui-grid@4.11.0",
-      "destination": "wwwroot/lib/angular-ui-grid/"
+      "provider": "jsdelivr",
+      "library": "vue@2.6.14",
+      "destination": "wwwroot/lib/vue/",
+      "files": [
+        "dist/vue.min.js",
+        "dist/vue.js",
+        "LICENSE"
+      ]
     },
     {
       "provider": "cdnjs",
-      "library": "angular.js@1.8.2",
-      "destination": "wwwroot/lib/angular.js/",
+      "library": "lodash.js@4.17.21",
+      "destination": "wwwroot/lib/lodash.js/",
       "files": [
-        "angular.min.js"
+        "lodash.min.js",
+        "lodash.js"
       ]
     }
   ]

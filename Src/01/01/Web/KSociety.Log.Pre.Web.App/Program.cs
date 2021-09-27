@@ -46,14 +46,15 @@ namespace KSociety.Log.Pre.Web.App
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseSystemd()
                 .UseWindowsService()
                 .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.ConfigureKestrel(options =>
+                    /*webBuilder.ConfigureKestrel(options =>
                     {
                         options.Listen(IPAddress.Any, 61000);
-                    });
+                    });*/
                     webBuilder.UseStartup<Startup>();
                 });
     }

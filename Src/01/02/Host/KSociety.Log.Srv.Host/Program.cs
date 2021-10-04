@@ -76,15 +76,16 @@ namespace KSociety.Log.Srv.Host
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
+                .UseSystemd()
                 .UseWindowsService()
                 .UseSerilog()
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.ConfigureKestrel(options =>
+                    /*webBuilder.ConfigureKestrel(options =>
                     {
                         options.Listen(IPAddress.Any, 60500);
-                    });
+                    });*/
                     webBuilder.UseStartup<Startup>();
 
                 });

@@ -1,0 +1,13 @@
+﻿[Unit]
+Description=KSociety Log Srv Host
+After=KSociety.Log.Pre.Web.App.service
+
+[Service]
+Type=notify
+User=user
+WorkingDirectory=/opt/Mpt/Log/KSociety.Log.Srv.Host
+ExecStart=/opt/Mpt/Log/KSociety.Log.Srv.Host/KSociety.Log.Srv.Host
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

@@ -22,18 +22,17 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
         /// </summary>
         public static LoggerConfiguration RabbitMq(
             this LoggerSinkConfiguration loggerConfiguration,
-            Action<ConnectionFactory, IExchangeDeclareParameters, IQueueDeclareParameters, RabbitMqSinkConfiguration> configure
-            /*Action<RabbitMqClientConfiguration, RabbitMqSinkConfiguration> configure*/)
+            Action<ConnectionFactory, IExchangeDeclareParameters, IQueueDeclareParameters, RabbitMqSinkConfiguration> configure)
         {
-            //RabbitMqClientConfiguration clientConfiguration = new RabbitMqClientConfiguration();
             ConnectionFactory connectionFactory = new();
             IExchangeDeclareParameters exchangeDeclareParameters = new ExchangeDeclareParameters();
             IQueueDeclareParameters queueDeclareParameters = new QueueDeclareParameters();
+            IEventBusParameters eventBusParameters =
+                new EventBusParameters(exchangeDeclareParameters, queueDeclareParameters, false);
             RabbitMqSinkConfiguration sinkConfiguration = new();
             configure(connectionFactory, exchangeDeclareParameters, queueDeclareParameters, sinkConfiguration);
 
-            return RegisterSink(loggerConfiguration, connectionFactory, exchangeDeclareParameters,
-                queueDeclareParameters, sinkConfiguration).Result;
+            return RegisterSink(loggerConfiguration, connectionFactory, eventBusParameters, sinkConfiguration).Result;
         }
 
         /// <summary>
@@ -45,13 +44,11 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
         public static LoggerConfiguration RabbitMq(
             this LoggerSinkConfiguration loggerConfiguration,
             IConnectionFactory connectionFactory,
-            IExchangeDeclareParameters exchangeDeclareParameters,
-            IQueueDeclareParameters queueDeclareParameters,
+            IEventBusParameters eventBusParameters,
             RabbitMqSinkConfiguration sinkConfiguration, ITextFormatter textFormatter = null)
         {
             if (textFormatter != null) sinkConfiguration.TextFormatter = textFormatter;
-            return RegisterSink(loggerConfiguration, connectionFactory, exchangeDeclareParameters,
-                queueDeclareParameters, sinkConfiguration).Result;
+            return RegisterSink(loggerConfiguration, connectionFactory, eventBusParameters, sinkConfiguration).Result;
         }
 
         /// <summary>
@@ -87,25 +84,6 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
             int batchPostingLimit = 0, TimeSpan period = default, ITextFormatter textFormatter = null
         )
         {
-
-            //RabbitMqClientConfiguration clientConfiguration = new RabbitMqClientConfiguration
-            //{
-            //    Username = username,
-            //    Password = password,
-            //    Exchange = exchange,
-            //    ExchangeType = exchangeType,
-            //    DeliveryMode = deliveryMode,
-            //    RouteKey = routeKey,
-            //    Port = port,
-            //    VHost = vHost,
-            //    Heartbeat = heartbeat,
-            //    Protocol = protocol
-            //};
-            //foreach (string hostname in hostnames)
-            //{
-            //    clientConfiguration.Hostnames.Add(hostname);
-            //}
-
             IConnectionFactory connectionFactory = new ConnectionFactory
             {
                 HostName = mqHostName,
@@ -119,7 +97,8 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
 
             IExchangeDeclareParameters exchangeDeclareParameters = new ExchangeDeclareParameters(brokerName, exchangeType, exchangeDurable, exchangeAutoDelete);
             IQueueDeclareParameters queueDeclareParameters = new QueueDeclareParameters(queueDurable, queueExclusive, queueAutoDelete);
-
+            IEventBusParameters eventBusParameters =
+                new EventBusParameters(exchangeDeclareParameters, queueDeclareParameters, false);
             RabbitMqSinkConfiguration sinkConfiguration = new()
             {
                 BatchPostingLimit = batchPostingLimit,
@@ -127,15 +106,13 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
                 TextFormatter = textFormatter
             };
 
-            return RegisterSink(loggerConfiguration, connectionFactory, exchangeDeclareParameters,
-                queueDeclareParameters, sinkConfiguration).Result;
+            return RegisterSink(loggerConfiguration, connectionFactory, eventBusParameters, sinkConfiguration).Result;
         }
 
         async static ValueTask<LoggerConfiguration> RegisterSink(
             LoggerSinkConfiguration loggerConfiguration, 
             IConnectionFactory connectionFactory,
-            IExchangeDeclareParameters exchangeDeclareParameters,
-            IQueueDeclareParameters queueDeclareParameters, 
+            IEventBusParameters eventBusParameters,
             RabbitMqSinkConfiguration sinkConfiguration)
         {
             // guards
@@ -148,8 +125,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
             sinkConfiguration.BatchPostingLimit = (sinkConfiguration.BatchPostingLimit == default) ? DefaultBatchPostingLimit : sinkConfiguration.BatchPostingLimit;
             sinkConfiguration.Period = (sinkConfiguration.Period == default) ? DefaultPeriod : sinkConfiguration.Period;
 
-            var rabbitMqSink = new RabbitMqSink(connectionFactory, exchangeDeclareParameters, queueDeclareParameters,
-                sinkConfiguration);
+            var rabbitMqSink = new RabbitMqSink(connectionFactory, eventBusParameters, sinkConfiguration);
 
             //await rabbitMqSink.Initialization;
 

@@ -1,0 +1,11 @@
+﻿[Unit]
+Description=KSociety Log Pre Web App
+
+[Service]
+Type=notify
+User=user
+WorkingDirectory=/opt/Mpt/Log/KSociety.Log.Pre.Web.App
+ExecStart=/opt/Mpt/Log/KSociety.Log.Pre.Web.App/KSociety.Log.Pre.Web.App
+
+[Install]
+WantedBy=multi-user.target

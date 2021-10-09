@@ -8,6 +8,8 @@
 This is the README file for KSociety.Log.
 KSociety.Log is a .NET 5.0 centralized log system, to work properly it needs [RabbitMQ](https://github.com/K-Society/KSociety.RabbitMQ.Install/releases).
 
+## For Linux
+Copy KSociety.Log.Srv.Host.service and KSociety.Log.Pre.Web.App.service files to /etc/systemd/system/ directory.
 
 ## Port numbers
 - Log Server: 60500

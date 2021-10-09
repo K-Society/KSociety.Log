@@ -23,27 +23,22 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
         private readonly ITextFormatter _formatter;
 
         private readonly IConnectionFactory _connectionFactory;
-        private readonly IExchangeDeclareParameters _exchangeDeclareParameters;
-        private readonly IQueueDeclareParameters _queueDeclareParameters;
+        private readonly IEventBusParameters _eventBusParameters;
 
         private ILoggerFactory _loggerFactory { get; }
         private IRabbitMqPersistentConnection _persistentConnection { get; set; }
         private Lazy<IEventBus> _eventBus;
 
-        //public ValueTask Initialization { get; private set; }
-
         public RabbitMqSink(
             IConnectionFactory connectionFactory,
-            IExchangeDeclareParameters exchangeDeclareParameters,
-            IQueueDeclareParameters queueDeclareParameters,
+            IEventBusParameters eventBusParameters,
             RabbitMqSinkConfiguration rabbitMqSinkConfiguration) 
             : base(rabbitMqSinkConfiguration.BatchPostingLimit, rabbitMqSinkConfiguration.Period)
         {
             _formatter = rabbitMqSinkConfiguration.TextFormatter;
 
             _connectionFactory = connectionFactory;
-            _exchangeDeclareParameters = exchangeDeclareParameters;
-            _queueDeclareParameters = queueDeclareParameters;
+            _eventBusParameters = eventBusParameters;
 
             _loggerFactory = LoggerFactory.Create(builder =>
             {
@@ -57,7 +52,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
                 _persistentConnection,
                 _loggerFactory,
                 null,
-                _exchangeDeclareParameters, _queueDeclareParameters,
+                _eventBusParameters,
                 "LogQueueDriver", CancellationToken.None));
             //Initialization = InitializeAsync();
             //Initialize();

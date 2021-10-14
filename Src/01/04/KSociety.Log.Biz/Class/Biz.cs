@@ -17,8 +17,6 @@ namespace KSociety.Log.Biz.Class
         private readonly ILogger<Biz> _logger;
         private readonly ILoggerFactory _loggerFactory;
         private readonly IConnectionFactory _connectionFactory;
-        //private readonly IExchangeDeclareParameters _exchangeDeclareParameters;
-        //private readonly IQueueDeclareParameters _queueDeclareParameters;
         private readonly IEventBusParameters _eventBusParameters;
 
         public IRabbitMqPersistentConnection PersistentConnection { get; }
@@ -28,14 +26,10 @@ namespace KSociety.Log.Biz.Class
             ILoggerFactory loggerFactory,
             IConnectionFactory connectionFactory,
             IEventBusParameters eventBusParameters)
-            //IExchangeDeclareParameters exchangeDeclareParameters,
-            //IQueueDeclareParameters queueDeclareParameters)
         {
             _loggerFactory = loggerFactory;
             _logger = _loggerFactory.CreateLogger<Biz>();
             _connectionFactory = connectionFactory;
-            //_exchangeDeclareParameters = exchangeDeclareParameters;
-            //_queueDeclareParameters = queueDeclareParameters;
             _eventBusParameters = eventBusParameters;
             _logger.LogInformation("KSociety.Log.Biz.Class.Biz!");
 
@@ -49,10 +43,7 @@ namespace KSociety.Log.Biz.Class
                 _loggerFactory, 
                 new LogEventHandler(_loggerFactory), null,
                 _eventBusParameters,
-                //_exchangeDeclareParameters, _queueDeclareParameters,
                 "LogQueueServer", CancellationToken.None);
-
-            //await _eventBus.Initialization;
 
             ((IEventBusTyped)_eventBus).Subscribe<WriteLogEvent, LogEventHandler>("log");
         }

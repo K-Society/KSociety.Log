@@ -18,7 +18,7 @@ namespace KSociety.Log.Srv.Agent.Biz
 
         public WriteLog WriteLog(App.Dto.Req.Biz.WriteLog request, CancellationToken cancellationToken = default)
         {
-            WriteLog output = new WriteLog();
+            WriteLog output = new();
             try
             {
                 using (Channel)
@@ -39,7 +39,7 @@ namespace KSociety.Log.Srv.Agent.Biz
 
         public WriteLog WriteLogs(App.Dto.Req.Biz.List.WriteLog request, CancellationToken cancellationToken = default)
         {
-            WriteLog output = new WriteLog();
+            WriteLog output = new();
             try
             {
                 using (Channel)

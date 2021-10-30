@@ -17,8 +17,7 @@ namespace KSociety.Log.Biz.Class
         private readonly ILogger<Biz> _logger;
         private readonly ILoggerFactory _loggerFactory;
         private readonly IConnectionFactory _connectionFactory;
-        private readonly IExchangeDeclareParameters _exchangeDeclareParameters;
-        private readonly IQueueDeclareParameters _queueDeclareParameters;
+        private readonly IEventBusParameters _eventBusParameters;
 
         public IRabbitMqPersistentConnection PersistentConnection { get; }
         private IEventBus _eventBus;
@@ -26,14 +25,12 @@ namespace KSociety.Log.Biz.Class
         public Biz(
             ILoggerFactory loggerFactory,
             IConnectionFactory connectionFactory,
-            IExchangeDeclareParameters exchangeDeclareParameters,
-            IQueueDeclareParameters queueDeclareParameters)
+            IEventBusParameters eventBusParameters)
         {
             _loggerFactory = loggerFactory;
             _logger = _loggerFactory.CreateLogger<Biz>();
             _connectionFactory = connectionFactory;
-            _exchangeDeclareParameters = exchangeDeclareParameters;
-            _queueDeclareParameters = queueDeclareParameters;
+            _eventBusParameters = eventBusParameters;
             _logger.LogInformation("KSociety.Log.Biz.Class.Biz!");
 
             PersistentConnection = new DefaultRabbitMqPersistentConnection(_connectionFactory, _loggerFactory);
@@ -44,11 +41,9 @@ namespace KSociety.Log.Biz.Class
             _eventBus = new EventBusRabbitMqTyped(
                 PersistentConnection, 
                 _loggerFactory, 
-                new LogEventHandler(_loggerFactory), null, 
-                _exchangeDeclareParameters, _queueDeclareParameters,
+                new LogEventHandler(_loggerFactory), null,
+                _eventBusParameters,
                 "LogQueueServer", CancellationToken.None);
-
-            //await _eventBus.Initialization;
 
             ((IEventBusTyped)_eventBus).Subscribe<WriteLogEvent, LogEventHandler>("log");
         }

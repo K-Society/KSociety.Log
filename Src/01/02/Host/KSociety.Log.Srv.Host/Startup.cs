@@ -2,6 +2,7 @@
 using Autofac;
 using KSociety.Base.InfraSub.Shared.Class;
 using KSociety.Base.Srv.Host.Shared.Bindings;
+using KSociety.Base.Srv.Host.Shared.Class;
 using KSociety.Log.Biz.Interface;
 using KSociety.Log.Srv.Behavior.Biz;
 using Microsoft.AspNetCore.Builder;
@@ -23,33 +24,15 @@ namespace KSociety.Log.Srv.Host
 
 
         private bool DebugFlag { get; }
-        private string MqHostName { get; }
-        private string MqUserName { get; }
-        private string MqPassword { get; }
-        private string BrokerName { get; }
-        private Base.EventBus.ExchangeType ExchangeType { get; }
-        private bool ExchangeDurable { get; }
-        private bool ExchangeAutoDelete { get; }
-        private bool QueueDurable { get; }
-        private bool QueueExclusive { get; }
-        private bool QueueAutoDelete { get; }
+        private MessageBrokerOptions MessageBrokerOptions { get; }
 
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+           
             DebugFlag = Configuration.GetValue<bool>("DebugFlag");
-            MqHostName = Configuration.GetValue<string>("MessageBroker:ConnectionFactory:MqHostName");
-            MqUserName = Configuration.GetValue<string>("MessageBroker:ConnectionFactory:MqUserName");
-            MqPassword = Configuration.GetValue<string>("MessageBroker:ConnectionFactory:MqPassword");
 
-            BrokerName = Configuration.GetValue<string>("MessageBroker:ExchangeDeclareParameters:BrokerName");
-            ExchangeType = Configuration.GetValue<Base.EventBus.ExchangeType>("MessageBroker:ExchangeDeclareParameters:ExchangeType");
-            ExchangeDurable = Configuration.GetValue<bool>("MessageBroker:ExchangeDeclareParameters:ExchangeDurable");
-            ExchangeAutoDelete = Configuration.GetValue<bool>("MessageBroker:ExchangeDeclareParameters:ExchangeAutoDelete");
-
-            QueueDurable = Configuration.GetValue<bool>("MessageBroker:QueueDeclareParameters:QueueDurable");
-            QueueExclusive = Configuration.GetValue<bool>("MessageBroker:QueueDeclareParameters:QueueExclusive");
-            QueueAutoDelete = Configuration.GetValue<bool>("MessageBroker:QueueDeclareParameters:QueueAutoDelete");
+            MessageBrokerOptions = Configuration.GetSection("MessageBroker").Get<MessageBrokerOptions>();
         }
 
         public IConfiguration Configuration { get; }
@@ -83,9 +66,7 @@ namespace KSociety.Log.Srv.Host
 
                 //RabbitMQ.
                 builder.RegisterModule(
-                    new MessageBroker(BrokerName, ExchangeType, ExchangeDurable, ExchangeAutoDelete,
-                        MqHostName, MqUserName, MqPassword,
-                        DebugFlag, QueueDurable, QueueExclusive, QueueAutoDelete));
+                    new MessageBroker(MessageBrokerOptions, DebugFlag));
 
                 //Transaction, don't move this line.
                 builder.RegisterModule(new Bindings.Biz.Biz(DebugFlag));

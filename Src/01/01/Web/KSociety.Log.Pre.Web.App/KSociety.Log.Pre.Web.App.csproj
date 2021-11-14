@@ -5,6 +5,7 @@
 
   <PropertyGroup>
     <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

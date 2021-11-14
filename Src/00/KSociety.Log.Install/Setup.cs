@@ -12,6 +12,7 @@ namespace KSociety.Log.Install
 
         public static void Main()
         {
+            //Compiler.WixLocation =  Environment.ExpandEnvironmentVariables(@"%HOMEPATH%\.nuget\packages\wixsharp.wix.bin\3.11.2\tools\bin");
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             System.Diagnostics.FileVersionInfo fileVersionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
             _logSystemVersion = fileVersionInfo.FileVersion;

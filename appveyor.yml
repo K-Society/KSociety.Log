@@ -18,6 +18,9 @@ environment:
   NUGET_XMLDOC_MODE: skip
   LogSystemVersion: 0.0.0.0
 
+install:
+  - ps: install-vsix.ps1 --PackageName "Votive2022.vsix"
+
 build:
   verbosity: minimal
 

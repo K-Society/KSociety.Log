@@ -30,7 +30,7 @@ The presentation layer.
 ### 1.1 Presentation - Web
 | GitHub Repository | NuGet | Download |
 | ------------- | ------------- | ------------- |
-| [KSociety.Log.Pre.Web.App](https://github.com/K-Society/KSociety.Log/tree/master/Src/01/01/Web/KSociety.Log.Pre.Web.App) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Pre.Web.App)](https://www.nuget.org/packages/KSociety.Log.Pre.Web.App) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.Pre.Web.app) |
+#| [KSociety.Log.Pre.Web.App](https://github.com/K-Society/KSociety.Log/tree/master/Src/01/01/Web/KSociety.Log.Pre.Web.App) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Pre.Web.App)](https://www.nuget.org/packages/KSociety.Log.Pre.Web.App) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.Pre.Web.app) |
 
 ### 2. Service
 The service layer.
@@ -46,7 +46,7 @@ The service layer.
 
 | GitHub Repository | NuGet | Download |
 | ------------- | ------------- | ------------- |
-| [KSociety.Log.Srv.Host](https://github.com/K-Society/KSociety.Log/tree/master/Src/01/02/Host/KSociety.Log.Srv.Host) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Srv.Host)](https://www.nuget.org/packages/KSociety.Log.Srv.Host) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.Srv.Host) |
+#| [KSociety.Log.Srv.Host](https://github.com/K-Society/KSociety.Log/tree/master/Src/01/02/Host/KSociety.Log.Srv.Host) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Srv.Host)](https://www.nuget.org/packages/KSociety.Log.Srv.Host) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.Srv.Host) |
 
 ### 3. Application
 The application layer.
@@ -77,13 +77,6 @@ List of technologies, frameworks and libraries used for implementation:
 
 - [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0) (platform). Note for Visual Studio users: **VS 2022** is required.
 - [Autofac](https://autofac.org/) (Inversion of Control Container)
-- [Autofac](https://autofac.org/) (Inversion of Control Container)
-- [AutoMapper](https://automapper.org/) (A convention-based object-object mapper)
-- [CsvHelper](https://joshclose.github.io/CsvHelper/) (A .NET library for reading and writing CSV files)
-- [Grpc.Net.Client](https://github.com/grpc/grpc-dotnet) (.NET client for gRPC)
-- [MediatR](https://github.com/jbogard/MediatR) (mediator implementation)
-- [Polly](https://github.com/App-vNext/Polly) (Resilience and transient-fault-handling library)
 - [protobuf-net](https://github.com/protobuf-net/protobuf-net) (protobuf-net is a contract based serializer for .NET code)
-- [Quartz.NET](https://www.quartz-scheduler.net/) (background processing)
 - [RabbitMQ.Client](https://www.rabbitmq.com/dotnet.html) (The RabbitMQ .NET client is an implementation of an AMQP 0-9-1 client library for C#)
 - [Serilog](https://serilog.net/) (structured logging)

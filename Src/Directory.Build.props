@@ -18,7 +18,7 @@
     <Copyright>Copyright (c) K-Society and contributors. All rights reserved.</Copyright>
 	<PackageLicenseExpression>MS-RL</PackageLicenseExpression>
     <Product>K-Society Log</Product>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	<PublishRepositoryUrl>true</PublishRepositoryUrl>
     <PackageProjectUrl>https://github.com/K-Society/KSociety.Log</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/K-Society/KSociety.Log</RepositoryUrl>

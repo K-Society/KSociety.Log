@@ -1,5 +1,4 @@
-﻿using System;
-using Autofac;
+﻿using Autofac;
 using KSociety.Base.InfraSub.Shared.Class;
 using KSociety.Base.Srv.Host.Shared.Bindings;
 using KSociety.Base.Srv.Host.Shared.Class;
@@ -14,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProtoBuf.Grpc.Server;
 using Serilog;
+using System;
 
 namespace KSociety.Log.Srv.Host
 {

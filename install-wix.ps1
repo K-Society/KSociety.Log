@@ -11,13 +11,6 @@ $baseHostName = "github.com/wixtoolset/wix3/releases/download/wix3112rtm"
 $Uri = "$($baseProtocol)//$($baseHostName)/$($PackageName)"
 $ExeLocation = "$($env:Temp)\$([guid]::NewGuid()).exe"
  
-#$VSInstallDir = "C:\Program Files (x86)\Microsoft Visual Studio\Installer\resources\app\ServiceHub\Services\Microsoft.VisualStudio.Setup.Service"
- 
-#if (-Not $VSInstallDir) {
-#  Write-Error "Visual Studio InstallDir registry key missing"
-#  Exit 1
-#}
- 
 Write-Host "Grabbing EXE at $($Uri)"
 $HTML = Invoke-WebRequest -Uri $Uri -OutFile $ExeLocation -UseBasicParsing -SessionVariable session
  
@@ -27,7 +20,7 @@ if (-Not (Test-Path $ExeLocation)) {
   Write-Error "Downloaded EXE file could not be located"
   Exit 1
 }
-#Write-Host "VSInstallDir is $($VSInstallDir)"
+
 Write-Host "ExeLocation is $($ExeLocation)"
 Write-Host "Installing $($PackageName)..."
 Start-Process -Filepath "$($ExeLocation)" -ArgumentList "/install /quiet /norestart" -Wait

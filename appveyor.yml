@@ -17,7 +17,7 @@ environment:
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
   NUGET_XMLDOC_MODE: skip
   LogSystemVersion: 0.0.0.0
-  # https://github.com/wixtoolset/wix3/releases/download/wix3112rtm/wix311.exe
+
 install:
   - ps: .\install-wix.ps1 -PackageName "wix311.exe"
   - ps: .\install-vsix.ps1 -PackageName "Votive2022.vsix"

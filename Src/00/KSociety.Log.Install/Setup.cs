@@ -108,7 +108,7 @@ namespace KSociety.Log.Install
         private static string BuildMsiLogPresenter()
         {
             Environment.SetEnvironmentVariable("LogPresenter",
-                @"..\..\..\build\KSociety.Log.Pre.Web.App\Release\net5.0\publish");
+                @"..\..\..\build\KSociety.Log.Pre.Web.App\Release\net6.0\publish");
 
             #region [Firewall]
 
@@ -177,7 +177,7 @@ namespace KSociety.Log.Install
         private static string BuildMsiLogServer()
         {
             Environment.SetEnvironmentVariable("LogServer",
-                @"..\..\..\build\KSociety.Log.Srv.Host\Release\net5.0\publish");
+                @"..\..\..\build\KSociety.Log.Srv.Host\Release\net6.0\publish");
 
             #region [Firewall]
 

@@ -2,16 +2,15 @@
 using KSociety.Base.App.Shared;
 using ProtoBuf;
 
-namespace KSociety.Log.App.Dto.Req.Biz.List
-{
-    [ProtoContract]
-    public class WriteLog : AppList<Biz.WriteLog>
-    {
-        public WriteLog(){}
+namespace KSociety.Log.App.Dto.Req.Biz.List;
 
-        public WriteLog(List<Biz.WriteLog> logs)
-        {
-            List = logs;
-        }
+[ProtoContract]
+public class WriteLog : AppList<Biz.WriteLog>
+{
+    public WriteLog(){}
+
+    public WriteLog(List<Biz.WriteLog> logs)
+    {
+        List = logs;
     }
 }

@@ -20,4 +20,8 @@
     <ProjectReference Include="..\..\..\02\KSociety.Log.Srv.Dto\KSociety.Log.Srv.Dto.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+
 </Project>

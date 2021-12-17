@@ -3,77 +3,76 @@ using System.Threading.Tasks;
 using KSociety.Log.Srv.Dto;
 using Microsoft.AspNetCore.SignalR.Client;
 
-namespace KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR
+namespace KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR;
+
+public class HubProxy
 {
-    public class HubProxy
+    public string Uri { get; set; }
+
+    private HubConnection _connection;
+
+    public HubProxy()
     {
-        public string Uri { get; set; }
+        Uri = "http://localhost:61000/LoggingHub";
+    }
 
-        private HubConnection _connection;
+    public HubProxy(string uri)
+    {
+        Uri = uri;
+    }
 
-        public HubProxy()
+    public async ValueTask Log(LogEvent logEvent)
+    {
+
+        EnsureProxyExists();
+
+        try
         {
-            Uri = "http://localhost:61000/LoggingHub";
+            await _connection.InvokeAsync("SendLog", logEvent).ConfigureAwait(false);
         }
-
-        public HubProxy(string uri)
+        catch (Exception ex)
         {
-            Uri = uri;
+            Console.WriteLine(ex.Message);
         }
+    }
 
-        public async ValueTask Log(LogEvent logEvent)
+    private void EnsureProxyExists()
+    {
+        if (_connection is null)
         {
-
-            EnsureProxyExists();
-
-            try
-            {
-                await _connection.InvokeAsync("SendLog", logEvent).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            BeginNewConnection();
         }
-
-        private void EnsureProxyExists()
+        else if (_connection.State == HubConnectionState.Disconnected)
         {
-            if (_connection is null)
-            {
-                BeginNewConnection();
-            }
-            else if (_connection.State == HubConnectionState.Disconnected)
-            {
-                StartExistingConnection();
-            }
+            StartExistingConnection();
         }
+    }
 
-        private void BeginNewConnection()
+    private void BeginNewConnection()
+    {
+        try
         {
-            try
-            {
-                _connection = new HubConnectionBuilder().WithUrl(Uri).Build();
+            _connection = new HubConnectionBuilder().WithUrl(Uri).Build();
 
-                _connection.StartAsync().Wait();
+            _connection.StartAsync().Wait();
 
-                _connection.InvokeAsync("Notify", _connection.ConnectionId);
-            }
-            catch (Exception)
-            {
-                _connection.DisposeAsync();
-            }
+            _connection.InvokeAsync("Notify", _connection.ConnectionId);
         }
-
-        private void StartExistingConnection()
+        catch (Exception)
         {
-            try
-            {
-                _connection.StartAsync().Wait();
-            }
-            catch (Exception)
-            {
-                _connection.DisposeAsync();
-            }
+            _connection.DisposeAsync();
+        }
+    }
+
+    private void StartExistingConnection()
+    {
+        try
+        {
+            _connection.StartAsync().Wait();
+        }
+        catch (Exception)
+        {
+            _connection.DisposeAsync();
         }
     }
 }

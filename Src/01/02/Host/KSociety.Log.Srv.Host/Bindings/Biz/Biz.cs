@@ -2,32 +2,31 @@
 using Autofac;
 using KSociety.Log.Biz.Interface;
 
-namespace KSociety.Log.Srv.Host.Bindings.Biz
+namespace KSociety.Log.Srv.Host.Bindings.Biz;
+
+public class Biz : Module
 {
-    public class Biz : Module
+    private readonly bool _debugFlag;
+
+    public Biz(bool debugFlag)
     {
-        private readonly bool _debugFlag;
+        _debugFlag = debugFlag;
 
-        public Biz(bool debugFlag)
+    }
+
+    protected override void Load(ContainerBuilder builder)
+    {
+        try
         {
-            _debugFlag = debugFlag;
 
+            builder.RegisterType<KSociety.Log.Biz.Class.Biz>().As<IBiz>().SingleInstance();
+            builder.RegisterType<KSociety.Log.Biz.Class.Startup>().As<IStartable>().SingleInstance();
         }
-
-        protected override void Load(ContainerBuilder builder)
+        catch (Exception ex)
         {
-            try
+            if (_debugFlag)
             {
-
-                builder.RegisterType<KSociety.Log.Biz.Class.Biz>().As<IBiz>().SingleInstance();
-                builder.RegisterType<KSociety.Log.Biz.Class.Startup>().As<IStartable>().SingleInstance();
-            }
-            catch (Exception ex)
-            {
-                if (_debugFlag)
-                {
-                    Console.WriteLine("Transaction: " + ex.Message + " - " + ex.StackTrace);
-                }
+                Console.WriteLine("Transaction: " + ex.Message + " - " + ex.StackTrace);
             }
         }
     }

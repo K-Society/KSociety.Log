@@ -6,38 +6,37 @@ using Serilog.Events;
 using Serilog.Formatting;
 using Serilog.Sinks.PeriodicBatching;
 
-namespace KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR
+namespace KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR;
+
+public class SignalRSink : PeriodicBatchingSink
 {
-    public class SignalRSink : PeriodicBatchingSink
-    {
-        private readonly ITextFormatter _formatter;
-        private readonly HubProxy _proxy;
+    private readonly ITextFormatter _formatter;
+    private readonly HubProxy _proxy;
 
-        private ILoggerFactory _loggerFactory { get; }
+    private ILoggerFactory _loggerFactory { get; }
 
-        public SignalRSink(SignalRSinkConfiguration signalRSinkConfiguration, HubProxy proxy)
+    public SignalRSink(SignalRSinkConfiguration signalRSinkConfiguration, HubProxy proxy)
         :base(signalRSinkConfiguration.BatchPostingLimit, signalRSinkConfiguration.Period)
+    {
+        _formatter = signalRSinkConfiguration.TextFormatter;
+        _proxy = proxy;
+
+        _loggerFactory = LoggerFactory.Create(builder =>
         {
-            _formatter = signalRSinkConfiguration.TextFormatter;
-            _proxy = proxy;
+            builder
+                .AddFilter("Microsoft", LogLevel.Warning)
+                .AddFilter("System", LogLevel.Warning);
+        });
+    }
 
-            _loggerFactory = LoggerFactory.Create(builder =>
-            {
-                builder
-                    .AddFilter("Microsoft", LogLevel.Warning)
-                    .AddFilter("System", LogLevel.Warning);
-            });
-        }
-
-        protected override async Task EmitBatchAsync(IEnumerable<LogEvent> events)
+    protected override async Task EmitBatchAsync(IEnumerable<LogEvent> events)
+    {
+        foreach (var logEvent in events)
         {
-            foreach (var logEvent in events)
-            {
-                var sw = new StringWriter();
-                _formatter.Format(logEvent, sw);
+            var sw = new StringWriter();
+            _formatter.Format(logEvent, sw);
 
-                await _proxy.Log(new Srv.Dto.LogEvent(sw.ToString(), logEvent.Timestamp.DateTime, 1, (int)logEvent.Level, "LoggerName")).ConfigureAwait(false);
-            }
+            await _proxy.Log(new Srv.Dto.LogEvent(sw.ToString(), logEvent.Timestamp.DateTime, 1, (int)logEvent.Level, "LoggerName")).ConfigureAwait(false);
         }
     }
 }

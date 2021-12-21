@@ -80,3 +80,7 @@ List of technologies, frameworks and libraries used for implementation:
 - [protobuf-net](https://github.com/protobuf-net/protobuf-net) (protobuf-net is a contract based serializer for .NET code)
 - [RabbitMQ.Client](https://www.rabbitmq.com/dotnet.html) (The RabbitMQ .NET client is an implementation of an AMQP 0-9-1 client library for C#)
 - [Serilog](https://serilog.net/) (structured logging)
+- [KSociety.Base.App.Shared](https://github.com/K-Society/KSociety.Base/tree/develop/Src/01/03/KSociety.Base.App.Shared) ()
+- [KSociety.Base.EventBusRabbitMQ](https://github.com/K-Society/KSociety.Base/tree/master/Src/01/KSocietyBaseEventBus/KSociety.Base.EventBusRabbitMQ) ()
+- [KSociety.Base.Srv.Agent](https://github.com/K-Society/KSociety.Base/tree/develop/Src/01/02/KSociety.Base.Srv.Agent) ()
+- [KSociety.Base.Srv.Host.Shared](https://github.com/K-Society/KSociety.Base/tree/develop/Src/01/02/KSociety.Base.Srv.Shared) ()

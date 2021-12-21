@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KSociety.Base.EventBusRabbitMQ" Version="1.0.44" />
-    <PackageReference Include="KSociety.Base.Srv.Host.Shared" Version="1.0.44" />
+    <PackageReference Include="KSociety.Base.EventBusRabbitMQ" Version="1.0.46" />
+    <PackageReference Include="KSociety.Base.Srv.Host.Shared" Version="1.0.46" />
     <PackageReference Include="Nerdbank.GitVersioning" Version="3.4.244" PrivateAssets="All" />
   </ItemGroup>
 

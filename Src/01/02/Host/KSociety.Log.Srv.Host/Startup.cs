@@ -70,7 +70,10 @@ public class Startup
             builder.RegisterModule(
                 new MessageBroker<
                     IExchangeDeclareParameters, IQueueDeclareParameters,
-                    IEventBusParameters, IConnectionFactory>(MessageBrokerOptions, DebugFlag));
+                    IEventBusParameters, IConnectionFactory,
+                    Base.EventBus.ExchangeDeclareParameters, 
+                    Base.EventBus.QueueDeclareParameters, 
+                    EventBusParameters>(MessageBrokerOptions, DebugFlag));
 
             //Transaction, don't move this line.
             builder.RegisterModule(new Bindings.Biz.Biz(DebugFlag));

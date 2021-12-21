@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using KSociety.Base.EventBus;
 using KSociety.Base.InfraSub.Shared.Class;
 using KSociety.Base.Srv.Host.Shared.Bindings;
 using KSociety.Base.Srv.Host.Shared.Class;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProtoBuf.Grpc.Server;
+using RabbitMQ.Client;
 using Serilog;
 using System;
 
@@ -66,7 +68,9 @@ public class Startup
 
             //RabbitMQ.
             builder.RegisterModule(
-                new MessageBroker(MessageBrokerOptions, DebugFlag));
+                new MessageBroker<
+                    IExchangeDeclareParameters, IQueueDeclareParameters,
+                    IEventBusParameters, IConnectionFactory>(MessageBrokerOptions, DebugFlag));
 
             //Transaction, don't move this line.
             builder.RegisterModule(new Bindings.Biz.Biz(DebugFlag));

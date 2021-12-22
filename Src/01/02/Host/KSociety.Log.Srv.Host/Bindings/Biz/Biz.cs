@@ -18,7 +18,6 @@ public class Biz : Module
     {
         try
         {
-
             builder.RegisterType<KSociety.Log.Biz.Class.Biz>().As<IBiz>().SingleInstance();
             builder.RegisterType<KSociety.Log.Biz.Class.Startup>().As<IStartable>().SingleInstance();
         }

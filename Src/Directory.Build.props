@@ -23,6 +23,13 @@
     <PackageProjectUrl>https://github.com/K-Society/KSociety.Log</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/K-Society/KSociety.Log</RepositoryUrl>
 	<RepositoryType>git</RepositoryType>
+	<EmbedUntrackedSources>true</EmbedUntrackedSources>
+	<IncludeSymbols>true</IncludeSymbols>
+	<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(APPVEYOR)' == 'True'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <Import Project="Icon.Build.props" Condition=" '$(MSBuildProjectExtension)'=='.csproj' and Exists('Icon.Build.props') " />

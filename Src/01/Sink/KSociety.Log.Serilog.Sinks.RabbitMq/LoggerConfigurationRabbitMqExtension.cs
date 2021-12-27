@@ -7,131 +7,130 @@ using Serilog;
 using Serilog.Configuration;
 using Serilog.Formatting;
 
-namespace KSociety.Log.Serilog.Sinks.RabbitMq
+namespace KSociety.Log.Serilog.Sinks.RabbitMq;
+
+/// <summary>
+/// Extension method to configure Serilog with a Sink for RabbitMq
+/// </summary>
+public static class LoggerConfigurationRabbitMqExtension
 {
+    private const int DefaultBatchPostingLimit = 50;
+    private static readonly TimeSpan DefaultPeriod = TimeSpan.FromSeconds(2);
+
     /// <summary>
-    /// Extension method to configure Serilog with a Sink for RabbitMq
+    /// Adds a sink that lets you push log messages to RabbitMQ
     /// </summary>
-    public static class LoggerConfigurationRabbitMqExtension
+    public static LoggerConfiguration RabbitMq(
+        this LoggerSinkConfiguration loggerConfiguration,
+        Action<ConnectionFactory, IExchangeDeclareParameters, IQueueDeclareParameters, RabbitMqSinkConfiguration> configure)
     {
-        private const int DefaultBatchPostingLimit = 50;
-        private static readonly TimeSpan DefaultPeriod = TimeSpan.FromSeconds(2);
+        ConnectionFactory connectionFactory = new();
+        IExchangeDeclareParameters exchangeDeclareParameters = new ExchangeDeclareParameters();
+        IQueueDeclareParameters queueDeclareParameters = new QueueDeclareParameters();
+        IEventBusParameters eventBusParameters =
+            new EventBusParameters(exchangeDeclareParameters, queueDeclareParameters, false);
+        RabbitMqSinkConfiguration sinkConfiguration = new();
+        configure(connectionFactory, exchangeDeclareParameters, queueDeclareParameters, sinkConfiguration);
 
-        /// <summary>
-        /// Adds a sink that lets you push log messages to RabbitMQ
-        /// </summary>
-        public static LoggerConfiguration RabbitMq(
-            this LoggerSinkConfiguration loggerConfiguration,
-            Action<ConnectionFactory, IExchangeDeclareParameters, IQueueDeclareParameters, RabbitMqSinkConfiguration> configure)
+        return RegisterSink(loggerConfiguration, connectionFactory, eventBusParameters, sinkConfiguration).Result;
+    }
+
+    /// <summary>
+    /// Adds a sink that lets you push log messages to RabbitMQ
+    /// Will be used when configuring via configuration file
+    /// If you need to overrule the text formatter, you will need to supply it here as a separate parameter instead of supplying it via the RabbitMQSinkConfiguration instance
+    /// which will not work when configuring via configuration file
+    /// </summary>
+    public static LoggerConfiguration RabbitMq(
+        this LoggerSinkConfiguration loggerConfiguration,
+        IConnectionFactory connectionFactory,
+        IEventBusParameters eventBusParameters,
+        RabbitMqSinkConfiguration sinkConfiguration, ITextFormatter textFormatter = null)
+    {
+        if (textFormatter != null) sinkConfiguration.TextFormatter = textFormatter;
+        return RegisterSink(loggerConfiguration, connectionFactory, eventBusParameters, sinkConfiguration).Result;
+    }
+
+    /// <summary>
+    /// Adds a sink that lets you push log messages to RabbitMQ
+    /// Will be used when configuring via configuration file
+    /// Is for backward-compatibility with previous version
+    /// </summary>
+    public static LoggerConfiguration RabbitMq(
+        this LoggerSinkConfiguration loggerConfiguration,
+        string mqHostName, string mqUserName, string mqPassword, string brokerName, Base.EventBus.ExchangeType exchangeType,
+        bool exchangeDurable = false, bool exchangeAutoDelete = false,
+        bool queueDurable = false, bool queueExclusive = false, bool queueAutoDelete = false,
+        int batchPostingLimit = 0,
+        TimeSpan period = default, ITextFormatter formatter = null, IFormatProvider formatProvider = null
+    )
+    {
+        return loggerConfiguration.RabbitMq(mqHostName, mqUserName, mqPassword,
+            brokerName, exchangeType, exchangeDurable, exchangeAutoDelete,
+            queueDurable, queueExclusive, queueAutoDelete,
+            batchPostingLimit, period, formatter);
+    }
+
+    /// <summary>
+    /// Adds a sink that lets you push log messages to RabbitMQ
+    /// Will be used when configuring via configuration file
+    /// Is for backward-compatibility with previous version but gives possibility to use multiple hosts
+    /// </summary>
+    public static LoggerConfiguration RabbitMq(
+        this LoggerSinkConfiguration loggerConfiguration,
+        string mqHostName, string mqUserName, string mqPassword, string brokerName, Base.EventBus.ExchangeType exchangeType,
+        bool exchangeDurable = false, bool exchangeAutoDelete = false,
+        bool queueDurable = false, bool queueExclusive = false, bool queueAutoDelete = false, 
+        int batchPostingLimit = 0, TimeSpan period = default, ITextFormatter textFormatter = null
+    )
+    {
+        IConnectionFactory connectionFactory = new ConnectionFactory
         {
-            ConnectionFactory connectionFactory = new();
-            IExchangeDeclareParameters exchangeDeclareParameters = new ExchangeDeclareParameters();
-            IQueueDeclareParameters queueDeclareParameters = new QueueDeclareParameters();
-            IEventBusParameters eventBusParameters =
-                new EventBusParameters(exchangeDeclareParameters, queueDeclareParameters, false);
-            RabbitMqSinkConfiguration sinkConfiguration = new();
-            configure(connectionFactory, exchangeDeclareParameters, queueDeclareParameters, sinkConfiguration);
+            HostName = mqHostName,
+            UserName = mqUserName,
+            Password = mqPassword,
+            AutomaticRecoveryEnabled = true,
+            NetworkRecoveryInterval = TimeSpan.FromSeconds(10),
+            RequestedHeartbeat = TimeSpan.FromSeconds(10),
+            DispatchConsumersAsync = true
+        };
 
-            return RegisterSink(loggerConfiguration, connectionFactory, eventBusParameters, sinkConfiguration).Result;
-        }
-
-        /// <summary>
-        /// Adds a sink that lets you push log messages to RabbitMQ
-        /// Will be used when configuring via configuration file
-        /// If you need to overrule the text formatter, you will need to supply it here as a separate parameter instead of supplying it via the RabbitMQSinkConfiguration instance
-        /// which will not work when configuring via configuration file
-        /// </summary>
-        public static LoggerConfiguration RabbitMq(
-            this LoggerSinkConfiguration loggerConfiguration,
-            IConnectionFactory connectionFactory,
-            IEventBusParameters eventBusParameters,
-            RabbitMqSinkConfiguration sinkConfiguration, ITextFormatter textFormatter = null)
+        IExchangeDeclareParameters exchangeDeclareParameters = new ExchangeDeclareParameters(brokerName, exchangeType, exchangeDurable, exchangeAutoDelete);
+        IQueueDeclareParameters queueDeclareParameters = new QueueDeclareParameters(queueDurable, queueExclusive, queueAutoDelete);
+        IEventBusParameters eventBusParameters =
+            new EventBusParameters(exchangeDeclareParameters, queueDeclareParameters, false);
+        RabbitMqSinkConfiguration sinkConfiguration = new()
         {
-            if (textFormatter != null) sinkConfiguration.TextFormatter = textFormatter;
-            return RegisterSink(loggerConfiguration, connectionFactory, eventBusParameters, sinkConfiguration).Result;
-        }
+            BatchPostingLimit = batchPostingLimit,
+            Period = period,
+            TextFormatter = textFormatter
+        };
 
-        /// <summary>
-        /// Adds a sink that lets you push log messages to RabbitMQ
-        /// Will be used when configuring via configuration file
-        /// Is for backward-compatibility with previous version
-        /// </summary>
-        public static LoggerConfiguration RabbitMq(
-            this LoggerSinkConfiguration loggerConfiguration,
-            string mqHostName, string mqUserName, string mqPassword, string brokerName, Base.EventBus.ExchangeType exchangeType,
-            bool exchangeDurable = false, bool exchangeAutoDelete = false,
-            bool queueDurable = false, bool queueExclusive = false, bool queueAutoDelete = false,
-            int batchPostingLimit = 0,
-            TimeSpan period = default, ITextFormatter formatter = null, IFormatProvider formatProvider = null
-        )
-        {
-            return loggerConfiguration.RabbitMq(mqHostName, mqUserName, mqPassword,
-                brokerName, exchangeType, exchangeDurable, exchangeAutoDelete,
-                queueDurable, queueExclusive, queueAutoDelete,
-                batchPostingLimit, period, formatter);
-        }
+        return RegisterSink(loggerConfiguration, connectionFactory, eventBusParameters, sinkConfiguration).Result;
+    }
 
-        /// <summary>
-        /// Adds a sink that lets you push log messages to RabbitMQ
-        /// Will be used when configuring via configuration file
-        /// Is for backward-compatibility with previous version but gives possibility to use multiple hosts
-        /// </summary>
-        public static LoggerConfiguration RabbitMq(
-            this LoggerSinkConfiguration loggerConfiguration,
-            string mqHostName, string mqUserName, string mqPassword, string brokerName, Base.EventBus.ExchangeType exchangeType,
-            bool exchangeDurable = false, bool exchangeAutoDelete = false,
-            bool queueDurable = false, bool queueExclusive = false, bool queueAutoDelete = false, 
-            int batchPostingLimit = 0, TimeSpan period = default, ITextFormatter textFormatter = null
-        )
-        {
-            IConnectionFactory connectionFactory = new ConnectionFactory
-            {
-                HostName = mqHostName,
-                UserName = mqUserName,
-                Password = mqPassword,
-                AutomaticRecoveryEnabled = true,
-                NetworkRecoveryInterval = TimeSpan.FromSeconds(10),
-                RequestedHeartbeat = TimeSpan.FromSeconds(10),
-                DispatchConsumersAsync = true
-            };
+    async static ValueTask<LoggerConfiguration> RegisterSink(
+        LoggerSinkConfiguration loggerConfiguration, 
+        IConnectionFactory connectionFactory,
+        IEventBusParameters eventBusParameters,
+        RabbitMqSinkConfiguration sinkConfiguration)
+    {
+        // guards
+        if (loggerConfiguration == null) throw new ArgumentNullException(nameof(loggerConfiguration));
+        //if (connectionFactory.HostN == 0) throw new ArgumentException("hostnames cannot be empty, specify at least one hostname", "hostnames");
+        if (string.IsNullOrEmpty(connectionFactory.UserName)) throw new ArgumentException("username cannot be 'null' or and empty string.");
+        if (connectionFactory.Password == null) throw new ArgumentException("password cannot be 'null'. Specify an empty string if password is empty.");
+        //if (connectionFactory.Port <= 0 || clientConfiguration.Port > 65535) throw new ArgumentOutOfRangeException("port", "port must be in a valid range (1 and 65535)");
 
-            IExchangeDeclareParameters exchangeDeclareParameters = new ExchangeDeclareParameters(brokerName, exchangeType, exchangeDurable, exchangeAutoDelete);
-            IQueueDeclareParameters queueDeclareParameters = new QueueDeclareParameters(queueDurable, queueExclusive, queueAutoDelete);
-            IEventBusParameters eventBusParameters =
-                new EventBusParameters(exchangeDeclareParameters, queueDeclareParameters, false);
-            RabbitMqSinkConfiguration sinkConfiguration = new()
-            {
-                BatchPostingLimit = batchPostingLimit,
-                Period = period,
-                TextFormatter = textFormatter
-            };
+        sinkConfiguration.BatchPostingLimit = (sinkConfiguration.BatchPostingLimit == default) ? DefaultBatchPostingLimit : sinkConfiguration.BatchPostingLimit;
+        sinkConfiguration.Period = (sinkConfiguration.Period == default) ? DefaultPeriod : sinkConfiguration.Period;
 
-            return RegisterSink(loggerConfiguration, connectionFactory, eventBusParameters, sinkConfiguration).Result;
-        }
+        var rabbitMqSink = new RabbitMqSink(connectionFactory, eventBusParameters, sinkConfiguration);
 
-        async static ValueTask<LoggerConfiguration> RegisterSink(
-            LoggerSinkConfiguration loggerConfiguration, 
-            IConnectionFactory connectionFactory,
-            IEventBusParameters eventBusParameters,
-            RabbitMqSinkConfiguration sinkConfiguration)
-        {
-            // guards
-            if (loggerConfiguration == null) throw new ArgumentNullException(nameof(loggerConfiguration));
-            //if (connectionFactory.HostN == 0) throw new ArgumentException("hostnames cannot be empty, specify at least one hostname", "hostnames");
-            if (string.IsNullOrEmpty(connectionFactory.UserName)) throw new ArgumentException("username cannot be 'null' or and empty string.");
-            if (connectionFactory.Password == null) throw new ArgumentException("password cannot be 'null'. Specify an empty string if password is empty.");
-            //if (connectionFactory.Port <= 0 || clientConfiguration.Port > 65535) throw new ArgumentOutOfRangeException("port", "port must be in a valid range (1 and 65535)");
+        //await rabbitMqSink.Initialization;
 
-            sinkConfiguration.BatchPostingLimit = (sinkConfiguration.BatchPostingLimit == default) ? DefaultBatchPostingLimit : sinkConfiguration.BatchPostingLimit;
-            sinkConfiguration.Period = (sinkConfiguration.Period == default) ? DefaultPeriod : sinkConfiguration.Period;
-
-            var rabbitMqSink = new RabbitMqSink(connectionFactory, eventBusParameters, sinkConfiguration);
-
-            //await rabbitMqSink.Initialization;
-
-            return
-                loggerConfiguration
-                    .Sink(rabbitMqSink, sinkConfiguration.RestrictedToMinimumLevel);
-        }
+        return
+            loggerConfiguration
+                .Sink(rabbitMqSink, sinkConfiguration.RestrictedToMinimumLevel);
     }
 }

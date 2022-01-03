@@ -58,7 +58,7 @@ namespace KSociety.Log.Install
                             new Variable("UNINSTALLER_PATH",
                                 $@"{Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)}\{"Package Cache"}\{"[WixBundleProviderKey]"}\{Manufacturer + "." + Product}.exe")
                         }
-                    
+
                     };
 
             bootstrapper.Build(Manufacturer + "." + Product + ".exe");

@@ -6,6 +6,7 @@ using RabbitMQ.Client;
 using Serilog;
 using Serilog.Configuration;
 using Serilog.Formatting;
+using Serilog.Sinks.PeriodicBatching;
 
 namespace KSociety.Log.Serilog.Sinks.RabbitMq;
 
@@ -124,10 +125,17 @@ public static class LoggerConfigurationRabbitMqExtension
 
         sinkConfiguration.BatchPostingLimit = (sinkConfiguration.BatchPostingLimit == default) ? DefaultBatchPostingLimit : sinkConfiguration.BatchPostingLimit;
         sinkConfiguration.Period = (sinkConfiguration.Period == default) ? DefaultPeriod : sinkConfiguration.Period;
-
-        var rabbitMqSink = new RabbitMqSink(connectionFactory, eventBusParameters, sinkConfiguration);
-
-        //await rabbitMqSink.Initialization;
+        //IBatchedLogEventSink batchedLogEventSik = new PeriodicBatchingSink()
+        var rabbitMqBatchedSink = new RabbitMqBatchedSink(
+            connectionFactory, eventBusParameters, sinkConfiguration);
+        var periodicBatchingSinkOptions = new PeriodicBatchingSinkOptions
+        {
+            BatchSizeLimit = 100,
+            Period = TimeSpan.FromSeconds(2),
+            EagerlyEmitFirstEvent = true,
+            QueueLimit = 10000
+        };
+        var rabbitMqSink = new PeriodicBatchingSink(rabbitMqBatchedSink, periodicBatchingSinkOptions);
 
         return
             loggerConfiguration

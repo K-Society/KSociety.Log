@@ -130,8 +130,8 @@ public static class LoggerConfigurationRabbitMqExtension
             connectionFactory, eventBusParameters, sinkConfiguration);
         var periodicBatchingSinkOptions = new PeriodicBatchingSinkOptions
         {
-            BatchSizeLimit = 100,
-            Period = TimeSpan.FromSeconds(2),
+            BatchSizeLimit = 50,
+            Period = DefaultPeriod,
             EagerlyEmitFirstEvent = true,
             QueueLimit = 10000
         };

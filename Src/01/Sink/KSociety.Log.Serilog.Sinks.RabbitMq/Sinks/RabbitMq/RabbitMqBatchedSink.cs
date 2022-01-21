@@ -15,10 +15,7 @@ using System.Threading.Tasks;
 
 namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq;
 
-/// <summary>
-/// Serilog RabbitMq Sink - Lets you log to RabbitMq using Serilog
-/// </summary>
-public class RabbitMqSink : PeriodicBatchingSink //, IAsyncInitialization
+public class RabbitMqBatchedSink : IBatchedLogEventSink
 {
     private readonly ITextFormatter _formatter;
 
@@ -29,11 +26,11 @@ public class RabbitMqSink : PeriodicBatchingSink //, IAsyncInitialization
     private IRabbitMqPersistentConnection _persistentConnection { get; set; }
     private Lazy<IEventBus> _eventBus;
 
-    public RabbitMqSink(
+    public RabbitMqBatchedSink(
         IConnectionFactory connectionFactory,
         IEventBusParameters eventBusParameters,
-        RabbitMqSinkConfiguration rabbitMqSinkConfiguration) 
-        : base(rabbitMqSinkConfiguration.BatchPostingLimit, rabbitMqSinkConfiguration.Period)
+        RabbitMqSinkConfiguration rabbitMqSinkConfiguration
+        )
     {
         _formatter = rabbitMqSinkConfiguration.TextFormatter;
 
@@ -54,35 +51,11 @@ public class RabbitMqSink : PeriodicBatchingSink //, IAsyncInitialization
             null,
             _eventBusParameters,
             "LogQueueDriver", CancellationToken.None));
-        //Initialization = InitializeAsync();
-        //Initialize();
     }
 
-    //private async ValueTask InitializeAsync()
-    //{
-    //    try
-    //    {
-                
-
-    //        _eventBus = new EventBusRabbitMqTyped(
-    //            _persistentConnection,
-    //            _loggerFactory,
-    //            null,
-    //            _exchangeDeclareParameters, _queueDeclareParameters,
-    //            "LogQueueDriver", CancellationToken.None);
-
-    //        //await _eventBus.Initialization;
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        Console.WriteLine("RabbitMqSink InitializeAsync: " + ex.Message + " " + ex.StackTrace);
-    //    }
-            
-    //}
-
-    protected override async Task EmitBatchAsync(IEnumerable<LogEvent> events)
+    public async Task EmitBatchAsync(IEnumerable<LogEvent> batch)
     {
-        foreach (var logEvent in events)
+        foreach (var logEvent in batch)
         {
             var sw = new StringWriter();
             _formatter.Format(logEvent, sw);
@@ -102,23 +75,8 @@ public class RabbitMqSink : PeriodicBatchingSink //, IAsyncInitialization
         }
     }
 
-    protected override void Dispose(bool disposing)
+    public Task OnEmptyBatchAsync()
     {
-        // base.Dispose must be called first, because it flushes all pending EmitBatchAsync.
-        // Closing the client first would have resulted in an infinite retry loop to flush.
-        base.Dispose(disposing);
-
-        try
-        {
-            // Disposing channel and connection objects is not enough, they must be explicitly closed with the API methods.
-            // https://www.rabbitmq.com/dotnet-api-guide.html#disconnecting
-            //_client.Close(); //ToDo
-        }
-        catch
-        {
-            // ignore exceptions
-        }
-
-        //_client.Dispose(); //ToDo
+        return Task.CompletedTask;
     }
 }

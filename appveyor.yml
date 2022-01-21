@@ -18,9 +18,6 @@ environment:
   NUGET_XMLDOC_MODE: skip
   LogSystemVersion: 0.0.0.0
 
-install:
-  - ps: .\install-wix.ps1 -PackageName "wix311.exe"
-
 build:
   verbosity: minimal
 

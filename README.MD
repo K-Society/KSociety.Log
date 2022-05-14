@@ -15,6 +15,66 @@ Copy KSociety.Log.Srv.Host.service and KSociety.Log.Pre.Web.App.service files to
 - Log Server: 60500
 - Log Presenter: 61000
 
+## Get Packages
+
+You can get KSociety.Log.Serilog.Sinks.RabbitMq by [grabbing the latest NuGet package](https://www.nuget.org/packages/KSociety.Log.Serilog.Sinks.RabbitMq/).
+
+## Get Started
+
+Add the following section in the appsettings.json file of your application:
+
+```json
+"Serilog": {
+    "Using": [
+      "KSociety.Log.Serilog.Sinks.RabbitMq"
+    ],
+    "MinimumLevel": {
+      "Default": "Verbose",
+      "Override": {
+        "Microsoft": "Warning",
+        "System": "Warning",
+        "Grpc": "Error",
+        "ProtoBuf": "Error"
+      }
+    },
+    "WriteTo": [
+      {
+        "Name": "Console",
+        "Args": {
+          "outputTemplate": "[{Timestamp:yyyy-mm-dd HH:mm:ss.fff} {Level:u3}] [{MachineName}] [{SourceContext}] {Message}{NewLine:1}{Exception:1}"
+        }
+      },
+      {
+        "Name": "RabbitMq",
+        "Args": {
+          "mqHostName": "localhost",
+          "mqUserName": "KSociety",
+          "mqPassword": "KSociety",
+          "brokerName": "k-society_log",
+          "exchangeType": "Direct",
+          "exchangeDurable": false,
+          "exchangeAutoDelete": true,
+          "queueDurable": false,
+          "queueExclusive": false,
+          "queueAutoDelete": true,
+          "batchPostingLimit": 50,
+          "period": "00:00:02",
+          "textFormatter": "KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq.Output.LogEventFormatter, KSociety.Log.Serilog.Sinks.RabbitMq"
+        }
+      }
+    ],
+    "Enrich": [
+      "FromLogContext",
+      "WithMachineName",
+      "WithProcessId",
+      "WithThreadId"
+    ],
+    "Properties": {
+      "ApplicationName": "KSociety.Com"
+    }
+  }
+  ```
+
 ### 0. Installer
 The installer.
 

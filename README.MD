@@ -21,6 +21,12 @@ You can get KSociety.Log.Serilog.Sinks.RabbitMq by [grabbing the latest NuGet pa
 
 ## Get Started
 
+If you work in localhost you will need to install the following applications:
+[RabbitMQ](https://github.com/K-Society/KSociety.RabbitMQ.Install/releases)
+[KSociety.Log](https://github.com/K-Society/KSociety.Log/releases)
+
+
+Remember to set the "Copy to Output Directory" option of the appsettings.json file to "Copy if newer"!
 Add the following section in the appsettings.json file of your application:
 
 ```json
@@ -70,7 +76,7 @@ Add the following section in the appsettings.json file of your application:
       "WithThreadId"
     ],
     "Properties": {
-      "ApplicationName": "KSociety.Com"
+      "ApplicationName": "your application name"
     }
   }
   ```

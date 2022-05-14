@@ -74,6 +74,17 @@ Add the following section in the appsettings.json file of your application:
     }
   }
   ```
+  Add the following lines of code at the beginning of the main:
+
+  ```csharp
+    KSociety.Log.Serilog.Sinks.RabbitMq.ProtoModel.Configuration.ProtoBufConfiguration();
+
+    var configuration = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json")
+        .Build();
+
+    global::Serilog.Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
+  ```
 
 ### 0. Installer
 The installer.

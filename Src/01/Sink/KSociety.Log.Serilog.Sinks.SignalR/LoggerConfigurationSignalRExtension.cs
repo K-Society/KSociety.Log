@@ -3,6 +3,7 @@ using KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR;
 using Serilog;
 using Serilog.Configuration;
 using Serilog.Formatting;
+using Serilog.Sinks.PeriodicBatching;
 
 namespace KSociety.Log.Serilog.Sinks.SignalR;
 
@@ -69,9 +70,15 @@ public static class LoggerConfigurationSignalRExtension
         signalRSinkConfiguration.BatchPostingLimit = (signalRSinkConfiguration.BatchPostingLimit == default) ? DefaultBatchPostingLimit : signalRSinkConfiguration.BatchPostingLimit;
         signalRSinkConfiguration.Period = (signalRSinkConfiguration.Period == default) ? DefaultPeriod : signalRSinkConfiguration.Period;
 
+        //return
+        //    loggerConfiguration
+        //        .Sink(new SignalRSink(signalRSinkConfiguration, proxy),
+        //            signalRSinkConfiguration.RestrictedToMinimumLevel);
+
+        var batchingSink = new SignalRSink(signalRSinkConfiguration, proxy);
+
         return
             loggerConfiguration
-                .Sink(new SignalRSink(
-                    signalRSinkConfiguration, proxy), signalRSinkConfiguration.RestrictedToMinimumLevel);
+                .Sink(batchingSink);
     }
 }

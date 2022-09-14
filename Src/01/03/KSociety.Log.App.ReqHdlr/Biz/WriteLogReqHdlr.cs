@@ -51,11 +51,11 @@ public class WriteLogReqHdlr :
         try
         {
             var message = _mapper.Map<WriteLogEvent>(request);
-            await _biz.WriteLogAsync(message);
+            await _biz.WriteLogAsync(message).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "WriteLogReqHdlr Execute: ");
+            _logger.LogError(ex, "WriteLogReqHdlr ExecuteAsync: ");
         }
 
         return output;

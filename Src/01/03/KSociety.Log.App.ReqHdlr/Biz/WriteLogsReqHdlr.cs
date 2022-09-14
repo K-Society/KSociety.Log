@@ -52,11 +52,11 @@ public class WriteLogsReqHdlr :
         try
         {
             var list = request.List.Select(message => _mapper.Map<WriteLogEvent>(message)).ToList();
-            await _biz.WriteLogsAsync(list);
+            await _biz.WriteLogsAsync(list).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "WriteLogsReqHdlr Execute: ");
+            _logger.LogError(ex, "WriteLogsReqHdlr ExecuteAsync: ");
         }
 
         return output;

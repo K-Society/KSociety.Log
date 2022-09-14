@@ -66,7 +66,7 @@ public class Biz : Base.Srv.Agent.Connection
             {
                 IBizAsync client = Channel.CreateGrpcService<IBizAsync>();
 
-                return await client.WriteLogAsync(request, ConnectionOptions(cancellationToken));
+                return await client.WriteLogAsync(request, ConnectionOptions(cancellationToken)).ConfigureAwait(false);
 
             }
         }
@@ -86,7 +86,7 @@ public class Biz : Base.Srv.Agent.Connection
             {
                 IBizAsync client = Channel.CreateGrpcService<IBizAsync>();
 
-                return await client.WriteLogsAsync(request, ConnectionOptions(cancellationToken));
+                return await client.WriteLogsAsync(request, ConnectionOptions(cancellationToken)).ConfigureAwait(false);
 
             }
         }

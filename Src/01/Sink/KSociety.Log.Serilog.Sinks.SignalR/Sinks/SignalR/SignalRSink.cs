@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR;
 
-public class SignalRSink : IBatchedLogEventSink //ILogEventSink//IBatchedLogEventSink //IPeriodicBatchingSink
+public class SignalRSink : IBatchedLogEventSink
 {
     private readonly ITextFormatter _formatter;
     private readonly HubProxy _proxy;
@@ -16,7 +16,6 @@ public class SignalRSink : IBatchedLogEventSink //ILogEventSink//IBatchedLogEven
     private ILoggerFactory _loggerFactory { get; }
 
     public SignalRSink(SignalRSinkConfiguration signalRSinkConfiguration, HubProxy proxy)
-        //:base(signalRSinkConfiguration.BatchPostingLimit, signalRSinkConfiguration.Period)
     {
         _formatter = signalRSinkConfiguration.TextFormatter;
         _proxy = proxy;
@@ -29,7 +28,7 @@ public class SignalRSink : IBatchedLogEventSink //ILogEventSink//IBatchedLogEven
         });
     }
 
-    public /*override*/ async Task EmitBatchAsync(IEnumerable<LogEvent> events)
+    public async Task EmitBatchAsync(IEnumerable<LogEvent> events)
     {
         foreach (var logEvent in events)
         {
@@ -44,12 +43,4 @@ public class SignalRSink : IBatchedLogEventSink //ILogEventSink//IBatchedLogEven
     {
         return Task.CompletedTask;
     }
-
-    //public async void Emit(LogEvent logEvent)
-    //{
-    //    var sw = new StringWriter();
-    //    _formatter.Format(logEvent, sw);
-
-    //    await _proxy.Log(new Srv.Dto.LogEvent(sw.ToString(), logEvent.Timestamp.DateTime, 1, (int)logEvent.Level, "LoggerName")).ConfigureAwait(false);
-    //}
 }

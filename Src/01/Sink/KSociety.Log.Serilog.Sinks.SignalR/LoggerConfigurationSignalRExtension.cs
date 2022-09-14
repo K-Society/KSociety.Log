@@ -33,14 +33,6 @@ public static class LoggerConfigurationSignalRExtension
         HubProxy proxy, SignalRSinkConfiguration signalRSinkConfiguration
     )
     {
-        //SignalRSinkConfiguration sinkConfiguration = new SignalRSinkConfiguration();
-        //HubProxy proxy = new HubProxy();
-
-        //configure(proxy, sinkConfiguration);
-            
-
-        //var formatter = new OutputTemplateRenderer(appliedTheme, outputTemplate, formatProvider);
-        //MessageTemplateTextFormatter
         return RegisterSink(loggerConfiguration, proxy, signalRSinkConfiguration);
     }
 
@@ -69,13 +61,6 @@ public static class LoggerConfigurationSignalRExtension
 
         signalRSinkConfiguration.BatchPostingLimit = (signalRSinkConfiguration.BatchPostingLimit == default) ? DefaultBatchPostingLimit : signalRSinkConfiguration.BatchPostingLimit;
         signalRSinkConfiguration.Period = (signalRSinkConfiguration.Period == default) ? DefaultPeriod : signalRSinkConfiguration.Period;
-
-        //return
-        //    loggerConfiguration
-        //        .Sink(new SignalRSink(signalRSinkConfiguration, proxy),
-        //            signalRSinkConfiguration.RestrictedToMinimumLevel);
-
-        //var batchingSink = new SignalRSink(signalRSinkConfiguration, proxy);
 
         var batchingSink = new SignalRSink(signalRSinkConfiguration, proxy);
 

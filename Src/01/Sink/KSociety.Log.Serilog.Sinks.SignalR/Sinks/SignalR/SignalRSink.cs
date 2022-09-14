@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Serilog.Events;
 using Serilog.Formatting;
 using Serilog.Sinks.PeriodicBatching;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR;
 
-public class SignalRSink : PeriodicBatchingSink
+public class SignalRSink : IBatchedLogEventSink
 {
     private readonly ITextFormatter _formatter;
     private readonly HubProxy _proxy;
@@ -16,7 +16,6 @@ public class SignalRSink : PeriodicBatchingSink
     private ILoggerFactory _loggerFactory { get; }
 
     public SignalRSink(SignalRSinkConfiguration signalRSinkConfiguration, HubProxy proxy)
-        :base(signalRSinkConfiguration.BatchPostingLimit, signalRSinkConfiguration.Period)
     {
         _formatter = signalRSinkConfiguration.TextFormatter;
         _proxy = proxy;
@@ -29,7 +28,7 @@ public class SignalRSink : PeriodicBatchingSink
         });
     }
 
-    protected override async Task EmitBatchAsync(IEnumerable<LogEvent> events)
+    public async Task EmitBatchAsync(IEnumerable<LogEvent> events)
     {
         foreach (var logEvent in events)
         {
@@ -38,5 +37,10 @@ public class SignalRSink : PeriodicBatchingSink
 
             await _proxy.Log(new Srv.Dto.LogEvent(sw.ToString(), logEvent.Timestamp.DateTime, 1, (int)logEvent.Level, "LoggerName")).ConfigureAwait(false);
         }
+    }
+
+    public Task OnEmptyBatchAsync()
+    {
+        return Task.CompletedTask;
     }
 }

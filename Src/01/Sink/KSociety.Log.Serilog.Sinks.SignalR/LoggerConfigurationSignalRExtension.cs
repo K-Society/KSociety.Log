@@ -1,8 +1,9 @@
-﻿using System;
-using KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR;
+﻿using KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR;
 using Serilog;
 using Serilog.Configuration;
 using Serilog.Formatting;
+using Serilog.Sinks.PeriodicBatching;
+using System;
 
 namespace KSociety.Log.Serilog.Sinks.SignalR;
 
@@ -32,14 +33,6 @@ public static class LoggerConfigurationSignalRExtension
         HubProxy proxy, SignalRSinkConfiguration signalRSinkConfiguration
     )
     {
-        //SignalRSinkConfiguration sinkConfiguration = new SignalRSinkConfiguration();
-        //HubProxy proxy = new HubProxy();
-
-        //configure(proxy, sinkConfiguration);
-            
-
-        //var formatter = new OutputTemplateRenderer(appliedTheme, outputTemplate, formatProvider);
-        //MessageTemplateTextFormatter
         return RegisterSink(loggerConfiguration, proxy, signalRSinkConfiguration);
     }
 
@@ -69,9 +62,20 @@ public static class LoggerConfigurationSignalRExtension
         signalRSinkConfiguration.BatchPostingLimit = (signalRSinkConfiguration.BatchPostingLimit == default) ? DefaultBatchPostingLimit : signalRSinkConfiguration.BatchPostingLimit;
         signalRSinkConfiguration.Period = (signalRSinkConfiguration.Period == default) ? DefaultPeriod : signalRSinkConfiguration.Period;
 
+        var batchingSink = new SignalRSink(signalRSinkConfiguration, proxy);
+
+        var periodicBatchingSinkOptions = new PeriodicBatchingSinkOptions
+        {
+            BatchSizeLimit = DefaultBatchPostingLimit,
+            Period = DefaultPeriod,
+            EagerlyEmitFirstEvent = true,
+            QueueLimit = 10000
+        };
+
+        var periodicBatchingSink = new PeriodicBatchingSink(batchingSink, periodicBatchingSinkOptions);
+
         return
             loggerConfiguration
-                .Sink(new SignalRSink(
-                    signalRSinkConfiguration, proxy), signalRSinkConfiguration.RestrictedToMinimumLevel);
+                .Sink(periodicBatchingSink, signalRSinkConfiguration.RestrictedToMinimumLevel);
     }
 }

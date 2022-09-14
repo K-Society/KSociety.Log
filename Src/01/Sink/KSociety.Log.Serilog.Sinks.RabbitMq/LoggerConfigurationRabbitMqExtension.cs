@@ -110,7 +110,7 @@ public static class LoggerConfigurationRabbitMqExtension
         return RegisterSink(loggerConfiguration, connectionFactory, eventBusParameters, sinkConfiguration).Result;
     }
 
-    async static ValueTask<LoggerConfiguration> RegisterSink(
+    public async static ValueTask<LoggerConfiguration> RegisterSink(
         LoggerSinkConfiguration loggerConfiguration, 
         IConnectionFactory connectionFactory,
         IEventBusParameters eventBusParameters,
@@ -130,7 +130,7 @@ public static class LoggerConfigurationRabbitMqExtension
             connectionFactory, eventBusParameters, sinkConfiguration);
         var periodicBatchingSinkOptions = new PeriodicBatchingSinkOptions
         {
-            BatchSizeLimit = 50,
+            BatchSizeLimit = DefaultBatchPostingLimit,
             Period = DefaultPeriod,
             EagerlyEmitFirstEvent = true,
             QueueLimit = 10000

@@ -1,32 +1,33 @@
 {
   "version": "1.0",
-  "defaultProvider": "unpkg",
+  "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "library": "@microsoft/signalr@latest",
-      "destination": "wwwroot/js/signalr",
+      "library": "lodash.js@4.17.21",
+      "destination": "wwwroot/lib/lodash.js/",
       "files": [
+        "lodash.min.js",
+        "lodash.js"
+      ]
+    },
+    {
+      "provider": "unpkg",
+      "library": "@microsoft/signalr@6.0.8",
+      "destination": "wwwroot/lib/microsoft/signalr/",
+      "files": [
+        "dist/browser/signalr.js.map",
+        "dist/browser/signalr.min.js.map",
         "dist/browser/signalr.js",
         "dist/browser/signalr.min.js"
       ]
     },
     {
       "provider": "jsdelivr",
-      "library": "vue@2.6.14",
+      "library": "vue@2.7.10",
       "destination": "wwwroot/lib/vue/",
       "files": [
-        "dist/vue.min.js",
         "dist/vue.js",
-        "LICENSE"
-      ]
-    },
-    {
-      "provider": "cdnjs",
-      "library": "lodash.js@4.17.21",
-      "destination": "wwwroot/lib/lodash.js/",
-      "files": [
-        "lodash.min.js",
-        "lodash.js"
+        "dist/vue.min.js"
       ]
     }
   ]

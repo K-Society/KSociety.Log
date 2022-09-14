@@ -16,6 +16,7 @@ using ProtoBuf.Grpc.Server;
 using RabbitMQ.Client;
 using Serilog;
 using System;
+using System.IO.Compression;
 
 namespace KSociety.Log.Srv.Host;
 
@@ -46,7 +47,12 @@ public class Startup
         services.Configure<KestrelServerOptions>(
             Configuration.GetSection("Kestrel"));
 
-        services.AddCodeFirstGrpc();
+        //services.AddCodeFirstGrpc();
+        services.AddCodeFirstGrpc(options =>
+        {
+            options.ResponseCompressionAlgorithm = @"gzip";
+            options.ResponseCompressionLevel = CompressionLevel.Optimal;
+        });
     }
 
     // ConfigureContainer is where you can register things directly

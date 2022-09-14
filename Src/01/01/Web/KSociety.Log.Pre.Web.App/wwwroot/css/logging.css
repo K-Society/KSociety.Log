@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: 200px auto;
     grid-gap: 4px 0px;
-    overflow-wrap: anywhere;
+    overflow-wrap: normal;
     overflow: hidden scroll;
     height: calc(100vh - 187px);
 }

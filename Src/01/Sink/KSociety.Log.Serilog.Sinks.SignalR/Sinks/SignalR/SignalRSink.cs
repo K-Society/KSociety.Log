@@ -40,9 +40,9 @@ public class SignalRSink : IBatchedLogEventSink //ILogEventSink//IBatchedLogEven
         }
     }
 
-    public async Task OnEmptyBatchAsync()
+    public Task OnEmptyBatchAsync()
     {
-        ;
+        return Task.CompletedTask;
     }
 
     //public async void Emit(LogEvent logEvent)

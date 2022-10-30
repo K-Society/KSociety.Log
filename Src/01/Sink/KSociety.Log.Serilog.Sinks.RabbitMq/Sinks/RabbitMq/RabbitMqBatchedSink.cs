@@ -6,16 +6,14 @@ using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using Serilog.Events;
 using Serilog.Formatting;
-using Serilog.Sinks.PeriodicBatching;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq;
 
-public class RabbitMqBatchedSink : IBatchedLogEventSink
+public class RabbitMqBatchedSink : IRabbitMqBatchedSink
 {
     private readonly ITextFormatter _formatter;
 
@@ -44,13 +42,17 @@ public class RabbitMqBatchedSink : IBatchedLogEventSink
                 .AddFilter("System", LogLevel.Warning);
         });
         _persistentConnection = new DefaultRabbitMqPersistentConnection(_connectionFactory, _loggerFactory);
+    }
 
+    public void Initialize()
+    {
         _eventBus = new Lazy<IEventBus>(new EventBusRabbitMqTyped(
             _persistentConnection,
             _loggerFactory,
             null,
             _eventBusParameters,
-            "LogQueueDriver", CancellationToken.None));
+            "LogQueueDriver"));
+        _eventBus.Value.Initialize();
     }
 
     public async Task EmitBatchAsync(IEnumerable<LogEvent> batch)

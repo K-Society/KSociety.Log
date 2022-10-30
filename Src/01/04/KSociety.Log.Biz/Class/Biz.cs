@@ -36,14 +36,16 @@ public class Biz : IBiz
         PersistentConnection = new DefaultRabbitMqPersistentConnection(_connectionFactory, _loggerFactory);
     }
 
-    public async void LoadEventBus()
+    public void LoadEventBus()
     {
         _eventBus = new EventBusRabbitMqTyped(
             PersistentConnection, 
             _loggerFactory, 
             new LogEventHandler(_loggerFactory), null,
             _eventBusParameters,
-            "LogQueueServer", CancellationToken.None);
+            "LogQueueServer");
+
+        _eventBus.Initialize();
 
         ((IEventBusTyped)_eventBus).Subscribe<WriteLogEvent, LogEventHandler>("log");
     }

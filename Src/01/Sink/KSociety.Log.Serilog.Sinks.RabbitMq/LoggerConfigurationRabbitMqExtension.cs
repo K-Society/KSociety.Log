@@ -128,6 +128,9 @@ public static class LoggerConfigurationRabbitMqExtension
         //IBatchedLogEventSink batchedLogEventSik = new PeriodicBatchingSink()
         var rabbitMqBatchedSink = new RabbitMqBatchedSink(
             connectionFactory, eventBusParameters, sinkConfiguration);
+
+        rabbitMqBatchedSink.Initialize();
+
         var periodicBatchingSinkOptions = new PeriodicBatchingSinkOptions
         {
             BatchSizeLimit = DefaultBatchPostingLimit,

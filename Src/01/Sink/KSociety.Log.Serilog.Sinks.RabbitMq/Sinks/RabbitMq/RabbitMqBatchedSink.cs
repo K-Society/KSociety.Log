@@ -22,7 +22,7 @@ public class RabbitMqBatchedSink : IRabbitMqBatchedSink
 
     private ILoggerFactory _loggerFactory { get; }
     private IRabbitMqPersistentConnection _persistentConnection { get; set; }
-    private Lazy<IEventBus> _eventBus;
+    private Lazy<IEventBusTyped> _eventBus;
 
     public RabbitMqBatchedSink(
         IConnectionFactory connectionFactory,
@@ -46,7 +46,7 @@ public class RabbitMqBatchedSink : IRabbitMqBatchedSink
 
     public void Initialize()
     {
-        _eventBus = new Lazy<IEventBus>(new EventBusRabbitMqTyped(
+        _eventBus = new Lazy<IEventBusTyped>(new EventBusRabbitMqTyped(
             _persistentConnection,
             _loggerFactory,
             null,

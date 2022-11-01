@@ -20,7 +20,7 @@ public class Biz : IBiz
     private readonly IEventBusParameters _eventBusParameters;
 
     public IRabbitMqPersistentConnection PersistentConnection { get; }
-    private IEventBus _eventBus;
+    private IEventBusTyped _eventBus;
 
     public Biz(
         ILoggerFactory loggerFactory,
@@ -47,7 +47,7 @@ public class Biz : IBiz
 
         _eventBus.Initialize();
 
-        ((IEventBusTyped)_eventBus).Subscribe<WriteLogEvent, LogEventHandler>("log");
+        _eventBus.Subscribe<WriteLogEvent, LogEventHandler>("log");
     }
 
     public bool WriteLog(WriteLogEvent logEvent)

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using KSociety.Base.EventBus;
+﻿using KSociety.Base.EventBus;
 using KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq;
 using RabbitMQ.Client;
 using Serilog;
 using Serilog.Configuration;
 using Serilog.Formatting;
 using Serilog.Sinks.PeriodicBatching;
+using System;
 
 namespace KSociety.Log.Serilog.Sinks.RabbitMq;
 
@@ -33,7 +32,7 @@ public static class LoggerConfigurationRabbitMqExtension
         RabbitMqSinkConfiguration sinkConfiguration = new();
         configure(connectionFactory, exchangeDeclareParameters, queueDeclareParameters, sinkConfiguration);
 
-        return RegisterSink(loggerConfiguration, connectionFactory, eventBusParameters, sinkConfiguration).Result;
+        return RegisterSink(loggerConfiguration, connectionFactory, eventBusParameters, sinkConfiguration);
     }
 
     /// <summary>
@@ -49,7 +48,7 @@ public static class LoggerConfigurationRabbitMqExtension
         RabbitMqSinkConfiguration sinkConfiguration, ITextFormatter textFormatter = null)
     {
         if (textFormatter != null) sinkConfiguration.TextFormatter = textFormatter;
-        return RegisterSink(loggerConfiguration, connectionFactory, eventBusParameters, sinkConfiguration).Result;
+        return RegisterSink(loggerConfiguration, connectionFactory, eventBusParameters, sinkConfiguration);
     }
 
     /// <summary>
@@ -107,10 +106,10 @@ public static class LoggerConfigurationRabbitMqExtension
             TextFormatter = textFormatter
         };
 
-        return RegisterSink(loggerConfiguration, connectionFactory, eventBusParameters, sinkConfiguration).Result;
+        return RegisterSink(loggerConfiguration, connectionFactory, eventBusParameters, sinkConfiguration);
     }
 
-    public async static ValueTask<LoggerConfiguration> RegisterSink(
+    public static LoggerConfiguration RegisterSink(
         LoggerSinkConfiguration loggerConfiguration, 
         IConnectionFactory connectionFactory,
         IEventBusParameters eventBusParameters,

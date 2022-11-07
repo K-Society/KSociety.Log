@@ -19,9 +19,10 @@ public class RabbitMqBatchedSink : IRabbitMqBatchedSink
 
     private readonly IConnectionFactory _connectionFactory;
     private readonly IEventBusParameters _eventBusParameters;
+    private readonly IRabbitMqPersistentConnection _persistentConnection;
 
     private ILoggerFactory _loggerFactory { get; }
-    private IRabbitMqPersistentConnection _persistentConnection { get; set; }
+    //private IRabbitMqPersistentConnection _persistentConnection { get; set; }
     private Lazy<IEventBusTyped> _eventBus;
 
     public RabbitMqBatchedSink(
@@ -34,6 +35,7 @@ public class RabbitMqBatchedSink : IRabbitMqBatchedSink
 
         _connectionFactory = connectionFactory;
         _eventBusParameters = eventBusParameters;
+        //_persistentConnection = persistentConnection;
 
         _loggerFactory = LoggerFactory.Create(builder =>
         {

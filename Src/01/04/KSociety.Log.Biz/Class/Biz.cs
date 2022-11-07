@@ -14,27 +14,20 @@ public class Biz : IBiz
 {
     private readonly ILogger<Biz> _logger;
     private readonly ILoggerFactory _loggerFactory;
-    //private readonly IConnectionFactory _connectionFactory;
     private readonly IEventBusParameters _eventBusParameters;
     private readonly IRabbitMqPersistentConnection _persistentConnection;
-
-    //public IRabbitMqPersistentConnection PersistentConnection { get; }
     private IEventBusTyped _eventBus;
 
     public Biz(
         ILoggerFactory loggerFactory,
-        //IConnectionFactory connectionFactory,
         IEventBusParameters eventBusParameters,
         IRabbitMqPersistentConnection persistentConnection)
     {
         _loggerFactory = loggerFactory;
         _logger = _loggerFactory.CreateLogger<Biz>();
-        //_connectionFactory = connectionFactory;
         _eventBusParameters = eventBusParameters;
         _persistentConnection = persistentConnection;
         _logger.LogInformation("KSociety.Log.Biz.Class.Biz!");
-
-        //PersistentConnection = new DefaultRabbitMqPersistentConnection(_connectionFactory, _loggerFactory);
     }
 
     public void LoadEventBus()

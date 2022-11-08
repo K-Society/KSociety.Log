@@ -18,8 +18,8 @@ environment:
   NUGET_XMLDOC_MODE: skip
   LogSystemVersion: 0.0.0.0
 
-install:
-  - ps: .\dotnet-install.ps1 -Version '6.0.402'
+#install:
+#  - ps: .\dotnet-install.ps1 -Version '6.0.402'
 
 before_build:
   - ps: dotnet --info

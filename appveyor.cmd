@@ -11,9 +11,13 @@ msbuild Src\01\01\Web\KSociety.Log.Pre.Web.App\KSociety.Log.Pre.Web.App.csproj -
 
 msbuild Src\01\01\Web\KSociety.Log.Pre.Web.App\KSociety.Log.Pre.Web.App.csproj -t:Publish -p:Configuration=%_C% -p:TargetFramework="net6.0" -p:OutputPath=%_P%\KSociety.Log.Pre.Web.App\%_C%\net6.0\ || exit /b
 
+msbuild Src\01\01\Web\KSociety.Log.Pre.Web.App\KSociety.Log.Pre.Web.App.csproj -t:Publish -p:Configuration=%_C% -p:TargetFramework="net7.0" -p:OutputPath=%_P%\KSociety.Log.Pre.Web.App\%_C%\net7.0\ || exit /b
+
 msbuild Src\01\02\Host\KSociety.Log.Srv.Host\KSociety.Log.Srv.Host.csproj -t:restore -p:Configuration=%_C% || exit /b
 
 msbuild Src\01\02\Host\KSociety.Log.Srv.Host\KSociety.Log.Srv.Host.csproj -t:Publish -p:Configuration=%_C% -p:TargetFramework="net6.0" -p:OutputPath=%_P%\KSociety.Log.Srv.Host\%_C%\net6.0\ || exit /b
+
+msbuild Src\01\02\Host\KSociety.Log.Srv.Host\KSociety.Log.Srv.Host.csproj -t:Publish -p:Configuration=%_C% -p:TargetFramework="net7.0" -p:OutputPath=%_P%\KSociety.Log.Srv.Host\%_C%\net7.0\ || exit /b
 
 msbuild Src\00\KSociety.Log.Install\KSociety.Log.Install.csproj -t:restore -p:Configuration=%_C% || exit /b
 

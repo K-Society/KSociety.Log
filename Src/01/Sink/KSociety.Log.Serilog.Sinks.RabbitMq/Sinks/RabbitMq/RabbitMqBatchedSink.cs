@@ -6,25 +6,24 @@ using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using Serilog.Events;
 using Serilog.Formatting;
-using Serilog.Sinks.PeriodicBatching;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq;
 
-public class RabbitMqBatchedSink : IBatchedLogEventSink
+public class RabbitMqBatchedSink : IRabbitMqBatchedSink
 {
     private readonly ITextFormatter _formatter;
 
     private readonly IConnectionFactory _connectionFactory;
     private readonly IEventBusParameters _eventBusParameters;
+    private readonly IRabbitMqPersistentConnection _persistentConnection;
 
     private ILoggerFactory _loggerFactory { get; }
-    private IRabbitMqPersistentConnection _persistentConnection { get; set; }
-    private Lazy<IEventBus> _eventBus;
+
+    private Lazy<IEventBusTyped> _eventBus;
 
     public RabbitMqBatchedSink(
         IConnectionFactory connectionFactory,
@@ -44,13 +43,17 @@ public class RabbitMqBatchedSink : IBatchedLogEventSink
                 .AddFilter("System", LogLevel.Warning);
         });
         _persistentConnection = new DefaultRabbitMqPersistentConnection(_connectionFactory, _loggerFactory);
+    }
 
-        _eventBus = new Lazy<IEventBus>(new EventBusRabbitMqTyped(
+    public void Initialize()
+    {
+        _eventBus = new Lazy<IEventBusTyped>(new EventBusRabbitMqTyped(
             _persistentConnection,
             _loggerFactory,
             null,
             _eventBusParameters,
-            "LogQueueDriver", CancellationToken.None));
+            "LogQueueDriver"));
+        _eventBus.Value.Initialize();
     }
 
     public async Task EmitBatchAsync(IEnumerable<LogEvent> batch)

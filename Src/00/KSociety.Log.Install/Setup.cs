@@ -18,12 +18,14 @@ namespace KSociety.Log.Install
             _logSystemVersion = fileVersionInfo.FileVersion;
 
             var productMsiUninstall = BuildMsiUninstall();
-            var productMsiLogPresenter = BuildMsiLogPresenter();
-            var productMsiLogServer = BuildMsiLogServer();
+            var productMsiLogPresenter6 = BuildMsiLogPresenter("net6.0");
+            var productMsiLogServer6 = BuildMsiLogServer("net6.0");
+            var productMsiLogPresenter7 = BuildMsiLogPresenter("net7.0");
+            var productMsiLogServer7 = BuildMsiLogServer("net7.0");
             var productMsiRegistryX86 = BuildMsiRegistryX86();
             var productMsiRegistryX64 = BuildMsiRegistryX64();
 
-            var bootstrapper =
+            var bootstrapper6 =
                 new Bundle(Product,
                         new MsiPackage(productMsiUninstall)
                         {
@@ -33,13 +35,13 @@ namespace KSociety.Log.Install
                             Cache = false,
                             MsiProperties = "UNINSTALLER_PATH=[UNINSTALLER_PATH]"
                         },
-                        new MsiPackage(productMsiLogPresenter)
+                        new MsiPackage(productMsiLogPresenter6)
                         {
                             DisplayInternalUI = false,
                             Compressed = true,
                             Visible = false
                         },
-                        new MsiPackage(productMsiLogServer)
+                        new MsiPackage(productMsiLogServer6)
                         {
                             DisplayInternalUI = false,
                             Compressed = true,
@@ -56,26 +58,78 @@ namespace KSociety.Log.Install
                         Variables = new[]
                         {
                             new Variable("UNINSTALLER_PATH",
-                                $@"{Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)}\{"Package Cache"}\{"[WixBundleProviderKey]"}\{Manufacturer + "." + Product}.exe")
+                                $@"{Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)}\{"Package Cache"}\{"[WixBundleProviderKey]"}\{Manufacturer + "." + Product}6.exe")
                         }
 
                     };
 
-            bootstrapper.Build(Manufacturer + "." + Product + ".exe");
+            bootstrapper6.Build(Manufacturer + "." + Product + "6.exe");
+
+            //
+
+            var bootstrapper7 =
+                new Bundle(Product,
+                        new MsiPackage(productMsiUninstall)
+                        {
+                            DisplayInternalUI = false,
+                            Compressed = true,
+                            Visible = false,
+                            Cache = false,
+                            MsiProperties = "UNINSTALLER_PATH=[UNINSTALLER_PATH]"
+                        },
+                        new MsiPackage(productMsiLogPresenter7)
+                        {
+                            DisplayInternalUI = false,
+                            Compressed = true,
+                            Visible = false
+                        },
+                        new MsiPackage(productMsiLogServer7)
+                        {
+                            DisplayInternalUI = false,
+                            Compressed = true,
+                            Visible = false
+                        },
+                        new MsiPackage(productMsiRegistryX86) { DisplayInternalUI = false, Compressed = true, InstallCondition = "NOT VersionNT64" },
+                        new MsiPackage(productMsiRegistryX64) { DisplayInternalUI = false, Compressed = true, InstallCondition = "VersionNT64" }
+                    )
+                {
+                    UpgradeCode = new Guid("97C9A7F8-AFBB-4634-AD96-91EBC5F07419"),
+                    Version = new Version(_logSystemVersion),
+                    Manufacturer = Manufacturer,
+                    AboutUrl = "https://github.com/K-Society/KSociety.Log",
+                    Variables = new[]
+                        {
+                            new Variable("UNINSTALLER_PATH",
+                                $@"{Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)}\{"Package Cache"}\{"[WixBundleProviderKey]"}\{Manufacturer + "." + Product}7.exe")
+                        }
+
+                };
+
+            bootstrapper7.Build(Manufacturer + "." + Product + "7.exe");
 
             if (System.IO.File.Exists(productMsiUninstall))
             {
                 System.IO.File.Delete(productMsiUninstall);
             }
 
-            if (System.IO.File.Exists(productMsiLogPresenter))
+            if (System.IO.File.Exists(productMsiLogPresenter6))
             {
-                System.IO.File.Delete(productMsiLogPresenter);
+                System.IO.File.Delete(productMsiLogPresenter6);
             }
 
-            if (System.IO.File.Exists(productMsiLogServer))
+            if (System.IO.File.Exists(productMsiLogServer6))
             {
-                System.IO.File.Delete(productMsiLogServer);
+                System.IO.File.Delete(productMsiLogServer6);
+            }
+
+            if (System.IO.File.Exists(productMsiLogPresenter7))
+            {
+                System.IO.File.Delete(productMsiLogPresenter7);
+            }
+
+            if (System.IO.File.Exists(productMsiLogServer7))
+            {
+                System.IO.File.Delete(productMsiLogServer7);
             }
 
             if (System.IO.File.Exists(productMsiRegistryX86)) { System.IO.File.Delete(productMsiRegistryX86); }
@@ -105,10 +159,10 @@ namespace KSociety.Log.Install
             return project.BuildMsi();
         }
 
-        private static string BuildMsiLogPresenter()
+        private static string BuildMsiLogPresenter(string version)
         {
             Environment.SetEnvironmentVariable("LogPresenter",
-                @"..\..\..\build\KSociety.Log.Pre.Web.App\Release\net6.0\publish");
+                @"..\..\..\build\KSociety.Log.Pre.Web.App\Release\" + version + @"\publish");
 
             #region [Firewall]
 
@@ -174,10 +228,10 @@ namespace KSociety.Log.Install
             return project.BuildMsi();
         }
 
-        private static string BuildMsiLogServer()
+        private static string BuildMsiLogServer(string version)
         {
             Environment.SetEnvironmentVariable("LogServer",
-                @"..\..\..\build\KSociety.Log.Srv.Host\Release\net6.0\publish");
+                @"..\..\..\build\KSociety.Log.Srv.Host\Release\" + version + @"\publish");
 
             #region [Firewall]
 

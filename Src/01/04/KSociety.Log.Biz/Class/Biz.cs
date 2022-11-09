@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using KSociety.Base.EventBus;
 using KSociety.Base.EventBus.Abstractions.EventBus;
 using KSociety.Base.EventBusRabbitMQ;
+using KSociety.Base.EventBusRabbitMQ.Helper;
 using KSociety.Log.Biz.IntegrationEvent.Event;
 using KSociety.Log.Biz.IntegrationEvent.EventHandling;
 using KSociety.Log.Biz.Interface;
 using Microsoft.Extensions.Logging;
-using RabbitMQ.Client;
 
 namespace KSociety.Log.Biz.Class;
 
@@ -16,41 +15,34 @@ public class Biz : IBiz
 {
     private readonly ILogger<Biz> _logger;
     private readonly ILoggerFactory _loggerFactory;
-    private readonly IConnectionFactory _connectionFactory;
     private readonly IEventBusParameters _eventBusParameters;
-
-    public IRabbitMqPersistentConnection PersistentConnection { get; }
-    private IEventBus _eventBus;
+    private readonly IRabbitMqPersistentConnection _persistentConnection;
+    private readonly Subscriber _subscriber;
+    private const string EventBusName = "Logger";
 
     public Biz(
         ILoggerFactory loggerFactory,
-        IConnectionFactory connectionFactory,
-        IEventBusParameters eventBusParameters)
+        IEventBusParameters eventBusParameters,
+        IRabbitMqPersistentConnection persistentConnection)
     {
         _loggerFactory = loggerFactory;
         _logger = _loggerFactory.CreateLogger<Biz>();
-        _connectionFactory = connectionFactory;
         _eventBusParameters = eventBusParameters;
+        _persistentConnection = persistentConnection;
         _logger.LogInformation("KSociety.Log.Biz.Class.Biz!");
-
-        PersistentConnection = new DefaultRabbitMqPersistentConnection(_connectionFactory, _loggerFactory);
+        _subscriber = new Subscriber(_loggerFactory, _persistentConnection, _eventBusParameters);
     }
 
-    public async void LoadEventBus()
+    public void LoadEventBus()
     {
-        _eventBus = new EventBusRabbitMqTyped(
-            PersistentConnection, 
-            _loggerFactory, 
-            new LogEventHandler(_loggerFactory), null,
-            _eventBusParameters,
-            "LogQueueServer", CancellationToken.None);
-
-        ((IEventBusTyped)_eventBus).Subscribe<WriteLogEvent, LogEventHandler>("log");
+        _subscriber.SubscribeTyped<LogEventHandler, WriteLogEvent>(
+            EventBusName, "LogQueueServer", "log", new LogEventHandler(_loggerFactory)
+        );
     }
 
     public bool WriteLog(WriteLogEvent logEvent)
     {
-        _eventBus.Publish(logEvent);
+        ((IEventBusTyped)_subscriber.EventBus[EventBusName]).Publish(logEvent);
 
         return true;
     }
@@ -59,7 +51,7 @@ public class Biz : IBiz
     {
         foreach (var logEvent in logEvents)
         {
-            _eventBus.Publish(logEvent);
+            ((IEventBusTyped)_subscriber.EventBus[EventBusName]).Publish(logEvent);
         }
 
         return true;
@@ -67,7 +59,7 @@ public class Biz : IBiz
 
     public async ValueTask<bool> WriteLogAsync(WriteLogEvent logEvent)
     {
-        await _eventBus.Publish(logEvent).ConfigureAwait(false);
+        await ((IEventBusTyped)_subscriber.EventBus[EventBusName]).Publish(logEvent).ConfigureAwait(false);
 
         return true;
     }
@@ -76,7 +68,7 @@ public class Biz : IBiz
     {
         foreach (var logEvent in logEvents)
         {
-            await _eventBus.Publish(logEvent).ConfigureAwait(false);
+            await ((IEventBusTyped)_subscriber.EventBus[EventBusName]).Publish(logEvent).ConfigureAwait(false);
         }
 
         return true;

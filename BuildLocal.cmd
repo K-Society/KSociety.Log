@@ -20,9 +20,9 @@ msbuild Src\01\02\Host\KSociety.Log.Srv.Host\KSociety.Log.Srv.Host.csproj -t:Pub
 
 msbuild Src\01\02\Host\KSociety.Log.Srv.Host\KSociety.Log.Srv.Host.csproj -t:Publish -p:Configuration=%_C% -p:DeleteExistingFiles=true -p:TargetFramework="net7.0" -p:OutputPath=%_P%\KSociety.Log.Srv.Host\%_C%\net7.0\ || exit /b
 
-REM msbuild Src\00\KSociety.Log.Install\KSociety.Log.Install.csproj -t:restore -p:Configuration=%_C% || exit /b
+msbuild Src\00\KSociety.Log.Install\KSociety.Log.Install.csproj -t:restore -p:Configuration=%_C% || exit /b
 
-REM msbuild Src\00\KSociety.Log.Install\KSociety.Log.Install.csproj -p:Configuration=%_C% -p:TargetFramework="net461" || exit /b
+msbuild Src\00\KSociety.Log.Install\KSociety.Log.Install.csproj -p:Configuration=%_C% -p:TargetFramework="net461" || exit /b
 
 @popd
 @endlocal

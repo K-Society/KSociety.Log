@@ -18,8 +18,8 @@ environment:
   NUGET_XMLDOC_MODE: skip
   LogSystemVersion: 0.0.0.0
 
-install:
-  - ps: .\dotnet-install.ps1 -Version '7.0.100'
+#install:
+#  - ps: .\dotnet-install.ps1 -Version '7.0.100'
 
 before_build:
   - ps: dotnet --info
@@ -30,9 +30,11 @@ build:
 build_script:
   - appveyor.cmd
   
-#after_build:
-#  - ps: $logSystemPath = Resolve-Path .\Src\00\KSociety.Log.Install\K-Society.Log.exe; $array = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$logSystemPath").FileVersion -split "\."; $env:LogSystemVersion = $array[0] + "." + $array[1] + "." + $array[2]; Write-Host "$env:LogSystemVersion"
-#  - ps: Compress-Archive -LiteralPath .\Src\00\KSociety.Log.Install\K-Society.Log.exe -DestinationPath .\Src\00\KSociety.Log.Install\K-Society.Log.zip -Force
+after_build:
+  - ps: $logSystemPath = Resolve-Path .\Src\00\KSociety.Log.Install\K-Society.Log-net6.0.exe; $array = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$logSystemPath").FileVersion -split "\."; $env:LogSystemVersion = $array[0] + "." + $array[1] + "." + $array[2]; Write-Host "$env:LogSystemVersion"
+  - ps: Compress-Archive -LiteralPath .\Src\00\KSociety.Log.Install\K-Society.Log-net6.0.exe -DestinationPath .\Src\00\KSociety.Log.Install\K-Society.Log-net6.0.zip -Force
+  - ps: $logSystemPath = Resolve-Path .\Src\00\KSociety.Log.Install\K-Society.Log-net7.0.exe; $array = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$logSystemPath").FileVersion -split "\."; $env:LogSystemVersion = $array[0] + "." + $array[1] + "." + $array[2]; Write-Host "$env:LogSystemVersion"
+  - ps: Compress-Archive -LiteralPath .\Src\00\KSociety.Log.Install\K-Society.Log-net7.0.exe -DestinationPath .\Src\00\KSociety.Log.Install\K-Society.Log-net7.0.zip -Force
 
 test: off
 
@@ -51,8 +53,10 @@ skip_tags: true
 artifacts:
   - path: build\**\Release\*.nupkg
     name: nuget
-#  - path: Src\00\KSociety.Log.Install\K-Society.Log.zip
-#    name: logsysteminstaller
+  - path: Src\00\KSociety.Log.Install\K-Society.Log-net.6.0.zip
+    name: logsysteminstallernet6
+  - path: Src\00\KSociety.Log.Install\K-Society.Log-net.7.0.zip
+    name: logsysteminstallernet7
 
 deploy:
   - provider: NuGet
@@ -75,15 +79,15 @@ deploy:
     on:
       branch: master
          
-  #- provider: GitHub
-  #  release: K-Society.Log $(LogSystemVersion)
-  #  description: 'K-Society.Log $(LogSystemVersion)'
-  #  auth_token:
-  #    secure: ENcLoui/QOEIlADrbVlH5ZeIjOaJih6C65EM9p7Rs+KX45w7p8Y4J6KTHPRk5LbY
-  #  artifact: logsysteminstaller
-  #  draft: false
-  #  prerelease: false
-  #  force_update: true
-  #  tag: $(LogSystemVersion)
-  #  on:
-  #    branch: master
+  - provider: GitHub
+    release: K-Society.Log $(LogSystemVersion)
+    description: 'K-Society.Log $(LogSystemVersion)'
+    auth_token:
+      secure: ENcLoui/QOEIlADrbVlH5ZeIjOaJih6C65EM9p7Rs+KX45w7p8Y4J6KTHPRk5LbY
+    artifact: logsysteminstallernet6, logsysteminstallernet7
+    draft: false
+    prerelease: false
+    force_update: true
+    tag: $(LogSystemVersion)
+    on:
+      branch: master

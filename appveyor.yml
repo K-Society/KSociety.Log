@@ -33,7 +33,6 @@ build_script:
 after_build:
   - ps: $logSystemPath = Resolve-Path .\Src\00\KSociety.Log.Install\K-Society.Log-net6.0.exe; $array = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$logSystemPath").FileVersion -split "\."; $env:LogSystemVersion = $array[0] + "." + $array[1] + "." + $array[2]; Write-Host "$env:LogSystemVersion"
   - ps: Compress-Archive -LiteralPath .\Src\00\KSociety.Log.Install\K-Society.Log-net6.0.exe -DestinationPath .\Src\00\KSociety.Log.Install\K-Society.Log-net6.0.zip -Force
-#  - ps: $logSystemPath = Resolve-Path .\Src\00\KSociety.Log.Install\K-Society.Log-net7.0.exe; $array = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$logSystemPath").FileVersion -split "\."; $env:LogSystemVersion = $array[0] + "." + $array[1] + "." + $array[2]; Write-Host "$env:LogSystemVersion"
   - ps: Compress-Archive -LiteralPath .\Src\00\KSociety.Log.Install\K-Society.Log-net7.0.exe -DestinationPath .\Src\00\KSociety.Log.Install\K-Society.Log-net7.0.zip -Force
 
 test: off

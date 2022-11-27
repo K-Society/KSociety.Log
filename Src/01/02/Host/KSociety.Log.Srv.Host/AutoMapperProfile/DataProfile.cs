@@ -2,12 +2,13 @@
 using KSociety.Log.App.Dto.Req.Biz;
 using KSociety.Log.Biz.IntegrationEvent.Event;
 
-namespace KSociety.Log.Srv.Host.AutoMapperProfile;
-
-public class DataProfile : Profile
+namespace KSociety.Log.Srv.Host.AutoMapperProfile
 {
-    public DataProfile()
+    public class DataProfile : Profile
     {
-        CreateMap<WriteLog, WriteLogEvent>();
+        public DataProfile()
+        {
+            CreateMap<WriteLog, WriteLogEvent>();
+        }
     }
 }

@@ -6,95 +6,106 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace KSociety.Log.Srv.Agent.Biz;
-
-public class Biz : Base.Srv.Agent.Connection
+namespace KSociety.Log.Srv.Agent.Biz
 {
-    public Biz(Base.Srv.Agent.IAgentConfiguration agentConfiguration, ILoggerFactory loggerFactory)
-        : base(agentConfiguration, loggerFactory)
+    public class Biz : Base.Srv.Agent.Connection
     {
-
-    }
-
-    public WriteLog WriteLog(App.Dto.Req.Biz.WriteLog request, CancellationToken cancellationToken = default)
-    {
-        WriteLog output = new();
-        try
+        public Biz(Base.Srv.Agent.IAgentConfiguration agentConfiguration, ILoggerFactory loggerFactory)
+            : base(agentConfiguration, loggerFactory)
         {
-            using (Channel)
+
+        }
+
+        public WriteLog WriteLog(App.Dto.Req.Biz.WriteLog request, CancellationToken cancellationToken = default)
+        {
+            WriteLog output = new();
+            try
             {
-                IBiz client = Channel.CreateGrpcService<IBiz>();
+                using (Channel)
+                {
+                    IBiz client = Channel.CreateGrpcService<IBiz>();
 
-                var result = client.WriteLog(request, ConnectionOptions(cancellationToken));
+                    var result = client.WriteLog(request, ConnectionOptions(cancellationToken));
 
-                output = result;
+                    output = result;
+                }
             }
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError(GetType().FullName + "." + System.Reflection.MethodBase.GetCurrentMethod()?.Name + " - " + ex.Source + " " + ex.Message + " " + ex.StackTrace);
-        }
-        return output;
-    }
-
-    public WriteLog WriteLogs(App.Dto.Req.Biz.List.WriteLog request, CancellationToken cancellationToken = default)
-    {
-        WriteLog output = new();
-        try
-        {
-            using (Channel)
+            catch (Exception ex)
             {
-                IBiz client = Channel.CreateGrpcService<IBiz>();
-
-                var result = client.WriteLogs(request, ConnectionOptions(cancellationToken));
-
-                output = result;
+                Logger.LogError(GetType().FullName + "." + System.Reflection.MethodBase.GetCurrentMethod()?.Name +
+                                " - " + ex.Source + " " + ex.Message + " " + ex.StackTrace);
             }
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError(GetType().FullName + "." + System.Reflection.MethodBase.GetCurrentMethod()?.Name + " - " + ex.Source + " " + ex.Message + " " + ex.StackTrace);
-        }
-        return output;
-    }
 
-    public async ValueTask<WriteLog> WriteLogAsync(App.Dto.Req.Biz.WriteLog request, CancellationToken cancellationToken = default)
-    {
-        try
+            return output;
+        }
+
+        public WriteLog WriteLogs(App.Dto.Req.Biz.List.WriteLog request, CancellationToken cancellationToken = default)
         {
-            using (Channel)
+            WriteLog output = new();
+            try
             {
-                IBizAsync client = Channel.CreateGrpcService<IBizAsync>();
+                using (Channel)
+                {
+                    IBiz client = Channel.CreateGrpcService<IBiz>();
 
-                return await client.WriteLogAsync(request, ConnectionOptions(cancellationToken)).ConfigureAwait(false);
+                    var result = client.WriteLogs(request, ConnectionOptions(cancellationToken));
 
+                    output = result;
+                }
             }
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError(GetType().FullName + "." + System.Reflection.MethodBase.GetCurrentMethod()?.Name + " - " + ex.Source + " " + ex.Message + " " + ex.StackTrace);
-        }
-
-        return await new ValueTask<WriteLog>();
-    }
-
-    public async ValueTask<WriteLog> WriteLogsAsync(App.Dto.Req.Biz.List.WriteLog request, CancellationToken cancellationToken = default)
-    {
-        try
-        {
-            using (Channel)
+            catch (Exception ex)
             {
-                IBizAsync client = Channel.CreateGrpcService<IBizAsync>();
-
-                return await client.WriteLogsAsync(request, ConnectionOptions(cancellationToken)).ConfigureAwait(false);
-
+                Logger.LogError(GetType().FullName + "." + System.Reflection.MethodBase.GetCurrentMethod()?.Name +
+                                " - " + ex.Source + " " + ex.Message + " " + ex.StackTrace);
             }
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError(GetType().FullName + "." + System.Reflection.MethodBase.GetCurrentMethod()?.Name + " - " + ex.Source + " " + ex.Message + " " + ex.StackTrace);
+
+            return output;
         }
 
-        return await new ValueTask<WriteLog>();
+        public async ValueTask<WriteLog> WriteLogAsync(App.Dto.Req.Biz.WriteLog request,
+            CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                using (Channel)
+                {
+                    IBizAsync client = Channel.CreateGrpcService<IBizAsync>();
+
+                    return await client.WriteLogAsync(request, ConnectionOptions(cancellationToken))
+                        .ConfigureAwait(false);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(GetType().FullName + "." + System.Reflection.MethodBase.GetCurrentMethod()?.Name +
+                                " - " + ex.Source + " " + ex.Message + " " + ex.StackTrace);
+            }
+
+            return await new ValueTask<WriteLog>();
+        }
+
+        public async ValueTask<WriteLog> WriteLogsAsync(App.Dto.Req.Biz.List.WriteLog request,
+            CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                using (Channel)
+                {
+                    IBizAsync client = Channel.CreateGrpcService<IBizAsync>();
+
+                    return await client.WriteLogsAsync(request, ConnectionOptions(cancellationToken))
+                        .ConfigureAwait(false);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(GetType().FullName + "." + System.Reflection.MethodBase.GetCurrentMethod()?.Name +
+                                " - " + ex.Source + " " + ex.Message + " " + ex.StackTrace);
+            }
+
+            return await new ValueTask<WriteLog>();
+        }
     }
 }

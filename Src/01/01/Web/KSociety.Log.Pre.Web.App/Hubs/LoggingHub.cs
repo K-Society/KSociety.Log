@@ -2,19 +2,20 @@
 using KSociety.Log.Srv.Dto;
 using Microsoft.AspNetCore.SignalR;
 
-namespace KSociety.Log.Pre.Web.App.Hubs;
-
-public class LoggingHub : Hub<ILoggingHub>
+namespace KSociety.Log.Pre.Web.App.Hubs
 {
-    [HubMethodName("SendLog")]
-    public async Task SendLog(LogEvent logEvent)
+    public class LoggingHub : Hub<ILoggingHub>
     {
-        await Clients.Others.ReceiveLog(logEvent).ConfigureAwait(false);
-    }
+        [HubMethodName("SendLog")]
+        public async Task SendLog(LogEvent logEvent)
+        {
+            await Clients.Others.ReceiveLog(logEvent).ConfigureAwait(false);
+        }
 
-    //[HubMethodName("SendLogMessage")]
-    //public async Task SendLogMessage(string logMessage)
-    //{
-    //    await Clients.Others.ReceiveLogMessage(logMessage);
-    //}
+        //[HubMethodName("SendLogMessage")]
+        //public async Task SendLogMessage(string logMessage)
+        //{
+        //    await Clients.Others.ReceiveLogMessage(logMessage);
+        //}
+    }
 }

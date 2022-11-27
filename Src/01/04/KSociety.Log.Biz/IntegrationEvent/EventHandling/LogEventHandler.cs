@@ -5,35 +5,36 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace KSociety.Log.Biz.IntegrationEvent.EventHandling;
-
-public class LogEventHandler : IIntegrationEventHandler<WriteLogEvent>
+namespace KSociety.Log.Biz.IntegrationEvent.EventHandling
 {
-    private readonly ILoggerFactory _loggerFactory;
-    private ILogger _logger;
-
-    public LogEventHandler(
-        ILoggerFactory loggerFactory
-    )
+    public class LogEventHandler : IIntegrationEventHandler<WriteLogEvent>
     {
-        _loggerFactory = loggerFactory;
-    }
+        private readonly ILoggerFactory _loggerFactory;
+        private ILogger _logger;
 
-    public async ValueTask Handle(WriteLogEvent @event, CancellationToken cancellationToken = default)
-    {
-
-        await Task.Run(() =>
+        public LogEventHandler(
+            ILoggerFactory loggerFactory
+        )
         {
-            try
-            {
-                _logger = _loggerFactory.CreateLogger(@event.LoggerName);
-                _logger.Log((LogLevel)@event.Level, @event.Message);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("LogEventHandler: " + ex.Message + " - " + ex.StackTrace);
-            }
+            _loggerFactory = loggerFactory;
+        }
 
-        }, cancellationToken).ConfigureAwait(false);
+        public async ValueTask Handle(WriteLogEvent @event, CancellationToken cancellationToken = default)
+        {
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    _logger = _loggerFactory.CreateLogger(@event.LoggerName);
+                    _logger.Log((LogLevel)@event.Level, @event.Message);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("LogEventHandler: " + ex.Message + " - " + ex.StackTrace);
+                }
+
+            }, cancellationToken).ConfigureAwait(false);
+        }
     }
 }

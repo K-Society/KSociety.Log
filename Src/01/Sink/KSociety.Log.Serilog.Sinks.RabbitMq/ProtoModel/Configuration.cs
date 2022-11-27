@@ -3,24 +3,25 @@ using KSociety.Base.App.Shared;
 using KSociety.Log.App.Dto.Req.Biz;
 using KSociety.Log.Biz.IntegrationEvent.Event;
 
-namespace KSociety.Log.Serilog.Sinks.RabbitMq.ProtoModel;
-
-public static class Configuration
+namespace KSociety.Log.Serilog.Sinks.RabbitMq.ProtoModel
 {
-    public static void ProtoBufConfiguration()
+    public static class Configuration
     {
-        try
+        public static void ProtoBufConfiguration()
         {
-            //IntegrationEvent
-            ProtoBuf.Meta.RuntimeTypeModel.Default.Add(typeof(IntegrationLogEvent), true)
-                .AddSubType(6000, typeof(WriteLogEvent));
+            try
+            {
+                //IntegrationEvent
+                ProtoBuf.Meta.RuntimeTypeModel.Default.Add(typeof(IntegrationLogEvent), true)
+                    .AddSubType(6000, typeof(WriteLogEvent));
 
-            ProtoBuf.Meta.RuntimeTypeModel.Default.Add(typeof(AppList<WriteLog>), true)
-                .AddSubType(6001, typeof(App.Dto.Req.Biz.List.WriteLog));
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Configuration " + ex.Message + " " + ex.StackTrace);
+                ProtoBuf.Meta.RuntimeTypeModel.Default.Add(typeof(AppList<WriteLog>), true)
+                    .AddSubType(6001, typeof(App.Dto.Req.Biz.List.WriteLog));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Configuration " + ex.Message + " " + ex.StackTrace);
+            }
         }
     }
 }

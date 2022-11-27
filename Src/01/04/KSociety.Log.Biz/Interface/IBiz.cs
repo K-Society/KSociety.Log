@@ -2,13 +2,14 @@
 using System.Threading.Tasks;
 using KSociety.Log.Biz.IntegrationEvent.Event;
 
-namespace KSociety.Log.Biz.Interface;
-
-public interface IBiz
+namespace KSociety.Log.Biz.Interface
 {
-    void LoadEventBus();
-    bool WriteLog(WriteLogEvent logEvent);
-    bool WriteLogs(IEnumerable<WriteLogEvent> logEvents);
-    ValueTask<bool> WriteLogAsync(WriteLogEvent logEvent);
-    ValueTask<bool> WriteLogsAsync(IEnumerable<WriteLogEvent> logEvents);
+    public interface IBiz
+    {
+        void LoadEventBus();
+        bool WriteLog(WriteLogEvent logEvent);
+        bool WriteLogs(IEnumerable<WriteLogEvent> logEvents);
+        ValueTask<bool> WriteLogAsync(WriteLogEvent logEvent);
+        ValueTask<bool> WriteLogsAsync(IEnumerable<WriteLogEvent> logEvents);
+    }
 }

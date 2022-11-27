@@ -6,41 +6,44 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR;
-
-public class SignalRSink : IBatchedLogEventSink
+namespace KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR
 {
-    private readonly ITextFormatter _formatter;
-    private readonly HubProxy _proxy;
-
-    private ILoggerFactory _loggerFactory { get; }
-
-    public SignalRSink(SignalRSinkConfiguration signalRSinkConfiguration, HubProxy proxy)
+    public class SignalRSink : IBatchedLogEventSink
     {
-        _formatter = signalRSinkConfiguration.TextFormatter;
-        _proxy = proxy;
+        private readonly ITextFormatter _formatter;
+        private readonly HubProxy _proxy;
 
-        _loggerFactory = LoggerFactory.Create(builder =>
+        private ILoggerFactory _loggerFactory { get; }
+
+        public SignalRSink(SignalRSinkConfiguration signalRSinkConfiguration, HubProxy proxy)
         {
-            builder
-                .AddFilter("Microsoft", LogLevel.Warning)
-                .AddFilter("System", LogLevel.Warning);
-        });
-    }
+            _formatter = signalRSinkConfiguration.TextFormatter;
+            _proxy = proxy;
 
-    public async Task EmitBatchAsync(IEnumerable<LogEvent> events)
-    {
-        foreach (var logEvent in events)
-        {
-            var sw = new StringWriter();
-            _formatter.Format(logEvent, sw);
-
-            await _proxy.Log(new Srv.Dto.LogEvent(sw.ToString(), logEvent.Timestamp.DateTime, 1, (int)logEvent.Level, "LoggerName")).ConfigureAwait(false);
+            _loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder
+                    .AddFilter("Microsoft", LogLevel.Warning)
+                    .AddFilter("System", LogLevel.Warning);
+            });
         }
-    }
 
-    public Task OnEmptyBatchAsync()
-    {
-        return Task.CompletedTask;
+        public async Task EmitBatchAsync(IEnumerable<LogEvent> events)
+        {
+            foreach (var logEvent in events)
+            {
+                var sw = new StringWriter();
+                _formatter.Format(logEvent, sw);
+
+                await _proxy
+                    .Log(new Srv.Dto.LogEvent(sw.ToString(), logEvent.Timestamp.DateTime, 1, (int)logEvent.Level,
+                        "LoggerName")).ConfigureAwait(false);
+            }
+        }
+
+        public Task OnEmptyBatchAsync()
+        {
+            return Task.CompletedTask;
+        }
     }
 }

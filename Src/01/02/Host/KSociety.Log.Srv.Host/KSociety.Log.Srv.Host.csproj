@@ -4,6 +4,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Worker">
 
   <PropertyGroup>
+    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
     <UserSecretsId>dotnet-KSociety.Log.Srv.Host-9F369CD8-A40D-408E-AFC4-E87EEA70C3B6</UserSecretsId>
     <OutputType>Exe</OutputType>
   </PropertyGroup>

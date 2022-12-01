@@ -17,63 +17,16 @@ namespace KSociety.Log.Install
             System.Diagnostics.FileVersionInfo fileVersionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
             _logSystemVersion = fileVersionInfo.FileVersion;
 
-            var productMsiUninstall5 = BuildMsiUninstall("net5.0");
             var productMsiUninstall6 = BuildMsiUninstall("net6.0");
             var productMsiUninstall7 = BuildMsiUninstall("net7.0");
-            var productMsiLogPresenter5 = BuildMsiLogPresenter("net5.0");
-            var productMsiLogServer5 = BuildMsiLogServer("net5.0");
             var productMsiLogPresenter6 = BuildMsiLogPresenter("net6.0");
             var productMsiLogServer6 = BuildMsiLogServer("net6.0");
             var productMsiLogPresenter7 = BuildMsiLogPresenter("net7.0");
             var productMsiLogServer7 = BuildMsiLogServer("net7.0");
-            var productMsiRegistryX86_5 = BuildMsiRegistryX86("net5.0");
-            var productMsiRegistryX64_5 = BuildMsiRegistryX64("net5.0");
             var productMsiRegistryX86_6 = BuildMsiRegistryX86("net6.0");
             var productMsiRegistryX64_6 = BuildMsiRegistryX64("net6.0");
             var productMsiRegistryX86_7 = BuildMsiRegistryX86("net7.0");
             var productMsiRegistryX64_7 = BuildMsiRegistryX64("net7.0");
-
-            var bootstrapper5 =
-                new Bundle(Product + @"-net5.0",
-                        new MsiPackage(productMsiUninstall5)
-                        {
-                            DisplayInternalUI = false,
-                            Compressed = true,
-                            Visible = false,
-                            Cache = false,
-                            MsiProperties = "UNINSTALLER_PATH=[UNINSTALLER_PATH]"
-                        },
-                        new MsiPackage(productMsiLogPresenter5)
-                        {
-                            DisplayInternalUI = false,
-                            Compressed = true,
-                            Visible = false
-                        },
-                        new MsiPackage(productMsiLogServer5)
-                        {
-                            DisplayInternalUI = false,
-                            Compressed = true,
-                            Visible = false
-                        },
-                        new MsiPackage(productMsiRegistryX86_5) { DisplayInternalUI = false, Compressed = true, InstallCondition = "NOT VersionNT64" },
-                        new MsiPackage(productMsiRegistryX64_5) { DisplayInternalUI = false, Compressed = true, InstallCondition = "VersionNT64" }
-                    )
-                {
-                    UpgradeCode = new Guid("4CEE3973-CD06-4ABD-A7F6-FDE16EA3F477"),
-                    Version = new Version(_logSystemVersion),
-                    Manufacturer = Manufacturer,
-                    AboutUrl = "https://github.com/K-Society/KSociety.Log",
-                    Variables = new[]
-                        {
-                            new Variable("UNINSTALLER_PATH",
-                                $@"{Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)}\{"Package Cache"}\{"[WixBundleProviderKey]"}\{Manufacturer + "." + Product}-net5.0.exe")
-                        }
-
-                };
-
-            bootstrapper5.Build(Manufacturer + "." + Product + "-net5.0.exe");
-
-            //
 
             var bootstrapper6 =
                 new Bundle(Product + @"-net6.0",
@@ -157,11 +110,6 @@ namespace KSociety.Log.Install
 
             bootstrapper7.Build(Manufacturer + "." + Product + "-net7.0.exe");
 
-            if (System.IO.File.Exists(productMsiUninstall5))
-            {
-                System.IO.File.Delete(productMsiUninstall5);
-            }
-
             if (System.IO.File.Exists(productMsiUninstall6))
             {
                 System.IO.File.Delete(productMsiUninstall6);
@@ -170,16 +118,6 @@ namespace KSociety.Log.Install
             if (System.IO.File.Exists(productMsiUninstall7))
             {
                 System.IO.File.Delete(productMsiUninstall7);
-            }
-
-            if (System.IO.File.Exists(productMsiLogPresenter5))
-            {
-                System.IO.File.Delete(productMsiLogPresenter5);
-            }
-
-            if (System.IO.File.Exists(productMsiLogServer5))
-            {
-                System.IO.File.Delete(productMsiLogServer5);
             }
 
             if (System.IO.File.Exists(productMsiLogPresenter6))
@@ -201,9 +139,6 @@ namespace KSociety.Log.Install
             {
                 System.IO.File.Delete(productMsiLogServer7);
             }
-
-            if (System.IO.File.Exists(productMsiRegistryX86_5)) { System.IO.File.Delete(productMsiRegistryX86_5); }
-            if (System.IO.File.Exists(productMsiRegistryX64_5)) { System.IO.File.Delete(productMsiRegistryX64_5); }
 
             if (System.IO.File.Exists(productMsiRegistryX86_6)) { System.IO.File.Delete(productMsiRegistryX86_6); }
             if (System.IO.File.Exists(productMsiRegistryX64_6)) { System.IO.File.Delete(productMsiRegistryX64_6); }

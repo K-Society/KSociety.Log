@@ -4,6 +4,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Worker">
 
   <PropertyGroup>
+    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
     <UserSecretsId>dotnet-KSociety.Log.Srv.Host-9F369CD8-A40D-408E-AFC4-E87EEA70C3B6</UserSecretsId>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
@@ -16,7 +17,7 @@
     <PackageReference Include="Nerdbank.GitVersioning" Version="3.5.119" PrivateAssets="All" />
     <PackageReference Include="protobuf-net.Grpc.AspNetCore" Version="1.0.179" />
     <PackageReference Include="Serilog" Version="2.12.0" />
-    <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
+    <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
     <PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0" />
     <PackageReference Include="Serilog.Enrichers.Process" Version="2.0.2" />
     <PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />

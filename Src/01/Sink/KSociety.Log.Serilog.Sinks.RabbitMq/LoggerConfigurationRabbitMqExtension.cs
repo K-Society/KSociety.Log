@@ -25,12 +25,12 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
             Action<ConnectionFactory, IExchangeDeclareParameters, IQueueDeclareParameters, RabbitMqSinkConfiguration>
                 configure)
         {
-            ConnectionFactory connectionFactory = new();
+            ConnectionFactory connectionFactory = new ConnectionFactory();
             IExchangeDeclareParameters exchangeDeclareParameters = new ExchangeDeclareParameters();
             IQueueDeclareParameters queueDeclareParameters = new QueueDeclareParameters();
             IEventBusParameters eventBusParameters =
                 new EventBusParameters(exchangeDeclareParameters, queueDeclareParameters, false);
-            RabbitMqSinkConfiguration sinkConfiguration = new();
+            RabbitMqSinkConfiguration sinkConfiguration = new RabbitMqSinkConfiguration();
             configure(connectionFactory, exchangeDeclareParameters, queueDeclareParameters, sinkConfiguration);
 
             return RegisterSink(loggerConfiguration, connectionFactory, eventBusParameters, sinkConfiguration);
@@ -104,7 +104,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
                 new QueueDeclareParameters(queueDurable, queueExclusive, queueAutoDelete);
             IEventBusParameters eventBusParameters =
                 new EventBusParameters(exchangeDeclareParameters, queueDeclareParameters, false);
-            RabbitMqSinkConfiguration sinkConfiguration = new()
+            RabbitMqSinkConfiguration sinkConfiguration = new RabbitMqSinkConfiguration()
             {
                 BatchPostingLimit = batchPostingLimit, Period = period, TextFormatter = textFormatter
             };

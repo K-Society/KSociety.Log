@@ -4,7 +4,7 @@ using KSociety.Base.EventBus;
 using KSociety.Base.EventBus.Abstractions.EventBus;
 using KSociety.Base.EventBusRabbitMQ;
 using KSociety.Base.EventBusRabbitMQ.Helper;
-using KSociety.Log.Biz.IntegrationEvent.Event;
+using KSociety.Log.Biz.Event;
 using KSociety.Log.Biz.IntegrationEvent.EventHandling;
 using KSociety.Log.Biz.Interface;
 using Microsoft.Extensions.Logging;

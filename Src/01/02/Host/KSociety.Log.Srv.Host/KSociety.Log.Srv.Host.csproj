@@ -32,7 +32,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\03\KSociety.Log.App.ReqHdlr\KSociety.Log.App.ReqHdlr.csproj" />
-    <ProjectReference Include="..\..\..\04\KSociety.Log.Biz\KSociety.Log.Biz.csproj" />
     <ProjectReference Include="..\..\..\Sink\KSociety.Log.Serilog.Sinks.RabbitMq\KSociety.Log.Serilog.Sinks.RabbitMq.csproj" />
     <ProjectReference Include="..\..\..\Sink\KSociety.Log.Serilog.Sinks.SignalR\KSociety.Log.Serilog.Sinks.SignalR.csproj" />
     <ProjectReference Include="..\..\KSociety.Log.Srv.Behavior\KSociety.Log.Srv.Behavior.csproj" />

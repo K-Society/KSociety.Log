@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using KSociety.Base.App.Shared;
 using KSociety.Log.App.Dto.Req.Biz;
-using KSociety.Log.Biz.IntegrationEvent.Event;
+using KSociety.Log.Biz.Event;
 using KSociety.Log.Biz.Interface;
 using Microsoft.Extensions.Logging;
 

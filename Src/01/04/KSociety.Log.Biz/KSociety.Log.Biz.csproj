@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\02\KSociety.Log.Srv.Dto\KSociety.Log.Srv.Dto.csproj" />
+    <ProjectReference Include="..\KSociety.Log.Biz.Event\KSociety.Log.Biz.Event.csproj" />
   </ItemGroup>
 
 </Project>

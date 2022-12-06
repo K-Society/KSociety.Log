@@ -1,5 +1,5 @@
 ﻿using KSociety.Base.EventBus.Abstractions.Handler;
-using KSociety.Log.Biz.IntegrationEvent.Event;
+using KSociety.Log.Biz.Event;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;

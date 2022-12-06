@@ -1,7 +1,7 @@
 ﻿using System;
 using KSociety.Base.App.Shared;
 using KSociety.Log.App.Dto.Req.Biz;
-using KSociety.Log.Biz.IntegrationEvent.Event;
+using KSociety.Log.Biz.Event;
 
 namespace KSociety.Log.Serilog.Sinks.RabbitMq.ProtoModel
 {

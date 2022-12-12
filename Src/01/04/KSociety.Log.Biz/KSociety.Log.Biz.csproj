@@ -12,7 +12,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="KSociety.Base.EventBusRabbitMQ" Version="1.1.18" />
+    <PackageReference Include="KSociety.Base.EventBusRabbitMQ" Version="1.1.29" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\02\KSociety.Log.Srv.Dto\KSociety.Log.Srv.Dto.csproj" />
+    <ProjectReference Include="..\KSociety.Log.Biz.Event\KSociety.Log.Biz.Event.csproj" />
   </ItemGroup>
 
 </Project>

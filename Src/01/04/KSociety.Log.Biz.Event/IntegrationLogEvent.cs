@@ -1,6 +1,6 @@
 ﻿using ProtoBuf;
 
-namespace KSociety.Log.Biz.IntegrationEvent.Event
+namespace KSociety.Log.Biz.Event
 {
     [ProtoContract]
     public class IntegrationLogEvent : KSociety.Base.EventBus.Events.IntegrationEvent

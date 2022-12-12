@@ -1,7 +1,7 @@
-﻿using System;
-using ProtoBuf;
+﻿using ProtoBuf;
+using System;
 
-namespace KSociety.Log.Biz.IntegrationEvent.Event
+namespace KSociety.Log.Biz.Event
 {
     [ProtoContract]
     public class WriteLogEvent : IntegrationLogEvent

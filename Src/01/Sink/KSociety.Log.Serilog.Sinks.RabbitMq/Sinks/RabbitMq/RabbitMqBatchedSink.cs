@@ -1,7 +1,7 @@
 ﻿using KSociety.Base.EventBus;
 using KSociety.Base.EventBus.Abstractions.EventBus;
 using KSociety.Base.EventBusRabbitMQ;
-using KSociety.Log.Biz.IntegrationEvent.Event;
+using KSociety.Log.Biz.Event;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using Serilog.Events;

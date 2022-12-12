@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using KSociety.Log.Biz.Event;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using KSociety.Log.Biz.IntegrationEvent.Event;
 
 namespace KSociety.Log.Biz.Interface
 {

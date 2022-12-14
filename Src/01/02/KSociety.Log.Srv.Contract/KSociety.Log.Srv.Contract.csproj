@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\03\KSociety.Log.App.Dto\KSociety.Log.App.Dto.csproj" />
-    <ProjectReference Include="..\KSociety.Log.Srv.Dto\KSociety.Log.Srv.Dto.csproj" />
   </ItemGroup>
 
 </Project>

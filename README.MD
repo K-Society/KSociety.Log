@@ -25,7 +25,7 @@ If you work in localhost you will need to install the following applications:
 - [RabbitMQ](https://github.com/K-Society/KSociety.RabbitMQ.Install/releases)
 - [KSociety.Log](https://github.com/K-Society/KSociety.Log/releases)
 
-
+In your project install KSociety.Log.Serilog.Sinks.RabbitMq nuget package.
 Remember to set the "Copy to Output Directory" option of the appsettings.json file to "Copy if newer".\
 Add the following section in the appsettings.json file of your application:
 

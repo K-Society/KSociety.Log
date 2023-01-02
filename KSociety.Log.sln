@@ -68,7 +68,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Serilog.Sinks.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Serilog.Sinks.Grpc", "Src\01\Sink\KSociety.Log.Serilog.Sinks.Grpc\KSociety.Log.Serilog.Sinks.Grpc.csproj", "{B0C9D544-D441-4709-B2BF-194E6C2F10B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSociety.Log.Biz.Event", "Src\01\04\KSociety.Log.Biz.Event\KSociety.Log.Biz.Event.csproj", "{42518DDF-9199-458C-AFB7-330C3A6C56C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Biz.Event", "Src\01\04\KSociety.Log.Biz.Event\KSociety.Log.Biz.Event.csproj", "{42518DDF-9199-458C-AFB7-330C3A6C56C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

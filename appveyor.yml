@@ -28,7 +28,7 @@ build:
   verbosity: minimal
 
 build_script:
-  - appveyor.cmd
+  - build.cmd
   
 after_build:
   - ps: $logSystemPath = Resolve-Path .\Src\00\KSociety.Log.Install\K-Society.Log-net6.0.exe; $array = [System.Diagnostics.FileVersionInfo]::GetVersionInfo("$logSystemPath").FileVersion -split "\."; $env:LogSystemVersion = $array[0] + "." + $array[1] + "." + $array[2]; Write-Host "$env:LogSystemVersion"

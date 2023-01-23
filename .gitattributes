@@ -44,8 +44,6 @@
 #*.png   binary
 #*.gif   binary
 
-core.eol crlf
-
 ###############################################################################
 # diff behavior for common document formats
 # 

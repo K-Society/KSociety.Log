@@ -27,7 +27,7 @@ msbuild Src\00\KSociety.Log.Install\KSociety.Log.Install.csproj -p:Configuration
 
 goto LExit
 
-:StartDeveloperCommandPrompt
+:StartDeveloperCommandPrompt\r\n
 
 echo Initializing developer command prompt
 

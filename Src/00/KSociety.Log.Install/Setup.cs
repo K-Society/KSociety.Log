@@ -23,10 +23,10 @@ namespace KSociety.Log.Install
             var productMsiLogServer6 = BuildMsiLogServer("net6.0");
             var productMsiLogPresenter7 = BuildMsiLogPresenter("net7.0");
             var productMsiLogServer7 = BuildMsiLogServer("net7.0");
-            var productMsiRegistryX86_6 = BuildMsiRegistryX86("net6.0");
-            var productMsiRegistryX64_6 = BuildMsiRegistryX64("net6.0");
-            var productMsiRegistryX86_7 = BuildMsiRegistryX86("net7.0");
-            var productMsiRegistryX64_7 = BuildMsiRegistryX64("net7.0");
+            //var productMsiRegistryX86_6 = BuildMsiRegistryX86("net6.0");
+            //var productMsiRegistryX64_6 = BuildMsiRegistryX64("net6.0");
+            //var productMsiRegistryX86_7 = BuildMsiRegistryX86("net7.0");
+            //var productMsiRegistryX64_7 = BuildMsiRegistryX64("net7.0");
 
             var bootstrapper6 =
                 new Bundle(Product + @"-net6.0",
@@ -49,9 +49,9 @@ namespace KSociety.Log.Install
                             DisplayInternalUI = false,
                             Compressed = true,
                             Visible = false
-                        },
-                        new MsiPackage(productMsiRegistryX86_6) { DisplayInternalUI = false, Compressed = true, InstallCondition = "NOT VersionNT64" },
-                        new MsiPackage(productMsiRegistryX64_6) { DisplayInternalUI = false, Compressed = true, InstallCondition = "VersionNT64" }
+                        }
+                        //new MsiPackage(productMsiRegistryX86_6) { DisplayInternalUI = false, Compressed = true, InstallCondition = "NOT VersionNT64" },
+                        //new MsiPackage(productMsiRegistryX64_6) { DisplayInternalUI = false, Compressed = true, InstallCondition = "VersionNT64" }
                     )
                     {
                         UpgradeCode = new Guid("97C9A7F8-AFBB-4634-AD96-91EBC5F07419"),
@@ -91,9 +91,9 @@ namespace KSociety.Log.Install
                             DisplayInternalUI = false,
                             Compressed = true,
                             Visible = false
-                        },
-                        new MsiPackage(productMsiRegistryX86_7) { DisplayInternalUI = false, Compressed = true, InstallCondition = "NOT VersionNT64" },
-                        new MsiPackage(productMsiRegistryX64_7) { DisplayInternalUI = false, Compressed = true, InstallCondition = "VersionNT64" }
+                        }
+                        //new MsiPackage(productMsiRegistryX86_7) { DisplayInternalUI = false, Compressed = true, InstallCondition = "NOT VersionNT64" },
+                        //new MsiPackage(productMsiRegistryX64_7) { DisplayInternalUI = false, Compressed = true, InstallCondition = "VersionNT64" }
                     )
                 {
                     UpgradeCode = new Guid("ED601A62-1CA0-4AC1-A165-1627CCCC39F8"),
@@ -140,11 +140,11 @@ namespace KSociety.Log.Install
                 System.IO.File.Delete(productMsiLogServer7);
             }
 
-            if (System.IO.File.Exists(productMsiRegistryX86_6)) { System.IO.File.Delete(productMsiRegistryX86_6); }
-            if (System.IO.File.Exists(productMsiRegistryX64_6)) { System.IO.File.Delete(productMsiRegistryX64_6); }
+            //if (System.IO.File.Exists(productMsiRegistryX86_6)) { System.IO.File.Delete(productMsiRegistryX86_6); }
+            //if (System.IO.File.Exists(productMsiRegistryX64_6)) { System.IO.File.Delete(productMsiRegistryX64_6); }
 
-            if (System.IO.File.Exists(productMsiRegistryX86_7)) { System.IO.File.Delete(productMsiRegistryX86_7); }
-            if (System.IO.File.Exists(productMsiRegistryX64_7)) { System.IO.File.Delete(productMsiRegistryX64_7); }
+            //if (System.IO.File.Exists(productMsiRegistryX86_7)) { System.IO.File.Delete(productMsiRegistryX86_7); }
+            //if (System.IO.File.Exists(productMsiRegistryX64_7)) { System.IO.File.Delete(productMsiRegistryX64_7); }
         }
 
         private static string BuildMsiUninstall(string version)
@@ -372,90 +372,90 @@ namespace KSociety.Log.Install
             return project.BuildMsi();
         }
 
-        private static string BuildMsiRegistryX86(string version)
-        {
-            var projectGuid = Guid.Empty;
-            if (version.Equals("net5.0"))
-            {
-                projectGuid = new Guid("3603A315-AFE5-43BC-9AB2-C02097E98BD4");
-            }
-            else if (version.Equals("net6.0"))
-            {
-                projectGuid = new Guid("A6B0ABD7-7443-48CA-A419-304C5EAF27F4");
-            }
-            else if (version.Equals("net7.0"))
-            {
-                projectGuid = new Guid("B06D2D3D-64D7-4CE0-B868-C6299E9127A1");
-            }
+        //private static string BuildMsiRegistryX86(string version)
+        //{
+        //    var projectGuid = Guid.Empty;
+        //    if (version.Equals("net5.0"))
+        //    {
+        //        projectGuid = new Guid("3603A315-AFE5-43BC-9AB2-C02097E98BD4");
+        //    }
+        //    else if (version.Equals("net6.0"))
+        //    {
+        //        projectGuid = new Guid("A6B0ABD7-7443-48CA-A419-304C5EAF27F4");
+        //    }
+        //    else if (version.Equals("net7.0"))
+        //    {
+        //        projectGuid = new Guid("B06D2D3D-64D7-4CE0-B868-C6299E9127A1");
+        //    }
 
-            Compiler.AutoGeneration.InstallDirDefaultId = null;
-            var registry = new Feature("RegistryX86");
-            var project =
-                new Project(Product + " RegistryX86 " + version,
-                    new RegKey(registry, RegistryHive.LocalMachine, @"SOFTWARE\" + Manufacturer + @"\" + Product + @"\" + version,
+        //    Compiler.AutoGeneration.InstallDirDefaultId = null;
+        //    var registry = new Feature("RegistryX86");
+        //    var project =
+        //        new Project(Product + " RegistryX86 " + version,
+        //            new RegKey(registry, RegistryHive.LocalMachine, @"SOFTWARE\" + Manufacturer + @"\" + Product + @"\" + version,
 
-                        new RegValue("Version", _logSystemVersion)),
+        //                new RegValue("Version", _logSystemVersion)),
 
-                    new RemoveRegistryValue(registry, @"SOFTWARE\" + Manufacturer + @"\" + Product + @"\" + version )
-                )
-                {
+        //            new RemoveRegistryValue(registry, @"SOFTWARE\" + Manufacturer + @"\" + Product + @"\" + version )
+        //        )
+        //        {
 
-                    InstallScope = InstallScope.perMachine,
+        //            InstallScope = InstallScope.perMachine,
 
-                    Version = new Version("1.0.0.0"),
-                    GUID = projectGuid,
-                    UI = WUI.WixUI_ProgressOnly,
-                    ControlPanelInfo = new ProductInfo
-                    {
-                        Manufacturer = Manufacturer
-                    }
-                };
+        //            Version = new Version("1.0.0.0"),
+        //            GUID = projectGuid,
+        //            UI = WUI.WixUI_ProgressOnly,
+        //            ControlPanelInfo = new ProductInfo
+        //            {
+        //                Manufacturer = Manufacturer
+        //            }
+        //        };
 
-            return project.BuildMsi();
-        }// BuildMsiRegistryX86.
+        //    return project.BuildMsi();
+        //}// BuildMsiRegistryX86.
 
-        private static string BuildMsiRegistryX64(string version)
-        {
-            var projectGuid = Guid.Empty;
-            if (version.Equals("net5.0"))
-            {
-                projectGuid = new Guid("9696B664-7C2B-4CF9-9DD1-D46FAA56D50C");
-            }
-            else if (version.Equals("net6.0"))
-            {
-                projectGuid = new Guid("A6B0ABD7-7443-48CA-A419-304C5EAF27F4");
-            }
-            else if (version.Equals("net7.0"))
-            {
-                projectGuid = new Guid("E35BBEFC-9345-4456-8137-96C2F057A61C");
-            }
-            Compiler.AutoGeneration.InstallDirDefaultId = null;
-            var registry = new Feature("RegistryX64");
-            var project =
-                new Project(Product + " RegistryX64 " + version,
-                    new RegKey(registry, RegistryHive.LocalMachine, @"SOFTWARE\" + Manufacturer + @"\" + Product + @"\" + version,
+        //private static string BuildMsiRegistryX64(string version)
+        //{
+        //    var projectGuid = Guid.Empty;
+        //    if (version.Equals("net5.0"))
+        //    {
+        //        projectGuid = new Guid("9696B664-7C2B-4CF9-9DD1-D46FAA56D50C");
+        //    }
+        //    else if (version.Equals("net6.0"))
+        //    {
+        //        projectGuid = new Guid("A6B0ABD7-7443-48CA-A419-304C5EAF27F4");
+        //    }
+        //    else if (version.Equals("net7.0"))
+        //    {
+        //        projectGuid = new Guid("E35BBEFC-9345-4456-8137-96C2F057A61C");
+        //    }
+        //    Compiler.AutoGeneration.InstallDirDefaultId = null;
+        //    var registry = new Feature("RegistryX64");
+        //    var project =
+        //        new Project(Product + " RegistryX64 " + version,
+        //            new RegKey(registry, RegistryHive.LocalMachine, @"SOFTWARE\" + Manufacturer + @"\" + Product + @"\" + version,
 
-                        new RegValue("Version", _logSystemVersion))
-                    {
-                        Win64 = true
-                    },
+        //                new RegValue("Version", _logSystemVersion))
+        //            {
+        //                Win64 = true
+        //            },
 
-                    new RemoveRegistryValue(registry, @"SOFTWARE\" + Manufacturer + @"\" + Product + @"\" + version)
-                )
-                {
+        //            new RemoveRegistryValue(registry, @"SOFTWARE\" + Manufacturer + @"\" + Product + @"\" + version)
+        //        )
+        //        {
 
-                    InstallScope = InstallScope.perMachine,
-                    Platform = Platform.x64,
-                    Version = new Version("1.0.0.0"),
-                    GUID = projectGuid,
-                    UI = WUI.WixUI_ProgressOnly,
-                    ControlPanelInfo = new ProductInfo
-                    {
-                        Manufacturer = Manufacturer
-                    }
-                };
+        //            InstallScope = InstallScope.perMachine,
+        //            Platform = Platform.x64,
+        //            Version = new Version("1.0.0.0"),
+        //            GUID = projectGuid,
+        //            UI = WUI.WixUI_ProgressOnly,
+        //            ControlPanelInfo = new ProductInfo
+        //            {
+        //                Manufacturer = Manufacturer
+        //            }
+        //        };
 
-            return project.BuildMsi();
-        }// BuildMsiRegistryX64.
+        //    return project.BuildMsi();
+        //}// BuildMsiRegistryX64.
     }
 }

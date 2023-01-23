@@ -23,6 +23,10 @@ namespace KSociety.Log.Install
             var productMsiLogServer6 = BuildMsiLogServer("net6.0");
             var productMsiLogPresenter7 = BuildMsiLogPresenter("net7.0");
             var productMsiLogServer7 = BuildMsiLogServer("net7.0");
+            //var productMsiRegistryX86_6 = BuildMsiRegistryX86("net6.0");
+            //var productMsiRegistryX64_6 = BuildMsiRegistryX64("net6.0");
+            //var productMsiRegistryX86_7 = BuildMsiRegistryX86("net7.0");
+            //var productMsiRegistryX64_7 = BuildMsiRegistryX64("net7.0");
 
             var bootstrapper6 =
                 new Bundle(Product + @"-net6.0",

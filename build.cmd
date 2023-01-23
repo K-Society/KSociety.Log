@@ -1,7 +1,7 @@
 @setlocal
 @pushd %~dp0
 @set _C=Release
-@set _P=%~dp0build\%_C%\publish
+@set _P=%~dp0build
 
 @if "%VCToolsVersion%"=="" call :StartDeveloperCommandPrompt || exit /b
 

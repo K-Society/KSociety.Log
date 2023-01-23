@@ -25,7 +25,7 @@ before_build:
   - ps: dotnet --info
 
 build:
-  verbosity: minimal
+  verbosity: detailed #minimal
 
 build_script:
   - build.cmd

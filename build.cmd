@@ -28,7 +28,6 @@ msbuild Src\00\KSociety.Log.Install\KSociety.Log.Install.csproj -p:Configuration
 goto LExit
 
 :StartDeveloperCommandPrompt
-
 echo Initializing developer command prompt
 
 if not exist "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" (

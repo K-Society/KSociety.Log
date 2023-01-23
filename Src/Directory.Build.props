@@ -6,7 +6,6 @@
     <TargetFrameworks>netstandard2.1</TargetFrameworks>
 	
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <!--MSBuildErrorsAsMessages>NU1202</MSBuildErrorsAsMessages-->
 
     <ProjectName Condition=" '$(ProjectName)' == '' ">$(MSBuildProjectName)</ProjectName>
     <BaseOutputPath>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\build\$(ProjectName)\))</BaseOutputPath>
@@ -17,9 +16,9 @@
 
     <Authors>K-Society Team</Authors>
     <Company>K-Society</Company>
-    <Copyright>Copyright © K-Society and contributors 2022. All rights reserved.</Copyright>
+    <Copyright>Copyright © K-Society and contributors 2023. All rights reserved.</Copyright>
 	<PackageLicenseExpression>MS-RL</PackageLicenseExpression>
-	<Description>K-Society Log is a centralized log system for .NET 6 and .NET 7 application https://github.com/K-Society/KSociety.Log</Description>
+	<Description>K-Society Log is a centralized log system for .NET 6 and .NET 7 application</Description>
     <Product>K-Society Log</Product>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	<PublishRepositoryUrl>true</PublishRepositoryUrl>

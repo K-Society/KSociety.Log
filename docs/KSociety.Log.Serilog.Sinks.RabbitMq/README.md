@@ -1,4 +1,6 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/30w1cj6jnexc0mai?svg=true)](https://ci.appveyor.com/project/maniglia/ksociety-log)
+[![Logo](https://raw.githubusercontent.com/k-society/KSociety.Log/master/docs/K-Society__Logo_vs-negative.png)](https://github.com/K-Society)
+
+[![Build status](https://ci.appveyor.com/api/projects/status/30w1cj6jnexc0mai?svg=true)](https://ci.appveyor.com/project/maniglia/ksociety-log) [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Serilog.Sinks.RabbitMq)](https://www.nuget.org/profiles/K-Society)
 
 [KSociety.Log Home](https://github.com/K-Society/KSociety.Log)
 

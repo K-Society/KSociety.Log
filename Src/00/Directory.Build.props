@@ -3,13 +3,13 @@
 
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-	<TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+	<!--TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion-->
 	
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <!--MSBuildErrorsAsMessages>NU1202</MSBuildErrorsAsMessages-->
 
     <ProjectName Condition=" '$(ProjectName)' == '' ">$(MSBuildProjectName)</ProjectName>
-    <BaseOutputPath>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)$(ProjectName)\))</BaseOutputPath>
+    <BaseOutputPath>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\..\build\$(ProjectName)\))</BaseOutputPath>
     <BaseIntermediateOutputPath>$(BaseOutputPath)obj\</BaseIntermediateOutputPath>
     <OutputPath>$(BaseOutputPath)bin\$(Configuration)\</OutputPath>
 	

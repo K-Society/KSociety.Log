@@ -4,22 +4,23 @@
     <OutputName>KSociety.LogServer</OutputName>
   </PropertyGroup>
   <ItemGroup>
-    <HarvestDirectory Include="..\..\..\..\build\KSociety.Log.Srv.Host\Release\net6.0">
+    <HarvestDirectory Include="..\..\..\..\build\KSociety.Log.Srv.Host\Release\net6.0\publish">
       <ComponentGroupName>HarvestedComponents</ComponentGroupName>
-      <DirectoryRefId>MainFolder</DirectoryRefId>
+      <DirectoryRefId>ServerFolder</DirectoryRefId>
       <SuppressRootDirectory>true</SuppressRootDirectory>
       <SuppressRegistry>true</SuppressRegistry>
       <VerboseOutput>false</VerboseOutput>
       <KeepEmptyDirectories>true</KeepEmptyDirectories>
       <Transforms>Filter.xslt</Transforms>
     </HarvestDirectory>
-    <BindPath Include="..\..\..\..\build\KSociety.Log.Srv.Host\Release\net6.0">
+    <BindPath Include="..\..\..\..\build\KSociety.Log.Srv.Host\Release\net6.0\publish">
     </BindPath>
   </ItemGroup>
   <ItemGroup>
     <None Include="Filter.xslt" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="WixToolset.Firewall.wixext" Version="4.0.0-rc.3" />
     <PackageReference Include="WixToolset.Heat" Version="4.0.0-rc.2" />
     <PackageReference Include="WixToolset.UI.wixext" Version="4.0.0-rc.3" />
   </ItemGroup>

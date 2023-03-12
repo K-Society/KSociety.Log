@@ -4,16 +4,16 @@
     <OutputName>KSociety.LogServer</OutputName>
   </PropertyGroup>
   <ItemGroup>
-    <HarvestDirectory Include="..\..\..\..\build\KSociety.Log.Pre.Web.App\Release\net6.0">
+    <HarvestDirectory Include="..\..\..\..\build\KSociety.Log.Pre.Web.App\Release\net6.0\publish">
       <ComponentGroupName>HarvestedComponents</ComponentGroupName>
-      <DirectoryRefId>MainFolder</DirectoryRefId>
+      <DirectoryRefId>WebFolder</DirectoryRefId>
       <SuppressRootDirectory>true</SuppressRootDirectory>
       <SuppressRegistry>true</SuppressRegistry>
       <VerboseOutput>false</VerboseOutput>
       <KeepEmptyDirectories>true</KeepEmptyDirectories>
       <Transforms>Filter.xslt</Transforms>
     </HarvestDirectory>
-    <BindPath Include="..\..\..\..\build\KSociety.Log.Pre.Web.App\Release\net6.0">
+    <BindPath Include="..\..\..\..\build\KSociety.Log.Pre.Web.App\Release\net6.0\publish">
     </BindPath>
   </ItemGroup>
   <ItemGroup>

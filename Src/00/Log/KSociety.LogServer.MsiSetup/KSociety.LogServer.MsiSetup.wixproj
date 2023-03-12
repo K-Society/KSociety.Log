@@ -24,7 +24,7 @@
     <PackageReference Include="WixToolset.UI.wixext" Version="4.0.0-rc.3" />
   </ItemGroup>
   <Target Name="CustomBeforeBuild" BeforeTargets="BeforeBuild" DependsOnTargets="GetBuildVersion">
-    <CreateProperty Value="$(OutputName)-$(BuildVersion3Components)-$(Platform)">
+    <CreateProperty Value="$(OutputName)-$(BuildVersion3Components)">
       <Output TaskParameter="Value" PropertyName="TargetName" />
     </CreateProperty>
     <CreateProperty Value="$(TargetName)$(TargetExt)">

@@ -20,7 +20,7 @@
     <None Include="Filter.xslt" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="WixToolset.Heat" Version="4.0.0-rc.2" />
+    <PackageReference Include="WixToolset.Heat" Version="4.0.0-rc.3" />
     <PackageReference Include="WixToolset.UI.wixext" Version="4.0.0-rc.3" />
   </ItemGroup>
   <Target Name="CustomBeforeBuild" BeforeTargets="BeforeBuild" DependsOnTargets="GetBuildVersion">

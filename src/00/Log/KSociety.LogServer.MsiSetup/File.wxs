@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:fw="http://wixtoolset.org/schemas/v4/wxs/firewall">
+  <Fragment>
+    <ComponentGroup Id="File" Directory="ServerFolder">
+      <ComponentGroupRef Id="HarvestedComponents"/>
+      <Component Id="KSociety.Log.Srv.Host.exe" Guid="{57172B73-342D-41D0-B49A-713909794B65}">
+        <File Id="KSociety.Log.Srv.Host.exe" Source="SourceDir\KSociety.Log.Srv.Host.exe" KeyPath="yes" Checksum="yes">
+          <fw:FirewallException Id="LOG_SERVER_ID" Name="LogServer" Description="K-Society LogServer" IgnoreFailure="yes" Profile="all" Scope="any" />
+        </File>
+        <ServiceInstall
+          Id="LogServerService"
+          Type="ownProcess"
+          Vital="yes"
+          Name="LogServer"
+          DisplayName="LogServer"
+          Description="K-Society LogServer $(AssemblyFileVersion)"
+          ErrorControl="normal"
+          Account="LocalSystem"
+          Start="auto"
+          Interactive="no"/>
+        <ServiceControl
+          Id="LogServerServiceControl"
+          Name="LogServer"
+          Start="install"
+          Remove="uninstall"
+          Stop="both" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

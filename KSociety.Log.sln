@@ -31,47 +31,47 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05. Domain Layer", "05. Dom
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06. Infrastructure Layer", "06. Infrastructure Layer", "{AE1DF144-67B0-4D26-8412-E29B5F868362}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Srv.Dto", "Src\01\02\KSociety.Log.Srv.Dto\KSociety.Log.Srv.Dto.csproj", "{4CF27510-4D04-446E-BF8A-68FF54BA96B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Srv.Dto", "src\01\02\KSociety.Log.Srv.Dto\KSociety.Log.Srv.Dto.csproj", "{4CF27510-4D04-446E-BF8A-68FF54BA96B9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Srv.Contract", "Src\01\02\KSociety.Log.Srv.Contract\KSociety.Log.Srv.Contract.csproj", "{D43CC524-2B8E-48CF-8A2A-45D16C2ED45E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Srv.Contract", "src\01\02\KSociety.Log.Srv.Contract\KSociety.Log.Srv.Contract.csproj", "{D43CC524-2B8E-48CF-8A2A-45D16C2ED45E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Srv.Behavior", "Src\01\02\KSociety.Log.Srv.Behavior\KSociety.Log.Srv.Behavior.csproj", "{2D583FA7-A130-4E5E-B2B7-5ECA96A4FE79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Srv.Behavior", "src\01\02\KSociety.Log.Srv.Behavior\KSociety.Log.Srv.Behavior.csproj", "{2D583FA7-A130-4E5E-B2B7-5ECA96A4FE79}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Srv.Agent", "Src\01\02\KSociety.Log.Srv.Agent\KSociety.Log.Srv.Agent.csproj", "{E8101B6A-1B0B-4C12-8E62-16E93B582223}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Srv.Agent", "src\01\02\KSociety.Log.Srv.Agent\KSociety.Log.Srv.Agent.csproj", "{E8101B6A-1B0B-4C12-8E62-16E93B582223}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Srv.Host", "Src\01\02\Host\KSociety.Log.Srv.Host\KSociety.Log.Srv.Host.csproj", "{5A71BE3E-B9B2-4F08-B9AC-2FE16A61FBC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Srv.Host", "src\01\02\Host\KSociety.Log.Srv.Host\KSociety.Log.Srv.Host.csproj", "{5A71BE3E-B9B2-4F08-B9AC-2FE16A61FBC5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{70062038-68E6-4EAC-AA65-E05C455BDE45}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Pre.Web.App", "Src\01\01\Web\KSociety.Log.Pre.Web.App\KSociety.Log.Pre.Web.App.csproj", "{B6E3A9E4-7A9D-420C-801F-6D57C8E10C61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Pre.Web.App", "src\01\01\Web\KSociety.Log.Pre.Web.App\KSociety.Log.Pre.Web.App.csproj", "{B6E3A9E4-7A9D-420C-801F-6D57C8E10C61}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Biz", "Src\01\04\KSociety.Log.Biz\KSociety.Log.Biz.csproj", "{7F1694AD-7A2A-4E9B-AD12-7A96FB774187}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Biz", "src\01\04\KSociety.Log.Biz\KSociety.Log.Biz.csproj", "{7F1694AD-7A2A-4E9B-AD12-7A96FB774187}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.App.Dto", "Src\01\03\KSociety.Log.App.Dto\KSociety.Log.App.Dto.csproj", "{D754531A-2979-4FA8-9BCE-2CB4B7C1B3BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.App.Dto", "src\01\03\KSociety.Log.App.Dto\KSociety.Log.App.Dto.csproj", "{D754531A-2979-4FA8-9BCE-2CB4B7C1B3BB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.App.ReqHdlr", "Src\01\03\KSociety.Log.App.ReqHdlr\KSociety.Log.App.ReqHdlr.csproj", "{8F870FDD-0F65-43BF-9036-6DDF0B39FFEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.App.ReqHdlr", "src\01\03\KSociety.Log.App.ReqHdlr\KSociety.Log.App.ReqHdlr.csproj", "{8F870FDD-0F65-43BF-9036-6DDF0B39FFEF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Serilog.Sinks.RabbitMq", "Src\01\Sink\KSociety.Log.Serilog.Sinks.RabbitMq\KSociety.Log.Serilog.Sinks.RabbitMq.csproj", "{CD03FDC1-62AC-4AC3-B98D-EB155DE8EE15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Serilog.Sinks.RabbitMq", "src\01\Sink\KSociety.Log.Serilog.Sinks.RabbitMq\KSociety.Log.Serilog.Sinks.RabbitMq.csproj", "{CD03FDC1-62AC-4AC3-B98D-EB155DE8EE15}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{45D0C8B6-0DE1-4E7F-BDAB-996BE39C2DD7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Serilog.Sinks.Test", "Src\01\Sink\Test\KSociety.Log.Serilog.Sinks.Test\KSociety.Log.Serilog.Sinks.Test.csproj", "{2F1E40B9-6C94-4714-A314-E67B10CE6284}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Serilog.Sinks.Test", "src\01\Sink\Test\KSociety.Log.Serilog.Sinks.Test\KSociety.Log.Serilog.Sinks.Test.csproj", "{2F1E40B9-6C94-4714-A314-E67B10CE6284}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sink", "Sink", "{CF863BCE-7A36-4B3C-A1C8-4BC4454B4580}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Serilog.Sinks.SignalR", "Src\01\Sink\KSociety.Log.Serilog.Sinks.SignalR\KSociety.Log.Serilog.Sinks.SignalR.csproj", "{DE2154F3-E0F1-434E-B716-B8840FBCFA97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Serilog.Sinks.SignalR", "src\01\Sink\KSociety.Log.Serilog.Sinks.SignalR\KSociety.Log.Serilog.Sinks.SignalR.csproj", "{DE2154F3-E0F1-434E-B716-B8840FBCFA97}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Serilog.Sinks.Grpc", "Src\01\Sink\KSociety.Log.Serilog.Sinks.Grpc\KSociety.Log.Serilog.Sinks.Grpc.csproj", "{B0C9D544-D441-4709-B2BF-194E6C2F10B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Serilog.Sinks.Grpc", "src\01\Sink\KSociety.Log.Serilog.Sinks.Grpc\KSociety.Log.Serilog.Sinks.Grpc.csproj", "{B0C9D544-D441-4709-B2BF-194E6C2F10B2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Biz.Event", "Src\01\04\KSociety.Log.Biz.Event\KSociety.Log.Biz.Event.csproj", "{42518DDF-9199-458C-AFB7-330C3A6C56C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Biz.Event", "src\01\04\KSociety.Log.Biz.Event\KSociety.Log.Biz.Event.csproj", "{42518DDF-9199-458C-AFB7-330C3A6C56C7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Log", "Log", "{58BF6F06-A63A-47A7-ACD1-15D70A104712}"
 EndProject
-Project("{B7DD6F7E-DEF8-4E67-B5B7-07EF123DB6F0}") = "KSociety.LogServer.MsiSetup", "Src\00\Log\KSociety.LogServer.MsiSetup\KSociety.LogServer.MsiSetup.wixproj", "{BEA12291-5061-446E-A1A6-ABC18F2E4146}"
+Project("{B7DD6F7E-DEF8-4E67-B5B7-07EF123DB6F0}") = "KSociety.LogServer.MsiSetup", "src\00\Log\KSociety.LogServer.MsiSetup\KSociety.LogServer.MsiSetup.wixproj", "{BEA12291-5061-446E-A1A6-ABC18F2E4146}"
 EndProject
-Project("{B7DD6F7E-DEF8-4E67-B5B7-07EF123DB6F0}") = "KSociety.LogWebApp.MsiSetup", "Src\00\Log\KSociety.LogWebApp.MsiSetup\KSociety.LogWebApp.MsiSetup.wixproj", "{E6F2288D-5C5F-4D22-AB5F-3D22E69BCBA5}"
+Project("{B7DD6F7E-DEF8-4E67-B5B7-07EF123DB6F0}") = "KSociety.LogWebApp.MsiSetup", "src\00\Log\KSociety.LogWebApp.MsiSetup\KSociety.LogWebApp.MsiSetup.wixproj", "{E6F2288D-5C5F-4D22-AB5F-3D22E69BCBA5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Serilog.Sinks.RichTextBox.Wpf", "Src\01\Sink\KSociety.Log.Serilog.Sinks.RichTextBox.Wpf\KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.csproj", "{2C0930CF-8EC1-49CA-8872-9FD4D4DE4320}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Serilog.Sinks.RichTextBox.Wpf", "src\01\Sink\KSociety.Log.Serilog.Sinks.RichTextBox.Wpf\KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.csproj", "{2C0930CF-8EC1-49CA-8872-9FD4D4DE4320}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

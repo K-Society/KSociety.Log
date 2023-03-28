@@ -2,18 +2,19 @@
   <PropertyGroup>
     <Cultures>en-US</Cultures>
     <OutputName>KSociety.LogServer</OutputName>
+    <NetVersion>net6.0</NetVersion>
   </PropertyGroup>
   <ItemGroup>
-    <HarvestDirectory Include="..\..\..\..\build\KSociety.Log.Srv.Host\Release\net6.0\publish">
+    <HarvestDirectory Include="..\..\..\..\build\KSociety.Log.Srv.Host\Release\$(NetVersion)\publish">
       <ComponentGroupName>HarvestedComponents</ComponentGroupName>
-      <DirectoryRefId>ServerFolder</DirectoryRefId>
+      <DirectoryRefId>NetVersionFolder</DirectoryRefId>
       <SuppressRootDirectory>true</SuppressRootDirectory>
       <SuppressRegistry>true</SuppressRegistry>
       <VerboseOutput>false</VerboseOutput>
       <KeepEmptyDirectories>true</KeepEmptyDirectories>
       <Transforms>Filter.xslt</Transforms>
     </HarvestDirectory>
-    <BindPath Include="..\..\..\..\build\KSociety.Log.Srv.Host\Release\net6.0\publish">
+    <BindPath Include="..\..\..\..\build\KSociety.Log.Srv.Host\Release\$(NetVersion)\publish">
     </BindPath>
   </ItemGroup>
   <ItemGroup>
@@ -25,7 +26,7 @@
     <PackageReference Include="WixToolset.UI.wixext" Version="4.0.0-rc.4" />
   </ItemGroup>
   <Target Name="CustomBeforeBuild" BeforeTargets="BeforeBuild" DependsOnTargets="GetBuildVersion">
-    <CreateProperty Value="$(OutputName)-$(BuildVersion3Components)">
+    <CreateProperty Value="$(OutputName)-$(BuildVersion3Components)-$(NetVersion)">
       <Output TaskParameter="Value" PropertyName="TargetName" />
     </CreateProperty>
     <CreateProperty Value="$(TargetName)$(TargetExt)">
@@ -35,7 +36,7 @@
       <Output TaskParameter="Value" PropertyName="TargetPath" />
     </CreateProperty>
     <PropertyGroup>
-      <DefineConstants>AssemblyFileVersion=$(AssemblyFileVersion);Version=$(BuildVersion3Components)</DefineConstants>
+      <DefineConstants>AssemblyFileVersion=$(AssemblyFileVersion);Version=$(BuildVersion3Components);NetVersion=$(NetVersion)</DefineConstants>
     </PropertyGroup>
   </Target>
 </Project>

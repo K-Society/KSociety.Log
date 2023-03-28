@@ -5,6 +5,8 @@
       <Directory Id="CompanyFolder" Name="K-Society" >
         <Directory Id="MainFolder" Name="Log">
           <Directory Id="ServerFolder" Name="Server">
+            <Directory Id="NetVersionFolder" Name="$(NetVersion)">
+            </Directory>
           </Directory>
         </Directory>
       </Directory>

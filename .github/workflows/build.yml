@@ -40,6 +40,14 @@ jobs:
       #    name: artifacts
       #    path: build/**/Release/*.*nupkg
 
+      - name: Zip Installer net6.0
+        shell: pwsh
+        run: Compress-Archive -LiteralPath .\build\KSociety.Log.Install\Release\net6.0\*.exe -DestinationPath .\build\KSociety.Log.Install\Release\net6.0\K-Society.Log-net6.0.zip -Force
+
+      - name: Zip Installer net7.0
+        shell: pwsh
+        run: Compress-Archive -LiteralPath .\build\KSociety.Log.Install\Release\net7.0\*.exe -DestinationPath .\build\KSociety.Log.Install\Release\net7.0\K-Society.Log-net7.0.zip -Force
+
       - name: Push to GitHub Packages
         if: github.event_name == 'push' && github.repository_owner == 'K-Society' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop')
         run: dotnet nuget push "build/**/Release/*.nupkg" --source https://nuget.pkg.github.com/K-Society/index.json --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate

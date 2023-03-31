@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:fw="http://wixtoolset.org/schemas/v4/wxs/firewall">
   <Fragment>
-    <ComponentGroup Id="File" Directory="WebFolder">
+    <ComponentGroup Id="File" Directory="NetVersionFolder">
       <ComponentGroupRef Id="HarvestedComponents"/>
       <Component Id="KSociety.Log.Pre.Web.App.exe" Guid="{2EB1A0B2-181B-4EA8-9E6E-E42C0A5756B2}">
-        <File Id="KSociety.Log.Pre.Web.App.exe" Source="SourceDir\KSociety.Log.Pre.Web.App.exe" KeyPath="yes" Checksum="yes"/>
+        <File Id="KSociety.Log.Pre.Web.App.exe" Source="SourceDir\KSociety.Log.Pre.Web.App.exe" KeyPath="yes" Checksum="yes">
+          <fw:FirewallException Id="LOG_WEB_APP_ID" Name="LogWebApp" Description="K-Society LogWebApp $(NetVersion)" IgnoreFailure="yes" Profile="all" Scope="any" />
+        </File>
+        <ServiceInstall
+          Id="LogWebAppService"
+          Type="ownProcess"
+          Vital="yes"
+          Name="LogWebApp"
+          DisplayName="LogWebApp $(NetVersion)"
+          Description="K-Society LogWebApp $(NetVersion) $(AssemblyFileVersion)"
+          ErrorControl="normal"
+          Account="LocalSystem"
+          Start="auto"
+          Interactive="no"/>
+        <ServiceControl
+          Id="LogServerServiceControl"
+          Name="LogWebApp"
+          Start="install"
+          Remove="uninstall"
+          Stop="both" />
       </Component>
     </ComponentGroup>
   </Fragment>

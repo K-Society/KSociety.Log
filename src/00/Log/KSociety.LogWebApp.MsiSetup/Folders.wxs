@@ -4,6 +4,8 @@
       <Directory Id="CompanyFolder" Name="K-Society" >
         <Directory Id="MainFolder" Name="Log">
           <Directory Id="WebFolder" Name="Web">
+            <Directory Id="NetVersionFolder" Name="$(NetVersion)">
+            </Directory>
           </Directory>
         </Directory>
       </Directory>

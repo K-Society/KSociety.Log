@@ -29,7 +29,25 @@ msbuild src\00\Log\KSociety.LogServer.MsiSetup\KSociety.LogServer.MsiSetup.wixpr
 
 msbuild src\00\Log\KSociety.LogServer.MsiSetup\KSociety.LogServer.MsiSetup.wixproj -p:Configuration=%_C% -p:NetVersion=net7.0 -p:OutputPath=%_P%\KSociety.LogServer.MsiSetup\%_C%\net7.0\ || exit /b
 
-REM msbuild Src\00\KSociety.Log.Install\KSociety.Log.Install.csproj -p:Configuration=%_C% -p:TargetFramework="net461" || exit /b
+REM
+
+msbuild src\00\Log\KSociety.LogWebApp.MsiSetup\KSociety.LogWebApp.MsiSetup.wixproj -t:clean;restore -p:Configuration=%_C% -p:NetVersion=net6.0 || exit /b
+
+msbuild src\00\Log\KSociety.LogWebApp.MsiSetup\KSociety.LogWebApp.MsiSetup.wixproj -p:Configuration=%_C% -p:NetVersion=net6.0 -p:OutputPath=%_P%\KSociety.LogWebApp.MsiSetup\%_C%\net6.0\ || exit /b
+
+msbuild src\00\Log\KSociety.LogWebApp.MsiSetup\KSociety.LogWebApp.MsiSetup.wixproj -t:clean;restore -p:Configuration=%_C% -p:NetVersion=net7.0 || exit /b
+
+msbuild src\00\Log\KSociety.LogWebApp.MsiSetup\KSociety.LogWebApp.MsiSetup.wixproj -p:Configuration=%_C% -p:NetVersion=net7.0 -p:OutputPath=%_P%\KSociety.LogWebApp.MsiSetup\%_C%\net7.0\ || exit /b
+
+REM
+
+msbuild src\00\Log\KSociety.Log.Install\KSociety.Log.Install.wixproj -t:clean;restore -p:Configuration=%_C% -p:NetVersion=net6.0 || exit /b
+
+msbuild src\00\Log\KSociety.Log.Install\KSociety.Log.Install.wixproj -p:Configuration=%_C% -p:NetVersion=net6.0 -p:OutputPath=%_P%\KSociety.Log.Install\%_C%\net6.0\ || exit /b
+
+msbuild src\00\Log\KSociety.Log.Install\KSociety.Log.Install.wixproj -t:clean;restore -p:Configuration=%_C% -p:NetVersion=net7.0 || exit /b
+
+msbuild src\00\Log\KSociety.Log.Install\KSociety.Log.Install.wixproj -p:Configuration=%_C% -p:NetVersion=net7.0 -p:OutputPath=%_P%\KSociety.Log.Install\%_C%\net7.0\ || exit /b
 
 goto LExit
 

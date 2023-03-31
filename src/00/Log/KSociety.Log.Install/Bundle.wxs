@@ -1,0 +1,16 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:bal="http://wixtoolset.org/schemas/v4/wxs/bal">
+  <Bundle Name="KSociety.Log.Install" 
+          Manufacturer="K-Society" 
+          Version="$(AssemblyFileVersion)" 
+          UpgradeCode="f09040e0-439d-4fff-9fce-4e23e43aadb3">
+    <BootstrapperApplication>
+      <bal:WixStandardBootstrapperApplication LicenseUrl="https://www.example.com/license" Theme="hyperlinkLicense" />
+    </BootstrapperApplication>
+
+    <Chain>
+      <MsiPackage SourceFile="..\..\..\..\build\KSociety.LogServer.MsiSetup\Release\$(NetVersion)\en-US\KSociety.LogServer-$(Version)-$(NetVersion).msi" />
+      <MsiPackage SourceFile="..\..\..\..\build\KSociety.LogWebApp.MsiSetup\Release\$(NetVersion)\en-US\KSociety.LogWebApp-$(Version)-$(NetVersion).msi" />
+    </Chain>
+
+  </Bundle>
+</Wix>

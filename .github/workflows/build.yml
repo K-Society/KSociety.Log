@@ -41,8 +41,9 @@ jobs:
       #    path: build/**/Release/*.*nupkg
 
       - name: Zip Installer net6.0
-        run: zip -r release.zip
-      #  run: Compress-Archive -LiteralPath .\build\KSociety.Log.Install\Release\net6.0\KSociety.Log.Install-1.1.76-net6.0.exe -DestinationPath .\build\KSociety.Log.Install\Release\net6.0\K-Society.Log-net6.0.zip -Force
+      #  run: zip -r release.zip
+        shell: pwsh
+        run: Compress-Archive -LiteralPath build\KSociety.Log.Install\Release\net6.0\KSociety.Log.Install-1.1.79-net6.0.exe -DestinationPath .\build\KSociety.Log.Install\Release\net6.0\K-Society.Log-net6.0.zip -Force
 
       #- name: Zip Installer net7.0
       #  shell: pwsh

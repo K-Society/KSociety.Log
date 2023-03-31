@@ -33,7 +33,7 @@ jobs:
       - name: Get Version
         uses: dotnet/nbgv@master
         id: nbgv
-        run: echo 'SemVer2=${{ steps.nbgv.outputs.SemVer2 }}'
+      - run: echo 'SemVer2=${{ steps.nbgv.outputs.SemVer2 }}'
 
       - name: Build KSociety.Log
         shell: cmd

@@ -30,6 +30,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Get Version
+        uses: dotnet/nbgv@master
+        id: nbgv
+        run: echo 'SemVer2=${{ steps.nbgv.outputs.SemVer2 }}'
+
       - name: Build KSociety.Log
         shell: cmd
         run: ./build.cmd
@@ -40,10 +45,12 @@ jobs:
       #    name: artifacts
       #    path: build/**/Release/*.*nupkg
 
+      
+
       - name: Zip Installer net6.0
       #  run: zip -r release.zip
         shell: pwsh
-        run: Compress-Archive -LiteralPath build\KSociety.Log.Install\Release\net6.0\KSociety.Log.Install-1.1.79-net6.0.exe -DestinationPath .\build\KSociety.Log.Install\Release\net6.0\K-Society.Log-net6.0.zip -Force
+        run: Compress-Archive -LiteralPath .\build\KSociety.Log.Install\Release\net6.0\KSociety.Log.Install-1.1.80-net6.0.exe -DestinationPath .\build\KSociety.Log.Install\Release\net6.0\K-Society.Log-net6.0.zip -Force
 
       #- name: Zip Installer net7.0
       #  shell: pwsh

@@ -1,0 +1,58 @@
+﻿using Serilog.Debugging;
+using System;
+using System.Linq;
+using System.Windows.Documents;
+using System.Windows.Markup;
+using System.Windows.Threading;
+
+namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Sinks.RichTextBox.Abstraction
+{
+    internal class RichTextBoxImpl : IRichTextBox
+    {
+        private readonly System.Windows.Controls.RichTextBox _richTextBox;
+
+        public RichTextBoxImpl(System.Windows.Controls.RichTextBox richTextBox)
+        {
+            _richTextBox = richTextBox ?? throw new ArgumentNullException(nameof(richTextBox));
+        }
+
+        public void Write(string xamlParagraphText)
+        {
+            Paragraph parsedParagraph;
+
+            try
+            {
+                parsedParagraph = (Paragraph) XamlReader.Parse(xamlParagraphText);
+            }
+            catch (XamlParseException ex)
+            {
+                SelfLog.WriteLine($"Error parsing `{xamlParagraphText}` to XAML: {ex.Message}");
+                throw;
+            }
+
+            var inlines = parsedParagraph.Inlines.ToList();
+
+            var richTextBox = _richTextBox;
+
+            var flowDocument = richTextBox.Document ??= new FlowDocument();
+
+            if (flowDocument.Blocks.LastBlock is not Paragraph paragraph)
+            {
+                paragraph = new Paragraph();
+                flowDocument.Blocks.Add(paragraph);
+            }
+
+            paragraph.Inlines.AddRange(inlines);
+        }
+
+        public bool CheckAccess()
+        {
+            return _richTextBox.CheckAccess();
+        }
+
+        public DispatcherOperation BeginInvoke(DispatcherPriority priority, Delegate method, object arg)
+        {
+            return _richTextBox.Dispatcher.BeginInvoke(priority, method, arg);
+        }
+    }
+}

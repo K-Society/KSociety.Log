@@ -11,7 +11,7 @@
 *.sln.docstates
 *.exe
 *.wixpdb
-*.wxs
+#*.wxs
 *.g.wxs
 *.msi
 
@@ -31,7 +31,7 @@ x86/
 bld/
 [Bb]in/
 [Oo]bj/
-[Ll]og/
+# [Ll]og/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/

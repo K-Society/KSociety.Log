@@ -9,10 +9,10 @@ on:
     branches:
       - master
       - develop
-  workflow_dispatch:
-    inputs:
-      tags:
-        manual: true
+  #workflow_dispatch:
+    #inputs:
+      #tags:
+        #manual: true
 
 env:
   DOTNET_NOLOGO: true
@@ -32,8 +32,14 @@ jobs:
 
       - name: Get Version
         uses: dotnet/nbgv@master
+        with:
+            setAllVars: true
         id: nbgv
-      - run: echo 'SemVer2=${{ steps.nbgv.outputs.SemVer2 }}'
+      #- run: echo 'SemVer2=${{ steps.nbgv.outputs.SemVer2 }}'
+      - run: |
+          echo "Tags: $TAGS"
+          echo "NBGV_SemVer2 $NBGV_SemVer2"
+          echo "NBGV_SimpleVersion $NBGV_SimpleVersion"
 
       - name: Build KSociety.Log
         shell: cmd
@@ -48,13 +54,12 @@ jobs:
       
 
       - name: Zip Installer net6.0
-      #  run: zip -r release.zip
         shell: pwsh
-        run: Compress-Archive -LiteralPath .\build\KSociety.Log.Install\Release\net6.0\KSociety.Log.Install-1.1.80-net6.0.exe -DestinationPath .\build\KSociety.Log.Install\Release\net6.0\K-Society.Log-net6.0.zip -Force
+        run: Compress-Archive -LiteralPath .\build\KSociety.Log.Install\Release\net6.0\KSociety.Log.Install-$NBGV_SimpleVersion-net6.0.exe -DestinationPath .\build\KSociety.Log.Install\Release\net6.0\K-Society.Log-$NBGV_SimpleVersion-net6.0.zip -Force
 
-      #- name: Zip Installer net7.0
-      #  shell: pwsh
-      #  run: Compress-Archive -LiteralPath .\build\KSociety.Log.Install\Release\net7.0\KSociety.Log.Install-1.1.76-net7.0.exe -DestinationPath .\build\KSociety.Log.Install\Release\net7.0\K-Society.Log-net7.0.zip -Force
+      - name: Zip Installer net7.0
+        shell: pwsh
+        run: Compress-Archive -LiteralPath .\build\KSociety.Log.Install\Release\net7.0\KSociety.Log.Install-$NBGV_SimpleVersion-net7.0.exe -DestinationPath .\build\KSociety.Log.Install\Release\net7.0\K-Society.Log-$NBGV_SimpleVersion-net7.0.zip -Force
 
       - name: Push to GitHub Packages
         if: github.event_name == 'push' && github.repository_owner == 'K-Society' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop')

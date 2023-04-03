@@ -52,4 +52,17 @@ jobs:
       - name: Push to NuGet Packages
         if: github.event_name == 'push' && github.repository_owner == 'K-Society' && (github.ref == 'refs/heads/master')
         run: nuget push build/**/Release/*.nupkg -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{secrets.NUGET_API_KEY}}
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          #body: |
+          #  ${{ steps.Changelog.outputs.changelog }}
+          draft: false
+          prerelease: false
         

@@ -13,7 +13,7 @@ using System.Windows.Threading;
 
 namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Sinks.RichTextBox
 {
-    internal sealed class RichTextBoxSink : /*ILogEventSink*/IBatchedLogEventSink, IDisposable
+    internal sealed class RichTextBoxSink : IBatchedLogEventSink, IDisposable
     {
         private readonly IRichTextBox _richTextBox;
         private readonly ITextFormatter _formatter;

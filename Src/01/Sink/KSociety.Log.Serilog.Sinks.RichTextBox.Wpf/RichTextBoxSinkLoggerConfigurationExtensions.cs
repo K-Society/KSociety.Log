@@ -6,6 +6,7 @@ using Serilog;
 using Serilog.Configuration;
 using Serilog.Core;
 using Serilog.Events;
+using Serilog.Sinks.PeriodicBatching;
 using System;
 using System.Windows.Threading;
 
@@ -18,6 +19,9 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf
     {
         private static readonly object _defaultSyncRoot = new object();
         private const string _defaultRichTextBoxOutputTemplate = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
+
+        private const int DefaultBatchPostingLimit = 50;
+        private static readonly TimeSpan DefaultPeriod = TimeSpan.FromSeconds(2);
 
         /// <summary>
         /// Writes log events to a <see cref="System.Windows.Controls.RichTextBox"/> control.
@@ -76,7 +80,17 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf
 
             var richTextBoxSink = new RichTextBoxSink(richTextBox, formatter, dispatcherPriority, syncRoot);
 
-            return sinkConfiguration.Sink(richTextBoxSink, restrictedToMinimumLevel, levelSwitch);
+            var periodicBatchingSinkOptions = new PeriodicBatchingSinkOptions
+            {
+                BatchSizeLimit = DefaultBatchPostingLimit,
+                Period = DefaultPeriod,
+                EagerlyEmitFirstEvent = true,
+                QueueLimit = 10000
+            };
+
+            var periodicBatchingSink = new PeriodicBatchingSink(richTextBoxSink, periodicBatchingSinkOptions);
+
+            return sinkConfiguration.Sink(periodicBatchingSink/*richTextBoxSink*/, restrictedToMinimumLevel, levelSwitch);
         }
 
         /// <summary>
@@ -127,8 +141,19 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf
 
             var formatter = new XamlOutputTemplateRenderer(appliedTheme, outputTemplate, formatProvider);
 
-            return sinkConfiguration.Sink(new RichTextBoxSink(richTextBox, formatter, dispatcherPriority, syncRoot),
-                restrictedToMinimumLevel, levelSwitch);
+            var richTextBoxSink = new RichTextBoxSink(richTextBox, formatter, dispatcherPriority, syncRoot);
+
+            var periodicBatchingSinkOptions = new PeriodicBatchingSinkOptions
+            {
+                BatchSizeLimit = DefaultBatchPostingLimit,
+                Period = DefaultPeriod,
+                EagerlyEmitFirstEvent = true,
+                QueueLimit = 10000
+            };
+
+            var periodicBatchingSink = new PeriodicBatchingSink(richTextBoxSink, periodicBatchingSinkOptions);
+
+            return sinkConfiguration.Sink(periodicBatchingSink, restrictedToMinimumLevel, levelSwitch);
         }
     }
 }

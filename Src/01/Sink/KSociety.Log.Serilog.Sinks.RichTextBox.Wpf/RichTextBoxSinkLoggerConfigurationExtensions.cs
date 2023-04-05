@@ -90,7 +90,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf
 
             var periodicBatchingSink = new PeriodicBatchingSink(richTextBoxSink, periodicBatchingSinkOptions);
 
-            return sinkConfiguration.Sink(periodicBatchingSink/*richTextBoxSink*/, restrictedToMinimumLevel, levelSwitch);
+            return sinkConfiguration.Sink(periodicBatchingSink, restrictedToMinimumLevel, levelSwitch);
         }
 
         /// <summary>

@@ -53,32 +53,16 @@ jobs:
         if: github.event_name == 'push' && github.repository_owner == 'K-Society' && (github.ref == 'refs/heads/master')
         run: nuget push build/**/Release/*.nupkg -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{secrets.NUGET_API_KEY}}
 
-      - name: Create Draft Release
+      - name: Release
+        uses: softprops/action-gh-release@v1
         if: github.event_name == 'push' && github.repository_owner == 'K-Society' && (github.ref == 'refs/heads/master')
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-            tag_name: ${{ steps.nbgv.outputs.SimpleVersion }}
-            release_name: K-Society.Log ${{ steps.nbgv.outputs.SimpleVersion }}
-            draft: false
-            prerelease: false
-
-      - uses: actions/upload-release-asset@v1.0.1
-        if: github.event_name == 'push' && github.repository_owner == 'K-Society' && (github.ref == 'refs/heads/master')
-        env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-            upload_url: ${{ steps.create_release.outputs.upload_url }}
-            asset_path: .\build\KSociety.Log.Install\Release\net6.0\K-Society.Log-${{ steps.nbgv.outputs.SimpleVersion }}-net6.0.zip
-            asset_name: K-Society.Log-${{ steps.nbgv.outputs.SimpleVersion }}-net6.0.zip
-            asset_content_type: application/zip
-
-      - uses: eregon/publish-release@v1
-        if: github.event_name == 'push' && github.repository_owner == 'K-Society' && (github.ref == 'refs/heads/master')
-        env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-            release_id: ${{ steps.create_release.outputs.id }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: false
+          prerelease: false
+          name: K-Society.Log ${{ steps.nbgv.outputs.SimpleVersion }}
+          tag_name: ${{ steps.nbgv.outputs.SimpleVersion }}
+          files: |
+            ./build/KSociety.Log.Install/Release/net6.0/K-Society.Log-${{ steps.nbgv.outputs.SimpleVersion }}-net6.0.zip
+            ./build/KSociety.Log.Install/Release/net7.0/K-Society.Log-${{ steps.nbgv.outputs.SimpleVersion }}-net7.0.zip
         

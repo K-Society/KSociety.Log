@@ -56,7 +56,7 @@ jobs:
       - name: Create Draft Release
         if: github.event_name == 'push' && github.repository_owner == 'K-Society' && (github.ref == 'refs/heads/master')
         id: create_release
-        uses: actions/create-release@v${{ secrets.GITHUB_TOKEN }}
+        uses: actions/create-release@v1
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:

@@ -71,7 +71,7 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
             upload_url: ${{ steps.create_release.outputs.upload_url }}
-            asset_path: ./K-Society.Log-${{ steps.nbgv.outputs.SimpleVersion }}-net6.0.zip
+            asset_path: .\build\KSociety.Log.Install\Release\net6.0\K-Society.Log-${{ steps.nbgv.outputs.SimpleVersion }}-net6.0.zip
             asset_name: K-Society.Log-${{ steps.nbgv.outputs.SimpleVersion }}-net6.0.zip
             asset_content_type: application/zip
 

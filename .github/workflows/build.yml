@@ -1,0 +1,84 @@
+name: Build KSociety.Log
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+  pull_request:
+    branches:
+      - master
+      - develop
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  NUGET_XMLDOC_MODE: skip
+
+jobs:
+  build:
+    name: Build
+    runs-on: windows-2022
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get Version
+        uses: dotnet/nbgv@master
+        id: nbgv
+      - run: |
+          echo 'SemVer2=${{ steps.nbgv.outputs.SemVer2 }}'
+          echo 'SimpleVersion=${{ steps.nbgv.outputs.SimpleVersion }}'
+
+      - name: Build KSociety.Log
+        shell: cmd
+        run: ./build.cmd
+
+      - name: Zip Installer net6.0
+        shell: pwsh
+        run: Compress-Archive -LiteralPath .\build\KSociety.Log.Install\Release\net6.0\KSociety.Log.Install-${{ steps.nbgv.outputs.SimpleVersion }}-net6.0.exe -DestinationPath .\build\KSociety.Log.Install\Release\net6.0\K-Society.Log-${{ steps.nbgv.outputs.SimpleVersion }}-net6.0.zip -Force
+
+      - name: Zip Installer net7.0
+        shell: pwsh
+        run: Compress-Archive -LiteralPath .\build\KSociety.Log.Install\Release\net7.0\KSociety.Log.Install-${{ steps.nbgv.outputs.SimpleVersion }}-net7.0.exe -DestinationPath .\build\KSociety.Log.Install\Release\net7.0\K-Society.Log-${{ steps.nbgv.outputs.SimpleVersion }}-net7.0.zip -Force
+
+      - name: Push to GitHub Packages
+        if: github.event_name == 'push' && github.repository_owner == 'K-Society' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop')
+        run: dotnet nuget push "build/**/Release/*.nupkg" --source https://nuget.pkg.github.com/K-Society/index.json --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
+
+      - name: Push to NuGet Packages
+        if: github.event_name == 'push' && github.repository_owner == 'K-Society' && (github.ref == 'refs/heads/master')
+        run: nuget push build/**/Release/*.nupkg -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{secrets.NUGET_API_KEY}}
+
+      - name: Create Draft Release
+        if: github.event_name == 'push' && github.repository_owner == 'K-Society' && (github.ref == 'refs/heads/master')
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+            tag_name: ${{ steps.nbgv.outputs.SimpleVersion }}
+            release_name: K-Society.Log ${{ steps.nbgv.outputs.SimpleVersion }}
+            draft: false
+            prerelease: false
+
+      - uses: actions/upload-release-asset@v1.0.1
+        if: github.event_name == 'push' && github.repository_owner == 'K-Society' && (github.ref == 'refs/heads/master')
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+            upload_url: ${{ steps.create_release.outputs.upload_url }}
+            asset_path: .\build\KSociety.Log.Install\Release\net6.0\K-Society.Log-${{ steps.nbgv.outputs.SimpleVersion }}-net6.0.zip
+            asset_name: K-Society.Log-${{ steps.nbgv.outputs.SimpleVersion }}-net6.0.zip
+            asset_content_type: application/zip
+
+      - uses: eregon/publish-release@v1
+        if: github.event_name == 'push' && github.repository_owner == 'K-Society' && (github.ref == 'refs/heads/master')
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+            release_id: ${{ steps.create_release.outputs.id }}
+        

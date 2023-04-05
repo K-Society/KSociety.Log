@@ -1,6 +1,6 @@
 [![Logo](https://github.com/K-Society/KSociety.Log/blob/master/docs/K-Society__Logo_vs-negative.png)](https://github.com/K-Society)
 
-[![Build status](https://ci.appveyor.com/api/projects/status/30w1cj6jnexc0mai?svg=true)](https://ci.appveyor.com/project/maniglia/ksociety-log) [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Serilog.Sinks.RabbitMq)](https://www.nuget.org/profiles/K-Society)
+[![build status](https://img.shields.io/github/actions/workflow/status/K-Society/KSociety.Log/build.yml?branch=develop)](https://github.com/K-Society/KSociety.Log/actions/workflows/build.yml?query=branch%3Adevelop) [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Serilog.Sinks.RabbitMq)](https://www.nuget.org/profiles/K-Society)
 ![GitHub all releases](https://img.shields.io/github/downloads/K-Society/KSociety.Log/total)
 
 # KSociety.Log - Log System

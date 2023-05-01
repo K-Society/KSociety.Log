@@ -4,7 +4,6 @@
     <OutputName>KSociety.Log.Install</OutputName>
     <NetVersion>net6.0</NetVersion>
     <OutputType>Bundle</OutputType>
-    <GenerateAssemblyVersionInfo>false</GenerateAssemblyVersionInfo>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="WixToolset.Bal.wixext" Version="4.0.0" />

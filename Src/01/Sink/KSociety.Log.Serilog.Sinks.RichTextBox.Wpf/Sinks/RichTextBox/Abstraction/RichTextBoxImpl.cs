@@ -30,11 +30,9 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Sinks.RichTextBox.Abstracti
                 throw;
             }
 
-            var inlines = parsedParagraph.Inlines.ToList();
+            var inLines = parsedParagraph.Inlines.ToList();
 
-            var richTextBox = _richTextBox;
-
-            var flowDocument = richTextBox.Document ??= new FlowDocument();
+            var flowDocument = _richTextBox.Document ??= new FlowDocument();
 
             if (flowDocument.Blocks.LastBlock is not Paragraph paragraph)
             {
@@ -42,7 +40,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Sinks.RichTextBox.Abstracti
                 flowDocument.Blocks.Add(paragraph);
             }
 
-            paragraph.Inlines.AddRange(inlines);
+            paragraph.Inlines.AddRange(inLines);
         }
 
         public bool CheckAccess()

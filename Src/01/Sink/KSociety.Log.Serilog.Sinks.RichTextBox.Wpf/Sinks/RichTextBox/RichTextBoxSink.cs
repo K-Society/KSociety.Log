@@ -41,11 +41,11 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Sinks.RichTextBox
 
         private void Render(string xamlParagraphText)
         {
-            var richTextBox = _richTextBox;
+            //var richTextBox = _richTextBox;
 
             lock (_syncRoot)
             {
-                richTextBox.Write(xamlParagraphText);
+                _richTextBox.Write(xamlParagraphText);
             }
         }
 

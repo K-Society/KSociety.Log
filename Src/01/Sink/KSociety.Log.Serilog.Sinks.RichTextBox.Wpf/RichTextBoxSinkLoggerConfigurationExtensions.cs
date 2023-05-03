@@ -17,11 +17,11 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf
     /// </summary>
     public static class RichTextBoxSinkLoggerConfigurationExtensions
     {
-        private static readonly object _defaultSyncRoot = new object();
-        private const string _defaultRichTextBoxOutputTemplate = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
+        private static readonly object DefaultSyncRoot = new();
+        private const string DefaultRichTextBoxOutputTemplate = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
 
         private const int DefaultBatchPostingLimit = 50;
-        private static readonly TimeSpan DefaultPeriod = TimeSpan.FromSeconds(2);
+        private static readonly TimeSpan DefaultPeriod = TimeSpan.FromMilliseconds(200);
 
         /// <summary>
         /// Writes log events to a <see cref="System.Windows.Controls.RichTextBox"/> control.
@@ -48,7 +48,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf
             this LoggerSinkConfiguration sinkConfiguration,
             System.Windows.Controls.RichTextBox richTextBoxControl,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
-            string outputTemplate = _defaultRichTextBoxOutputTemplate,
+            string outputTemplate = DefaultRichTextBoxOutputTemplate,
             IFormatProvider formatProvider = null,
             LoggingLevelSwitch levelSwitch = null,
             RichTextBoxTheme theme = null, 
@@ -72,7 +72,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf
 
             var appliedTheme = theme ?? RichTextBoxConsoleThemes.Literate;
 
-            syncRoot ??= _defaultSyncRoot;
+            syncRoot ??= DefaultSyncRoot;
 
             var formatter = new XamlOutputTemplateRenderer(appliedTheme, outputTemplate, formatProvider);
 
@@ -118,7 +118,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf
             this LoggerSinkConfiguration sinkConfiguration,
             IRichTextBox richTextBox,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
-            string outputTemplate = _defaultRichTextBoxOutputTemplate,
+            string outputTemplate = DefaultRichTextBoxOutputTemplate,
             IFormatProvider formatProvider = null,
             LoggingLevelSwitch levelSwitch = null,
             RichTextBoxTheme theme = null,
@@ -137,7 +137,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf
 
             var appliedTheme = theme ?? RichTextBoxConsoleThemes.Literate;
 
-            syncRoot ??= _defaultSyncRoot;
+            syncRoot ??= DefaultSyncRoot;
 
             var formatter = new XamlOutputTemplateRenderer(appliedTheme, outputTemplate, formatProvider);
 

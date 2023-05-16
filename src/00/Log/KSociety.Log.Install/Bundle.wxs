@@ -1,0 +1,27 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:bal="http://wixtoolset.org/schemas/v4/wxs/bal">
+  <Bundle Name="KSociety.Log $(Version) $(NetVersion)" 
+          Manufacturer="K-Society" 
+          Version="$(AssemblyFileVersion)" 
+          UpgradeCode="f09040e0-439d-4fff-9fce-4e23e43aadb3"
+          AboutUrl="https://github.com/K-Society/KSociety.Log">
+    <BootstrapperApplication>
+      <bal:WixStandardBootstrapperApplication 
+        LicenseUrl="" 
+        Theme="hyperlinkLicense"
+        ShowVersion="true"/>
+    </BootstrapperApplication>
+
+    <Chain>
+      <MsiPackage 
+        Visible="true"
+        Compressed="yes" 
+        SourceFile="..\..\..\..\build\KSociety.LogServer.MsiSetup\Release\$(NetVersion)\en-US\KSociety.LogServer-$(Version)-$(NetVersion).msi" >
+      </MsiPackage>
+      <MsiPackage 
+        Visible="true"
+        Compressed="yes"
+        SourceFile="..\..\..\..\build\KSociety.LogWebApp.MsiSetup\Release\$(NetVersion)\en-US\KSociety.LogWebApp-$(Version)-$(NetVersion).msi" />
+    </Chain>
+
+  </Bundle>
+</Wix>

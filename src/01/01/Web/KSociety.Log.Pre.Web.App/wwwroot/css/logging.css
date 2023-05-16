@@ -1,0 +1,51 @@
+﻿.logGrid {
+    display: grid;
+    grid-template-columns: 200px auto;
+    grid-gap: 4px 0px;
+    overflow-wrap: normal;
+    overflow: hidden scroll;
+    height: calc(100vh - 187px);
+}
+
+.logGrid .cell {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+input[name="filter"] {
+    margin-bottom: 8px;
+    width: 100%;
+}
+
+.WhiteRow {
+    background-color: white !important;
+    color: black !important;
+}
+
+.GreyRow {
+    background-color: gray !important;
+    color: black !important;
+}
+
+.GreenRow {
+    background-color: green !important;
+    color: white !important;
+}
+
+.OrangeRow {
+    background-color: orange !important;
+    color: black !important;
+}
+
+.RedRow {
+    background-color: red !important;
+    color: white !important;
+}
+
+.PurpleRow {
+    background-color: purple !important;
+    color: white !important;
+}

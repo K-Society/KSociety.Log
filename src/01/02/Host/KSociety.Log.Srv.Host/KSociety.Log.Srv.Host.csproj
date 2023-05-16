@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright © K-Society and contributors. All rights reserved. Licensed under the K-Society License. See LICENSE.TXT file in the project root for full license information. -->
+
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+    <UserSecretsId>dotnet-KSociety.Log.Srv.Host-9F369CD8-A40D-408E-AFC4-E87EEA70C3B6</UserSecretsId>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="7.0.1" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="KSociety.Base.Srv.Host.Shared" Version="1.2.3" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="7.0.0" />
+    <PackageReference Include="protobuf-net.Grpc.AspNetCore" Version="1.1.1" />
+    <PackageReference Include="Serilog" Version="2.12.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
+    <PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0" />
+    <PackageReference Include="Serilog.Enrichers.Process" Version="2.0.2" />
+    <PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="7.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\03\KSociety.Log.App.ReqHdlr\KSociety.Log.App.ReqHdlr.csproj" />
+    <ProjectReference Include="..\..\..\Sink\KSociety.Log.Serilog.Sinks.RabbitMq\KSociety.Log.Serilog.Sinks.RabbitMq.csproj" />
+    <ProjectReference Include="..\..\..\Sink\KSociety.Log.Serilog.Sinks.SignalR\KSociety.Log.Serilog.Sinks.SignalR.csproj" />
+    <ProjectReference Include="..\..\KSociety.Log.Srv.Behavior\KSociety.Log.Srv.Behavior.csproj" />
+  </ItemGroup>
+</Project>

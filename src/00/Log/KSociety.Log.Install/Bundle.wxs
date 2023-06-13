@@ -3,7 +3,8 @@
           Manufacturer="K-Society" 
           Version="$(AssemblyFileVersion)" 
           UpgradeCode="f09040e0-439d-4fff-9fce-4e23e43aadb3"
-          AboutUrl="https://github.com/K-Society/KSociety.Log">
+          AboutUrl="https://github.com/K-Society/KSociety.Log"
+          Compressed="yes">
     <BootstrapperApplication>
       <bal:WixStandardBootstrapperApplication 
         LicenseUrl="" 
@@ -13,12 +14,12 @@
 
     <Chain>
       <MsiPackage 
-        Visible="true"
+        Visible="no"
         Compressed="yes" 
         SourceFile="..\..\..\..\build\KSociety.LogServer.MsiSetup\Release\$(NetVersion)\en-US\KSociety.LogServer-$(Version)-$(NetVersion).msi" >
       </MsiPackage>
       <MsiPackage 
-        Visible="true"
+        Visible="no"
         Compressed="yes"
         SourceFile="..\..\..\..\build\KSociety.LogWebApp.MsiSetup\Release\$(NetVersion)\en-US\KSociety.LogWebApp-$(Version)-$(NetVersion).msi" />
     </Chain>

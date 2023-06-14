@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KSociety.Base.Srv.Shared" Version="1.2.6" />
+    <PackageReference Include="KSociety.Base.Srv.Shared" Version="1.2.15" />
   </ItemGroup>
 
   <ItemGroup>

@@ -41,8 +41,6 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Sinks.RichTextBox
 
         private void Render(string xamlParagraphText)
         {
-            //var richTextBox = _richTextBox;
-
             lock (_syncRoot)
             {
                 _richTextBox.Write(xamlParagraphText);
@@ -70,7 +68,10 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Sinks.RichTextBox
 
                     sb.Append("</Paragraph>");
                     string xamlParagraphText = sb.ToString();
-                    _richTextBox.BeginInvoke(_dispatcherPriority, _renderAction, xamlParagraphText);
+                    lock (_syncRoot)
+                    {
+                        _richTextBox.BeginInvoke(_dispatcherPriority, _renderAction, xamlParagraphText);
+                    }
                     sb.Clear();
                 }
             }

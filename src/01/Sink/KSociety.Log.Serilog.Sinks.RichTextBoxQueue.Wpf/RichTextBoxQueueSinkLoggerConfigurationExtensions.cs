@@ -1,5 +1,4 @@
 ﻿using KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue;
-using KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue.Abstraction;
 using Serilog;
 using Serilog.Configuration;
 using Serilog.Core;
@@ -77,7 +76,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf
         /// to be changed at runtime.</param>
         /// <returns>Configuration object allowing method chaining.</returns>
         /// <exception cref="ArgumentNullException">When <paramref name="sinkConfiguration"/> is <code>null</code></exception>
-        internal static LoggerConfiguration RichTextBoxQueue(
+        public static LoggerConfiguration RichTextBoxQueue(
             this LoggerSinkConfiguration sinkConfiguration,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
             string outputTemplate = DefaultRichTextBoxOutputTemplate,

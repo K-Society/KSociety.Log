@@ -72,11 +72,15 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
 
         private async Task ProcessQueue(CancellationToken cancellationToken = default)
         {
+            Console.WriteLine("ProcessQueue");
             StringBuilder sb = new();
-            while (await _queue.OutputAvailableAsync(cancellationToken).ConfigureAwait(false))
+            if (await _queue.OutputAvailableAsync(cancellationToken).ConfigureAwait(false))
             {
-                if (_queue.TryReceive(null, out var logEvent))
+                Console.WriteLine("Available output");
+                while (_queue.TryReceive(null, out var logEvent))
                 {
+                    Console.WriteLine("Output: {0}", logEvent.RenderMessage());
+
                     sb.Append($"<Paragraph xmlns =\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xml:space=\"preserve\">");
                     StringWriter writer = new();
                     _formatter.Format(logEvent, writer);
@@ -122,6 +126,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
 
         public Task OnEmptyBatchAsync()
         {
+            Console.WriteLine("OnEmptyBatchAsync");
             //await _timerAsync.StopAsync();
             return Task.CompletedTask;
         }

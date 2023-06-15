@@ -7,7 +7,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
     public interface IRichTextBoxQueueSink
     {
         void AddRichTextBox(System.Windows.Controls.RichTextBox richTextBoxControl,
-            DispatcherPriority dispatcherPriority, IFormatProvider? formatProvider = null,
+            DispatcherPriority dispatcherPriority = DispatcherPriority.Background, IFormatProvider? formatProvider = null,
             RichTextBoxTheme? theme = null, object? syncRoot = null);
     }
 }

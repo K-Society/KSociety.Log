@@ -30,7 +30,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
         private object _syncRoot;
         private RenderAction _renderAction;
 
-        public RichTextBoxQueueSink(string outputTemplate)
+        public RichTextBoxQueueSink(string outputTemplate = DefaultRichTextBoxOutputTemplate)
         {
             _queue = new BufferBlock<LogEvent>();
 

@@ -1,7 +1,4 @@
 ﻿using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Sinks.RichTextBox;
-using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Sinks.RichTextBox.Abstraction;
-using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Sinks.RichTextBox.Output;
-using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Sinks.RichTextBox.Themes;
 using Serilog;
 using Serilog.Configuration;
 using Serilog.Core;
@@ -9,6 +6,9 @@ using Serilog.Events;
 using Serilog.Sinks.PeriodicBatching;
 using System;
 using System.Windows.Threading;
+using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
+using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
 
 namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf
 {
@@ -76,7 +76,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf
 
             var formatter = new XamlOutputTemplateRenderer(appliedTheme, outputTemplate, formatProvider);
 
-            var richTextBox = new RichTextBoxImpl(richTextBoxControl);
+            var richTextBox = new Shared.Sinks.RichTextBox.Abstraction.RichTextBox(richTextBoxControl);
 
             var richTextBoxSink = new RichTextBoxSink(richTextBox, formatter, dispatcherPriority, syncRoot);
 

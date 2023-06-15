@@ -75,7 +75,9 @@ Project("{B7DD6F7E-DEF8-4E67-B5B7-07EF123DB6F0}") = "KSociety.Log.Install", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Serilog.RichTextBox.Wpf.RabbitMqClient", "src\01\Sink\KSociety.Log.Serilog.RichTextBox.Wpf.RabbitMqClient\KSociety.Log.Serilog.RichTextBox.Wpf.RabbitMqClient.csproj", "{14AAF686-4C82-4B35-AA10-7718DFCA3B99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf", "src\01\Sink\KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf\KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.csproj", "{A04D3FB8-9109-4E90-B130-325E5DDDC754}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf", "src\01\Sink\KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf\KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.csproj", "{A04D3FB8-9109-4E90-B130-325E5DDDC754}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared", "src\01\Sink\KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared\KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.csproj", "{0FA1510C-FDBA-48E8-A29C-C5CCECDED5B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -368,6 +370,22 @@ Global
 		{A04D3FB8-9109-4E90-B130-325E5DDDC754}.Release|x64.Build.0 = Release|Any CPU
 		{A04D3FB8-9109-4E90-B130-325E5DDDC754}.Release|x86.ActiveCfg = Release|Any CPU
 		{A04D3FB8-9109-4E90-B130-325E5DDDC754}.Release|x86.Build.0 = Release|Any CPU
+		{0FA1510C-FDBA-48E8-A29C-C5CCECDED5B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FA1510C-FDBA-48E8-A29C-C5CCECDED5B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FA1510C-FDBA-48E8-A29C-C5CCECDED5B3}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{0FA1510C-FDBA-48E8-A29C-C5CCECDED5B3}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{0FA1510C-FDBA-48E8-A29C-C5CCECDED5B3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0FA1510C-FDBA-48E8-A29C-C5CCECDED5B3}.Debug|x64.Build.0 = Debug|Any CPU
+		{0FA1510C-FDBA-48E8-A29C-C5CCECDED5B3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0FA1510C-FDBA-48E8-A29C-C5CCECDED5B3}.Debug|x86.Build.0 = Debug|Any CPU
+		{0FA1510C-FDBA-48E8-A29C-C5CCECDED5B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FA1510C-FDBA-48E8-A29C-C5CCECDED5B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FA1510C-FDBA-48E8-A29C-C5CCECDED5B3}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{0FA1510C-FDBA-48E8-A29C-C5CCECDED5B3}.Release|ARM64.Build.0 = Release|Any CPU
+		{0FA1510C-FDBA-48E8-A29C-C5CCECDED5B3}.Release|x64.ActiveCfg = Release|Any CPU
+		{0FA1510C-FDBA-48E8-A29C-C5CCECDED5B3}.Release|x64.Build.0 = Release|Any CPU
+		{0FA1510C-FDBA-48E8-A29C-C5CCECDED5B3}.Release|x86.ActiveCfg = Release|Any CPU
+		{0FA1510C-FDBA-48E8-A29C-C5CCECDED5B3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -404,6 +422,7 @@ Global
 		{70AB3278-9386-4B21-8C41-2A9204E546C2} = {58BF6F06-A63A-47A7-ACD1-15D70A104712}
 		{14AAF686-4C82-4B35-AA10-7718DFCA3B99} = {CF863BCE-7A36-4B3C-A1C8-4BC4454B4580}
 		{A04D3FB8-9109-4E90-B130-325E5DDDC754} = {CF863BCE-7A36-4B3C-A1C8-4BC4454B4580}
+		{0FA1510C-FDBA-48E8-A29C-C5CCECDED5B3} = {CF863BCE-7A36-4B3C-A1C8-4BC4454B4580}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8D6D3E76-16B7-4883-AD78-6AECA7ED0ED8}

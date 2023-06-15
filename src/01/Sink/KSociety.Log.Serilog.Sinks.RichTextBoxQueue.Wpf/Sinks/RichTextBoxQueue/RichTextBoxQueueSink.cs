@@ -8,19 +8,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using System.Windows.Threading;
-using KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue.Abstraction;
-using KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue.Output;
-using KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue.Themes;
-using KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue.Event;
+using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
+using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Event;
+using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
 
 namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
 {
-    internal sealed class RichTextBoxQueueSink : IBatchedLogEventSink, IDisposable
+    public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEventSink, IDisposable
     {
         private const string DefaultRichTextBoxOutputTemplate = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
         private static readonly object DefaultSyncRoot = new();
 
-        private IRichTextBoxQueue? _richTextBox;
+        private IRichTextBox? _richTextBox;
         private readonly BufferBlock<LogEvent> _queue;
         private readonly IObservable<LogEvent> _observable;
         //private readonly IObserver<LogEvent> _observer;
@@ -49,7 +49,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
             var appliedTheme = theme ?? RichTextBoxConsoleThemes.Literate;
             _formatter = new XamlOutputTemplateRenderer(appliedTheme, _outputTemplate, formatProvider);
 
-            _richTextBox = new Abstraction.RichTextBoxQueue(richTextBoxControl);
+            _richTextBox = new RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction.RichTextBox(richTextBoxControl);
 
             if (!Enum.IsDefined(typeof(DispatcherPriority), dispatcherPriority))
             {

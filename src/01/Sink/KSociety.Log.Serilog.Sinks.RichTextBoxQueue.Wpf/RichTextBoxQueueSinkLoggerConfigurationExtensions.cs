@@ -15,6 +15,8 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf
         private const int DefaultBatchPostingLimit = 500;
         private static readonly TimeSpan DefaultPeriod = TimeSpan.FromMilliseconds(200);
 
+        public static IRichTextBoxQueueSink? RichTextBoxQueueSink { get; private set; }
+
         ///// <summary>
         ///// Writes log events to a <see cref="System.Windows.Controls.RichTextBox"/> control.
         ///// </summary>
@@ -98,8 +100,8 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf
 
             //var formatter = new XamlOutputTemplateRenderer(appliedTheme, outputTemplate, formatProvider);
 
-            var richTextBoxSink = new RichTextBoxQueueSink(outputTemplate /*formatter, dispatcherPriority, syncRoot*/);
-
+            var richTextBoxQueueSink = new RichTextBoxQueueSink(outputTemplate /*formatter, dispatcherPriority, syncRoot*/);
+            RichTextBoxQueueSink = richTextBoxQueueSink;
             var periodicBatchingSinkOptions = new PeriodicBatchingSinkOptions
             {
                 BatchSizeLimit = DefaultBatchPostingLimit,
@@ -108,7 +110,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf
                 QueueLimit = 10000
             };
 
-            var periodicBatchingSink = new PeriodicBatchingSink(richTextBoxSink, periodicBatchingSinkOptions);
+            var periodicBatchingSink = new PeriodicBatchingSink(richTextBoxQueueSink, periodicBatchingSinkOptions);
 
             return sinkConfiguration.Sink(periodicBatchingSink, restrictedToMinimumLevel, levelSwitch);
         }

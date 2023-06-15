@@ -25,7 +25,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
 
         private IRichTextBox? _richTextBox;
         private readonly BufferBlock<LogEvent> _queue;
-        private readonly IObservable<LogEvent> _observable;
+        //private readonly IObservable<LogEvent> _observable;
         //private readonly IObserver<LogEvent> _observer;
         private readonly string _outputTemplate;
         private ITextFormatter _formatter;
@@ -38,10 +38,10 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
         {
             _queue = new BufferBlock<LogEvent>();
 
-            _observable = _queue.AsObservable();
+            //_observable = _queue.AsObservable();
             //_observer = _queue.AsObserver();
 
-            _observable.Subscribe(new LogEventHandler());
+            //_observable.Subscribe(new LogEventHandler());
             //_observer.OnCompleted(XamlOutputTemplateRenderer => ());
 
             _outputTemplate = outputTemplate;

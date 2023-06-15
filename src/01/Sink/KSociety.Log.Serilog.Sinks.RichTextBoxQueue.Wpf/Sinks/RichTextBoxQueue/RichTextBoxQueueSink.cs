@@ -4,7 +4,9 @@ using Serilog.Sinks.PeriodicBatching;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using System.Windows.Threading;
@@ -12,6 +14,7 @@ using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstra
 using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Event;
 using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
 using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
+using System.Text;
 
 namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
 {
@@ -29,6 +32,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
         private DispatcherPriority _dispatcherPriority;
         private object _syncRoot;
         private RenderAction _renderAction;
+        private readonly TimerAsync _timerAsync;
 
         public RichTextBoxQueueSink(string outputTemplate = DefaultRichTextBoxOutputTemplate)
         {
@@ -41,9 +45,11 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
             //_observer.OnCompleted(XamlOutputTemplateRenderer => ());
 
             _outputTemplate = outputTemplate;
+
+            _timerAsync = new TimerAsync(ProcessQueue, TimeSpan.FromMilliseconds(10), TimeSpan.FromMilliseconds(500));
         }
 
-        public void AddRichTextBox(System.Windows.Controls.RichTextBox richTextBoxControl, DispatcherPriority dispatcherPriority, IFormatProvider? formatProvider = null, RichTextBoxTheme? theme = null, object? syncRoot = null)
+        public void AddRichTextBox(System.Windows.Controls.RichTextBox richTextBoxControl, DispatcherPriority dispatcherPriority = DispatcherPriority.Background, IFormatProvider? formatProvider = null, RichTextBoxTheme? theme = null, object? syncRoot = null)
         {
 
             var appliedTheme = theme ?? RichTextBoxConsoleThemes.Literate;
@@ -60,6 +66,31 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
             _dispatcherPriority = dispatcherPriority;
             _syncRoot = syncRoot ?? DefaultSyncRoot;
             _renderAction = Render;
+
+            _timerAsync.Start();
+        }
+
+        private async Task ProcessQueue(CancellationToken cancellationToken = default)
+        {
+            StringBuilder sb = new();
+            while (await _queue.OutputAvailableAsync(cancellationToken).ConfigureAwait(false))
+            {
+                if (_queue.TryReceive(null, out var logEvent))
+                {
+                    sb.Append($"<Paragraph xmlns =\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xml:space=\"preserve\">");
+                    StringWriter writer = new();
+                    _formatter.Format(logEvent, writer);
+                    sb.Append(writer);
+
+                    sb.Append("</Paragraph>");
+                    var xamlParagraphText = sb.ToString();
+                    lock (_syncRoot)
+                    {
+                        _richTextBox?.BeginInvoke(_dispatcherPriority, _renderAction, xamlParagraphText);
+                    }
+                    sb.Clear();
+                }
+            }
         }
 
         private void Render(string xamlParagraphText)
@@ -72,6 +103,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
 
         public void Dispose()
         {
+            _timerAsync.Dispose();
             _queue.Complete();
         }
 
@@ -81,33 +113,16 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
         {
             if (batch.Any())
             {
-                //Enumerable.Range(0, 10).Select(x => { x})
-                //StringBuilder sb = new();
-
                 foreach (var logEvent in batch)
                 {
-
                     await _queue.SendAsync(logEvent).ConfigureAwait(false);
-                    
-
-                    //sb.Append($"<Paragraph xmlns =\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xml:space=\"preserve\">");
-                    //StringWriter writer = new();
-                    //_formatter.Format(logEvent, writer);
-                    //sb.Append(writer);
-
-                    //sb.Append("</Paragraph>");
-                    //string xamlParagraphText = sb.ToString();
-                    //lock (_syncRoot)
-                    //{
-                    //    _richTextBox.BeginInvoke(_dispatcherPriority, _renderAction, xamlParagraphText);
-                    //}
-                    //sb.Clear();
                 }
             }
         }
 
         public Task OnEmptyBatchAsync()
         {
+            //await _timerAsync.StopAsync();
             return Task.CompletedTask;
         }
     }

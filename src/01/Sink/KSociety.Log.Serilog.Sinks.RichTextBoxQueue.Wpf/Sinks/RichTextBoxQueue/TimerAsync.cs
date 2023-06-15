@@ -31,14 +31,13 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
             _dueTime = dueTime;
             _period = period;
             _cancellationSource = CancellationTokenSource.CreateLinkedTokenSource(token);
-
-            //Start();
         }
 
         public Task ChangeAsync(TimeSpan dueTime, TimeSpan period)
         {
             return ChangeAsync(dueTime, period, CancellationToken.None);
         }
+
         public async Task ChangeAsync(TimeSpan dueTime, TimeSpan period, CancellationToken token)
         {
             await StopAsync()

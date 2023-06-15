@@ -34,14 +34,6 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf
 
             _richTextBoxQueueSink = richTextBoxQueueSink ?? throw new ArgumentNullException(nameof(richTextBoxQueueSink));
 
-            //var appliedTheme = theme ?? RichTextBoxConsoleThemes.Literate;
-
-            //syncRoot ??= DefaultSyncRoot;
-
-            //var formatter = new XamlOutputTemplateRenderer(appliedTheme, outputTemplate, formatProvider);
-
-            //_richTextBoxQueueSink = new RichTextBoxQueueSink(outputTemplate /*formatter, dispatcherPriority, syncRoot*/);
-
             var periodicBatchingSinkOptions = new PeriodicBatchingSinkOptions
             {
                 BatchSizeLimit = DefaultBatchPostingLimit,

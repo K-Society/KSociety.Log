@@ -1,4 +1,7 @@
-﻿using Serilog.Events;
+﻿using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
+using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
+using Serilog.Events;
 using Serilog.Formatting;
 using Serilog.Sinks.PeriodicBatching;
 using System;
@@ -6,15 +9,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using System.Windows.Threading;
-using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
-using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Event;
-using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
-using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
-using System.Text;
 
 namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
 {
@@ -25,8 +24,6 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
 
         private IRichTextBox? _richTextBox;
         private readonly BufferBlock<LogEvent> _queue;
-        //private readonly IObservable<LogEvent> _observable;
-        //private readonly IObserver<LogEvent> _observer;
         private readonly string _outputTemplate;
         private ITextFormatter _formatter;
         private DispatcherPriority _dispatcherPriority;
@@ -37,21 +34,12 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
         public RichTextBoxQueueSink(string outputTemplate = DefaultRichTextBoxOutputTemplate)
         {
             _queue = new BufferBlock<LogEvent>();
-
-            //_observable = _queue.AsObservable();
-            //_observer = _queue.AsObserver();
-
-            //_observable.Subscribe(new LogEventHandler());
-            //_observer.OnCompleted(XamlOutputTemplateRenderer => ());
-
             _outputTemplate = outputTemplate;
-
             _timerAsync = new TimerAsync(ProcessQueue, TimeSpan.FromMilliseconds(10), TimeSpan.FromMilliseconds(500));
         }
 
         public void AddRichTextBox(System.Windows.Controls.RichTextBox richTextBoxControl, DispatcherPriority dispatcherPriority = DispatcherPriority.Background, IFormatProvider? formatProvider = null, RichTextBoxTheme? theme = null, object? syncRoot = null)
         {
-
             var appliedTheme = theme ?? RichTextBoxConsoleThemes.Literate;
             _formatter = new XamlOutputTemplateRenderer(appliedTheme, _outputTemplate, formatProvider);
 
@@ -72,15 +60,11 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
 
         private async Task ProcessQueue(CancellationToken cancellationToken = default)
         {
-            Console.WriteLine("ProcessQueue");
             StringBuilder sb = new();
             if (await _queue.OutputAvailableAsync(cancellationToken).ConfigureAwait(false))
             {
-                Console.WriteLine("Available output");
                 while (_queue.TryReceive(null, out var logEvent))
                 {
-                    Console.WriteLine("Output: {0}", logEvent.RenderMessage());
-
                     sb.Append($"<Paragraph xmlns =\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xml:space=\"preserve\">");
                     StringWriter writer = new();
                     _formatter.Format(logEvent, writer);
@@ -126,8 +110,6 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
 
         public Task OnEmptyBatchAsync()
         {
-            Console.WriteLine("OnEmptyBatchAsync");
-            //await _timerAsync.StopAsync();
             return Task.CompletedTask;
         }
     }

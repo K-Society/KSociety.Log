@@ -62,6 +62,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
         private async Task ProcessQueue(CancellationToken cancellationToken = default)
         {
             StringBuilder sb = new();
+            
             if (await _queue.OutputAvailableAsync(cancellationToken).ConfigureAwait(false))
             {
                 while (_queue.TryReceive(null, out var logEvent))
@@ -98,7 +99,14 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
         {
             lock (_syncRoot)
             {
-                _richTextBox?.Write(xamlParagraphText);
+                try
+                {
+                    _richTextBox?.Write(xamlParagraphText);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Render: {0}", xamlParagraphText);
+                }
             }
         }
 

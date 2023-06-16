@@ -22,7 +22,8 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Ab
 
             try
             {
-                parsedParagraph = (Paragraph)XamlReader.Parse(xamlParagraphText);
+                parsedParagraph = (Paragraph) XamlReader.Parse(xamlParagraphText);
+                
             }
             catch (XamlParseException ex)
             {

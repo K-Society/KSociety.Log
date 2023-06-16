@@ -84,9 +84,9 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
                         }
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
-                        Console.WriteLine("ProcessQueue: {0}", ex.Message);
+                        //Console.WriteLine("ProcessQueue: {0}", ex.Message);
                     }finally
                     {
                         sb.Clear();
@@ -103,9 +103,9 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
                 {
                     _richTextBox?.Write(xamlParagraphText);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    Console.WriteLine("Render: {0}", xamlParagraphText);
+                    //Console.WriteLine("Render: {0}", xamlParagraphText);
                 }
             }
         }

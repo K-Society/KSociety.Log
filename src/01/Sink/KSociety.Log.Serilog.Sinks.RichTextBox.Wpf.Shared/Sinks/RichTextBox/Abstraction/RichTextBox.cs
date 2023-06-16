@@ -25,25 +25,13 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Ab
 
             try
             {
-                //var parserContext = new ParserContext()
-                //{
-
-                //}
-                var stream = new MemoryStream(Encoding.Unicode.GetBytes(xamlParagraphText));
-                var xmlContext = new XmlParserContext(null, null, null, XmlSpace.Preserve, Encoding.Unicode);
-                parsedParagraph = (Paragraph) XamlReader.Load(stream, new ParserContext(xmlContext), true);
-                //parsedParagraph = (Paragraph) XamlReader.Parse(xamlParagraphText);
+                parsedParagraph = (Paragraph) XamlReader.Parse(xamlParagraphText);
 
             }
             catch (XamlParseException ex)
             {
-                Console.WriteLine(ex.Message);
+
                 SelfLog.WriteLine($"Error parsing `{xamlParagraphText}` to XAML: {ex.Message}");
-                throw;
-            }
-            catch (Exception exx)
-            {
-                Console.WriteLine(exx.Message);
                 throw;
             }
 

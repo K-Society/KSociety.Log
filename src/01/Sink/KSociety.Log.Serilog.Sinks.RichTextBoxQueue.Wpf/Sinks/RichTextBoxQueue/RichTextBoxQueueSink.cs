@@ -41,6 +41,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
         public void AddRichTextBox(System.Windows.Controls.RichTextBox richTextBoxControl, DispatcherPriority dispatcherPriority = DispatcherPriority.Background, IFormatProvider? formatProvider = null, RichTextBoxTheme? theme = null, object? syncRoot = null)
         {
             var appliedTheme = theme ?? RichTextBoxConsoleThemes.Literate;
+
             _formatter = new XamlOutputTemplateRenderer(appliedTheme, _outputTemplate, formatProvider);
 
             _richTextBox = new RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction.RichTextBox(richTextBoxControl);
@@ -65,18 +66,30 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
             {
                 while (_queue.TryReceive(null, out var logEvent))
                 {
-                    sb.Append($"<Paragraph xmlns =\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xml:space=\"preserve\">");
-                    StringWriter writer = new();
-                    _formatter.Format(logEvent, writer);
-                    sb.Append(writer);
-
-                    sb.Append("</Paragraph>");
-                    var xamlParagraphText = sb.ToString();
-                    lock (_syncRoot)
+                    try
                     {
-                        _richTextBox?.BeginInvoke(_dispatcherPriority, _renderAction, xamlParagraphText);
+                        sb.Append(
+                            $"<Paragraph xmlns =\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xml:space=\"preserve\">");
+                        StringWriter writer = new();
+                        _formatter.Format(logEvent, writer);
+                        sb.Append(writer);
+
+                        sb.Append("</Paragraph>");
+                        var xamlParagraphText = sb.ToString();
+
+                        lock (_syncRoot)
+                        {
+                            _richTextBox?.BeginInvoke(_dispatcherPriority, _renderAction, xamlParagraphText);
+                        }
+
                     }
-                    sb.Clear();
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("ProcessQueue: {0}", ex.Message);
+                    }finally
+                    {
+                        sb.Clear();
+                    }
                 }
             }
         }

@@ -1,8 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Windows.Threading;
+using System.Xml;
 using Serilog.Debugging;
 
 namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction
@@ -22,12 +25,25 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Ab
 
             try
             {
-                parsedParagraph = (Paragraph) XamlReader.Parse(xamlParagraphText);
-                
+                //var parserContext = new ParserContext()
+                //{
+
+                //}
+                var stream = new MemoryStream(Encoding.Unicode.GetBytes(xamlParagraphText));
+                var xmlContext = new XmlParserContext(null, null, null, XmlSpace.Preserve, Encoding.Unicode);
+                parsedParagraph = (Paragraph) XamlReader.Load(stream, new ParserContext(xmlContext), true);
+                //parsedParagraph = (Paragraph) XamlReader.Parse(xamlParagraphText);
+
             }
             catch (XamlParseException ex)
             {
+                Console.WriteLine(ex.Message);
                 SelfLog.WriteLine($"Error parsing `{xamlParagraphText}` to XAML: {ex.Message}");
+                throw;
+            }
+            catch (Exception exx)
+            {
+                Console.WriteLine(exx.Message);
                 throw;
             }
 

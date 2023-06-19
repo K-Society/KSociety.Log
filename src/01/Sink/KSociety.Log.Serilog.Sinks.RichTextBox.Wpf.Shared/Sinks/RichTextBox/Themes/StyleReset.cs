@@ -1,22 +1,21 @@
 ﻿using System;
 using System.IO;
 
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes
+namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
+
+internal readonly struct StyleReset : IDisposable
 {
-    internal readonly struct StyleReset : IDisposable
+    private readonly RichTextBoxTheme _theme;
+    private readonly TextWriter _output;
+
+    public StyleReset(RichTextBoxTheme theme, TextWriter output)
     {
-        private readonly RichTextBoxTheme _theme;
-        private readonly TextWriter _output;
+        _theme = theme;
+        _output = output;
+    }
 
-        public StyleReset(RichTextBoxTheme theme, TextWriter output)
-        {
-            _theme = theme;
-            _output = output;
-        }
-
-        public void Dispose()
-        {
-            _theme.Reset(_output);
-        }
+    public void Dispose()
+    {
+        _theme.Reset(_output);
     }
 }

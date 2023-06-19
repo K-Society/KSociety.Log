@@ -3,40 +3,39 @@ using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Render
 using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
 using Serilog.Events;
 
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output
+namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+
+internal class ExceptionTokenRenderer : OutputTemplateTokenRenderer
 {
-    internal class ExceptionTokenRenderer : OutputTemplateTokenRenderer
+    private const string _stackFrameLinePrefix = "   ";
+
+    private readonly RichTextBoxTheme _theme;
+
+    public ExceptionTokenRenderer(RichTextBoxTheme theme)
     {
-        private const string _stackFrameLinePrefix = "   ";
+        _theme = theme;
+    }
 
-        private readonly RichTextBoxTheme _theme;
+    public override void Render(LogEvent logEvent, TextWriter output)
+    {
+        // Padding is never applied by this renderer.
 
-        public ExceptionTokenRenderer(RichTextBoxTheme theme)
+        if (logEvent.Exception is null)
         {
-            _theme = theme;
+            return;
         }
 
-        public override void Render(LogEvent logEvent, TextWriter output)
+        var lines = new StringReader(logEvent.Exception.ToString());
+
+        string nextLine;
+        while ((nextLine = lines.ReadLine()) != null)
         {
-            // Padding is never applied by this renderer.
+            var style = nextLine.StartsWith(_stackFrameLinePrefix) ? RichTextBoxThemeStyle.SecondaryText : RichTextBoxThemeStyle.Text;
+            var _ = 0;
 
-            if (logEvent.Exception is null)
+            using (_theme.Apply(output, style, ref _))
             {
-                return;
-            }
-
-            var lines = new StringReader(logEvent.Exception.ToString());
-
-            string nextLine;
-            while ((nextLine = lines.ReadLine()) != null)
-            {
-                var style = nextLine.StartsWith(_stackFrameLinePrefix) ? RichTextBoxThemeStyle.SecondaryText : RichTextBoxThemeStyle.Text;
-                var _ = 0;
-
-                using (_theme.Apply(output, style, ref _))
-                {
-                    output.WriteLine(SpecialCharsEscaping.Apply(nextLine, ref _));
-                }
+                output.WriteLine(SpecialCharsEscaping.Apply(nextLine, ref _));
             }
         }
     }

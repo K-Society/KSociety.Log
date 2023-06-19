@@ -1,23 +1,22 @@
-﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes
+﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
+
+/// <summary>
+/// Styling applied for Foreground and Background colors.
+/// </summary>
+public struct RichTextBoxConsoleThemeStyle
 {
     /// <summary>
-    /// Styling applied for Foreground and Background colors.
+    /// The background color to apply. e.g. #ffffff
     /// </summary>
-    public struct RichTextBoxConsoleThemeStyle
-    {
-        /// <summary>
-        /// The background color to apply. e.g. #ffffff
-        /// </summary>
-        public string Background;
+    public string Background;
 
-        /// <summary>
-        /// The foreground color to apply. e.g. #ff0000
-        /// </summary>
-        public string Foreground;
+    /// <summary>
+    /// The foreground color to apply. e.g. #ff0000
+    /// </summary>
+    public string Foreground;
 
-        /// <summary>
-        /// The font weight to apply. e.g. Bold
-        /// </summary>
-        public string FontWeight;
-    }
+    /// <summary>
+    /// The font weight to apply. e.g. Bold
+    /// </summary>
+    public string FontWeight;
 }

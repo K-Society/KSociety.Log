@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Windows.Threading;
 
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction
+namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
+
+public interface IRichTextBox
 {
-    public interface IRichTextBox
-    {
-        void Write(string xamlParagraphText);
+    void Write(string xamlParagraphText);
 
-        bool CheckAccess();
+    bool CheckAccess();
 
-        public DispatcherOperation BeginInvoke(DispatcherPriority priority, Delegate method, object arg);
-    }
+    public DispatcherOperation BeginInvoke(DispatcherPriority priority, Delegate method, object arg);
 }

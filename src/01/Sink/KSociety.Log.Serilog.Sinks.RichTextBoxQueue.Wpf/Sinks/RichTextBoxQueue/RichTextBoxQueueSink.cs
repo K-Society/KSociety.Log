@@ -135,9 +135,7 @@ public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEve
     public void Dispose()
     {
         _queue.Complete();
-        _timer.Stop();
         _timer.Close();
-        _timer.Dispose();
     }
 
     private delegate void RenderAction(string xamlParagraphText);

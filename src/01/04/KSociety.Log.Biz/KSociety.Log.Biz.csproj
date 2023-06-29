@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KSociety.Base.EventBusRabbitMQ" Version="1.2.15" />
+    <PackageReference Include="KSociety.Base.EventBusRabbitMQ" Version="1.2.21" />
   </ItemGroup>
 
   <ItemGroup>

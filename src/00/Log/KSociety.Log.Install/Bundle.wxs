@@ -16,12 +16,12 @@
       <MsiPackage 
         Visible="no"
         Compressed="yes" 
-        SourceFile="..\..\..\..\build\KSociety.LogServer.MsiSetup\Release\$(NetVersion)\en-US\KSociety.LogServer-$(Version)-$(NetVersion).msi" >
+        SourceFile="..\..\..\..\build\KSociety.LogServer.MsiSetup\bin\Release\$(NetVersion)\en-US\KSociety.LogServer-$(Version)-$(NetVersion).msi" >
       </MsiPackage>
       <MsiPackage 
         Visible="no"
         Compressed="yes"
-        SourceFile="..\..\..\..\build\KSociety.LogWebApp.MsiSetup\Release\$(NetVersion)\en-US\KSociety.LogWebApp-$(Version)-$(NetVersion).msi" />
+        SourceFile="..\..\..\..\build\KSociety.LogWebApp.MsiSetup\bin\Release\$(NetVersion)\en-US\KSociety.LogWebApp-$(Version)-$(NetVersion).msi" />
     </Chain>
 
   </Bundle>

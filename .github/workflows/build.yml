@@ -36,13 +36,17 @@ jobs:
           echo 'SemVer2=${{ steps.nbgv.outputs.SemVer2 }}'
           echo 'SimpleVersion=${{ steps.nbgv.outputs.SimpleVersion }}'
 
-      - name: Build KSociety.Log
+      - name: Build KSociety.Log net6.0
         shell: cmd
-        run: ./build.cmd
+        run: ./build.cmd net6.0
 
       - name: Zip Installer net6.0
         shell: pwsh
         run: Compress-Archive -LiteralPath .\build\KSociety.Log.Install\bin\Release\net6.0\KSociety.Log.Install-${{ steps.nbgv.outputs.SimpleVersion }}-net6.0.exe -DestinationPath .\build\KSociety.Log.Install\bin\Release\net6.0\K-Society.Log-${{ steps.nbgv.outputs.SimpleVersion }}-net6.0.zip -Force
+
+      - name: Build KSociety.Log net7.0
+        shell: cmd
+        run: ./build.cmd net7.0
 
       - name: Zip Installer net7.0
         shell: pwsh

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
-  <Package Name="KSociety.LogWebApp.MsiSetup $(Version)" 
+  <Package Name="KSociety.LogWebApp.MsiSetup $(Version) $(NetVersion)" 
            Manufacturer="K-Society" 
            Version="$(AssemblyFileVersion)" 
            UpgradeCode="9dac79a4-394e-4dfb-85c4-79fb083a836c"
@@ -8,7 +8,7 @@
            Language="1033"
            Scope="perMachine"
            ShortNames="yes">
-    <Media Id="1" Cabinet="LogWebApp.cab" EmbedCab="yes"/>
+    <Media Id="1" Cabinet="LogWebApp_$(NetVersion).cab" EmbedCab="yes"/>
     <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
     <WixVariable Id="Edition" Value="Enterprise"/>
     <ui:WixUI Id="WixUI_Minimal" />

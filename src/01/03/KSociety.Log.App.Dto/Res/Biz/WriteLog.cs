@@ -1,8 +1,8 @@
-﻿using KSociety.Base.App.Shared;
-using ProtoBuf;
-
-namespace KSociety.Log.App.Dto.Res.Biz
+﻿namespace KSociety.Log.App.Dto.Res.Biz
 {
+    using KSociety.Base.App.Shared;
+    using ProtoBuf;
+
     [ProtoContract]
     public class WriteLog : IResponse
     {
@@ -15,7 +15,7 @@ namespace KSociety.Log.App.Dto.Res.Biz
 
         public WriteLog(bool result)
         {
-            Result = result;
+            this.Result = result;
         }
     }
 }

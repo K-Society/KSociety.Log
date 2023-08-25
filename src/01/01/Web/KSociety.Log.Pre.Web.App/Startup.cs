@@ -1,19 +1,19 @@
-using KSociety.Log.Pre.Web.App.Hubs;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Serilog;
-
 namespace KSociety.Log.Pre.Web.App
 {
+    using KSociety.Log.Pre.Web.App.Hubs;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Server.Kestrel.Core;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using Serilog;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -22,7 +22,7 @@ namespace KSociety.Log.Pre.Web.App
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<KestrelServerOptions>(
-                Configuration.GetSection("Kestrel"));
+                this.Configuration.GetSection("Kestrel"));
 
             services.AddControllersWithViews();
             //services.AddCors(options => options.AddPolicy("CorsPolicy",

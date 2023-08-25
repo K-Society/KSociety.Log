@@ -1,12 +1,11 @@
-﻿using System;
+namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Formatting;
+using System;
 using System.Globalization;
 using System.IO;
 using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Rendering;
 using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
-using Serilog.Events;
-using Serilog.Formatting.Json;
-
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Formatting;
+using global::Serilog.Events;
+using global::Serilog.Formatting.Json;
 
 internal class ThemedDisplayValueFormatter : ThemedValueFormatter
 {
@@ -15,12 +14,12 @@ internal class ThemedDisplayValueFormatter : ThemedValueFormatter
     public ThemedDisplayValueFormatter(RichTextBoxTheme theme, IFormatProvider formatProvider)
         : base(theme)
     {
-        _formatProvider = formatProvider;
+        this._formatProvider = formatProvider;
     }
 
     public override ThemedValueFormatter SwitchTheme(RichTextBoxTheme theme)
     {
-        return new ThemedDisplayValueFormatter(theme, _formatProvider);
+        return new ThemedDisplayValueFormatter(theme, this._formatProvider);
     }
 
     protected override int VisitScalarValue(ThemedValueFormatterState state, ScalarValue scalar)
@@ -30,7 +29,7 @@ internal class ThemedDisplayValueFormatter : ThemedValueFormatter
             throw new ArgumentNullException(nameof(scalar));
         }
 
-        return FormatLiteralValue(scalar, state.Output, state.Format);
+        return this.FormatLiteralValue(scalar, state.Output, state.Format);
     }
 
     protected override int VisitSequenceValue(ThemedValueFormatterState state, SequenceValue sequence)
@@ -42,29 +41,29 @@ internal class ThemedDisplayValueFormatter : ThemedValueFormatter
 
         var count = 0;
 
-        using (ApplyStyle(state.Output, RichTextBoxThemeStyle.TertiaryText, ref count))
+        using (this.ApplyStyle(state.Output, RichTextBoxThemeStyle.TertiaryText, ref count))
         {
             state.Output.Write('[');
         }
 
-        var delim = string.Empty;
+        var delim = String.Empty;
 
         // ReSharper disable once ForCanBeConvertedToForeach
         for (var index = 0; index < sequence.Elements.Count; ++index)
         {
             if (delim.Length != 0)
             {
-                using (ApplyStyle(state.Output, RichTextBoxThemeStyle.TertiaryText, ref count))
+                using (this.ApplyStyle(state.Output, RichTextBoxThemeStyle.TertiaryText, ref count))
                 {
                     state.Output.Write(delim);
                 }
             }
 
             delim = ", ";
-            Visit(state, sequence.Elements[index]);
+            this.Visit(state, sequence.Elements[index]);
         }
 
-        using (ApplyStyle(state.Output, RichTextBoxThemeStyle.TertiaryText, ref count))
+        using (this.ApplyStyle(state.Output, RichTextBoxThemeStyle.TertiaryText, ref count))
         {
             state.Output.Write(']');
         }
@@ -78,7 +77,7 @@ internal class ThemedDisplayValueFormatter : ThemedValueFormatter
 
         if (structure.TypeTag != null)
         {
-            using (ApplyStyle(state.Output, RichTextBoxThemeStyle.Name, ref count))
+            using (this.ApplyStyle(state.Output, RichTextBoxThemeStyle.Name, ref count))
             {
                 state.Output.Write(structure.TypeTag);
             }
@@ -86,19 +85,19 @@ internal class ThemedDisplayValueFormatter : ThemedValueFormatter
             state.Output.Write(' ');
         }
 
-        using (ApplyStyle(state.Output, RichTextBoxThemeStyle.TertiaryText, ref count))
+        using (this.ApplyStyle(state.Output, RichTextBoxThemeStyle.TertiaryText, ref count))
         {
             state.Output.Write('{');
         }
 
-        var delim = string.Empty;
+        var delim = String.Empty;
 
         // ReSharper disable once ForCanBeConvertedToForeach
         for (var index = 0; index < structure.Properties.Count; ++index)
         {
             if (delim.Length != 0)
             {
-                using (ApplyStyle(state.Output, RichTextBoxThemeStyle.TertiaryText, ref count))
+                using (this.ApplyStyle(state.Output, RichTextBoxThemeStyle.TertiaryText, ref count))
                 {
                     state.Output.Write(delim);
                 }
@@ -108,21 +107,21 @@ internal class ThemedDisplayValueFormatter : ThemedValueFormatter
 
             var property = structure.Properties[index];
 
-            using (ApplyStyle(state.Output, RichTextBoxThemeStyle.Name, ref count))
+            using (this.ApplyStyle(state.Output, RichTextBoxThemeStyle.Name, ref count))
             {
                 var escapedPropertyName = SpecialCharsEscaping.Apply(property.Name, ref count);
                 state.Output.Write(escapedPropertyName);
             }
 
-            using (ApplyStyle(state.Output, RichTextBoxThemeStyle.TertiaryText, ref count))
+            using (this.ApplyStyle(state.Output, RichTextBoxThemeStyle.TertiaryText, ref count))
             {
                 state.Output.Write('=');
             }
 
-            count += Visit(state.Nest(), property.Value);
+            count += this.Visit(state.Nest(), property.Value);
         }
 
-        using (ApplyStyle(state.Output, RichTextBoxThemeStyle.TertiaryText, ref count))
+        using (this.ApplyStyle(state.Output, RichTextBoxThemeStyle.TertiaryText, ref count))
         {
             state.Output.Write('}');
         }
@@ -134,17 +133,17 @@ internal class ThemedDisplayValueFormatter : ThemedValueFormatter
     {
         var count = 0;
 
-        using (ApplyStyle(state.Output, RichTextBoxThemeStyle.TertiaryText, ref count))
+        using (this.ApplyStyle(state.Output, RichTextBoxThemeStyle.TertiaryText, ref count))
         {
             state.Output.Write('{');
         }
 
-        var delim = string.Empty;
+        var delim = String.Empty;
         foreach (var element in dictionary.Elements)
         {
             if (delim.Length != 0)
             {
-                using (ApplyStyle(state.Output, RichTextBoxThemeStyle.TertiaryText, ref count))
+                using (this.ApplyStyle(state.Output, RichTextBoxThemeStyle.TertiaryText, ref count))
                 {
                     state.Output.Write(delim);
                 }
@@ -152,25 +151,25 @@ internal class ThemedDisplayValueFormatter : ThemedValueFormatter
 
             delim = ", ";
 
-            using (ApplyStyle(state.Output, RichTextBoxThemeStyle.TertiaryText, ref count))
+            using (this.ApplyStyle(state.Output, RichTextBoxThemeStyle.TertiaryText, ref count))
             {
                 state.Output.Write('[');
             }
 
-            using (ApplyStyle(state.Output, RichTextBoxThemeStyle.String, ref count))
+            using (this.ApplyStyle(state.Output, RichTextBoxThemeStyle.String, ref count))
             {
-                count += Visit(state.Nest(), element.Key);
+                count += this.Visit(state.Nest(), element.Key);
             }
 
-            using (ApplyStyle(state.Output, RichTextBoxThemeStyle.TertiaryText, ref count))
+            using (this.ApplyStyle(state.Output, RichTextBoxThemeStyle.TertiaryText, ref count))
             {
                 state.Output.Write("]=");
             }
 
-            count += Visit(state.Nest(), element.Value);
+            count += this.Visit(state.Nest(), element.Value);
         }
 
-        using (ApplyStyle(state.Output, RichTextBoxThemeStyle.TertiaryText, ref count))
+        using (this.ApplyStyle(state.Output, RichTextBoxThemeStyle.TertiaryText, ref count))
         {
             state.Output.Write('}');
         }
@@ -185,7 +184,7 @@ internal class ThemedDisplayValueFormatter : ThemedValueFormatter
 
         if (value is null)
         {
-            using (ApplyStyle(output, RichTextBoxThemeStyle.Null, ref count))
+            using (this.ApplyStyle(output, RichTextBoxThemeStyle.Null, ref count))
             {
                 output.Write("null");
             }
@@ -195,7 +194,7 @@ internal class ThemedDisplayValueFormatter : ThemedValueFormatter
 
         if (value is string str)
         {
-            using (ApplyStyle(output, RichTextBoxThemeStyle.String, ref count))
+            using (this.ApplyStyle(output, RichTextBoxThemeStyle.String, ref count))
             {
                 var escapedStr = SpecialCharsEscaping.Apply(str, ref count);
 
@@ -218,9 +217,9 @@ internal class ThemedDisplayValueFormatter : ThemedValueFormatter
                 value is decimal || value is byte || value is sbyte || value is short ||
                 value is ushort || value is float || value is double)
             {
-                using (ApplyStyle(output, RichTextBoxThemeStyle.Number, ref count))
+                using (this.ApplyStyle(output, RichTextBoxThemeStyle.Number, ref count))
                 {
-                    scalar.Render(output, format, _formatProvider);
+                    scalar.Render(output, format, this._formatProvider);
                 }
 
                 return count;
@@ -228,7 +227,7 @@ internal class ThemedDisplayValueFormatter : ThemedValueFormatter
 
             if (value is bool b)
             {
-                using (ApplyStyle(output, RichTextBoxThemeStyle.Boolean, ref count))
+                using (this.ApplyStyle(output, RichTextBoxThemeStyle.Boolean, ref count))
                 {
                     output.Write(b.ToString(CultureInfo.InvariantCulture));
                 }
@@ -238,7 +237,7 @@ internal class ThemedDisplayValueFormatter : ThemedValueFormatter
 
             if (value is char ch)
             {
-                using (ApplyStyle(output, RichTextBoxThemeStyle.Scalar, ref count))
+                using (this.ApplyStyle(output, RichTextBoxThemeStyle.Scalar, ref count))
                 {
                     output.Write('\'');
                     output.Write(SpecialCharsEscaping.Apply(ch.ToString(), ref count));
@@ -249,9 +248,9 @@ internal class ThemedDisplayValueFormatter : ThemedValueFormatter
             }
         }
 
-        using (ApplyStyle(output, RichTextBoxThemeStyle.Scalar, ref count))
+        using (this.ApplyStyle(output, RichTextBoxThemeStyle.Scalar, ref count))
         {
-            scalar.Render(output, format, _formatProvider);
+            scalar.Render(output, format, this._formatProvider);
         }
 
         return count;

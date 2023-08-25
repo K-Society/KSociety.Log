@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using KSociety.Log.Srv.Dto;
-using Microsoft.AspNetCore.SignalR.Client;
-
-namespace KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR
+﻿namespace KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR
 {
+    using System;
+    using System.Threading.Tasks;
+    using KSociety.Log.Srv.Dto;
+    using Microsoft.AspNetCore.SignalR.Client;
+
     public class HubProxy
     {
         public string Uri { get; set; }
@@ -13,22 +13,22 @@ namespace KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR
 
         public HubProxy()
         {
-            Uri = "http://localhost:61000/LoggingHub";
+            this.Uri = "http://localhost:61000/LoggingHub";
         }
 
         public HubProxy(string uri)
         {
-            Uri = uri;
+            this.Uri = uri;
         }
 
         public async ValueTask Log(LogEvent logEvent)
         {
 
-            EnsureProxyExists();
+            this.EnsureProxyExists();
 
             try
             {
-                await _connection.InvokeAsync("SendLog", logEvent).ConfigureAwait(false);
+                await this._connection.InvokeAsync("SendLog", logEvent).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -38,13 +38,13 @@ namespace KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR
 
         private void EnsureProxyExists()
         {
-            if (_connection is null)
+            if (this._connection is null)
             {
-                BeginNewConnection();
+                this.BeginNewConnection();
             }
-            else if (_connection.State == HubConnectionState.Disconnected)
+            else if (this._connection.State == HubConnectionState.Disconnected)
             {
-                StartExistingConnection();
+                this.StartExistingConnection();
             }
         }
 
@@ -52,15 +52,15 @@ namespace KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR
         {
             try
             {
-                _connection = new HubConnectionBuilder().WithUrl(Uri).Build();
+                this._connection = new HubConnectionBuilder().WithUrl(this.Uri).Build();
 
-                _connection.StartAsync().Wait();
+                this._connection.StartAsync().Wait();
 
-                _connection.InvokeAsync("Notify", _connection.ConnectionId);
+                this._connection.InvokeAsync("Notify", this._connection.ConnectionId);
             }
             catch (Exception)
             {
-                _connection.DisposeAsync();
+                this._connection.DisposeAsync();
             }
         }
 
@@ -68,11 +68,11 @@ namespace KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR
         {
             try
             {
-                _connection.StartAsync().Wait();
+                this._connection.StartAsync().Wait();
             }
             catch (Exception)
             {
-                _connection.DisposeAsync();
+                this._connection.DisposeAsync();
             }
         }
     }

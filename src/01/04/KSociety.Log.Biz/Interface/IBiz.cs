@@ -1,9 +1,9 @@
-﻿using KSociety.Log.Biz.Event;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace KSociety.Log.Biz.Interface
+﻿namespace KSociety.Log.Biz.Interface
 {
+    using KSociety.Log.Biz.Event;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     public interface IBiz
     {
         void LoadEventBus();

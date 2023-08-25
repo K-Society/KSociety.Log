@@ -1,8 +1,8 @@
-﻿using ProtoBuf;
-using System;
-
-namespace KSociety.Log.Biz.Event
+﻿namespace KSociety.Log.Biz.Event
 {
+    using ProtoBuf;
+    using System;
+
     [ProtoContract]
     public class WriteLogEvent : IntegrationLogEvent
     {
@@ -32,11 +32,11 @@ namespace KSociety.Log.Biz.Event
         )
             : base(routingKey)
         {
-            Message = message;
-            TimeStamp = timeStamp;
-            SequenceId = sequenceId;
-            Level = level;
-            LoggerName = loggerName;
+            this.Message = message;
+            this.TimeStamp = timeStamp;
+            this.SequenceId = sequenceId;
+            this.Level = level;
+            this.LoggerName = loggerName;
         }
     }
 }

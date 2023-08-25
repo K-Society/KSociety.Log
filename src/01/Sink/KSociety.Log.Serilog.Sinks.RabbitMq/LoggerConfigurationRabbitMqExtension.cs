@@ -1,14 +1,14 @@
-﻿using KSociety.Base.EventBus;
-using KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq;
-using RabbitMQ.Client;
-using Serilog;
-using Serilog.Configuration;
-using Serilog.Formatting;
-using Serilog.Sinks.PeriodicBatching;
-using System;
-
 namespace KSociety.Log.Serilog.Sinks.RabbitMq
 {
+    using KSociety.Base.EventBus;
+    using KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq;
+    using RabbitMQ.Client;
+    using global::Serilog;
+    using global::Serilog.Configuration;
+    using global::Serilog.Formatting;
+    using global::Serilog.Sinks.PeriodicBatching;
+    using System;
+
     /// <summary>
     /// Extension method to configure Serilog with a Sink for RabbitMq
     /// </summary>
@@ -48,7 +48,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
             IEventBusParameters eventBusParameters,
             RabbitMqSinkConfiguration sinkConfiguration, ITextFormatter textFormatter = null)
         {
-            if (textFormatter != null) sinkConfiguration.TextFormatter = textFormatter;
+            if (textFormatter != null) {sinkConfiguration.TextFormatter = textFormatter;}
             return RegisterSink(loggerConfiguration, connectionFactory, eventBusParameters, sinkConfiguration);
         }
 
@@ -119,12 +119,12 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq
             RabbitMqSinkConfiguration sinkConfiguration)
         {
             // guards
-            if (loggerConfiguration == null) throw new ArgumentNullException(nameof(loggerConfiguration));
+            if (loggerConfiguration == null) {throw new ArgumentNullException(nameof(loggerConfiguration));}
             //if (connectionFactory.HostN == 0) throw new ArgumentException("hostnames cannot be empty, specify at least one hostname", "hostnames");
-            if (string.IsNullOrEmpty(connectionFactory.UserName))
-                throw new ArgumentException("username cannot be 'null' or and empty string.");
+            if (String.IsNullOrEmpty(connectionFactory.UserName))
+            {throw new ArgumentException("username cannot be 'null' or and empty string.");}
             if (connectionFactory.Password == null)
-                throw new ArgumentException("password cannot be 'null'. Specify an empty string if password is empty.");
+            {throw new ArgumentException("password cannot be 'null'. Specify an empty string if password is empty.");}
             //if (connectionFactory.Port <= 0 || clientConfiguration.Port > 65535) throw new ArgumentOutOfRangeException("port", "port must be in a valid range (1 and 65535)");
 
             sinkConfiguration.BatchPostingLimit = (sinkConfiguration.BatchPostingLimit == default)

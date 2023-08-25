@@ -1,6 +1,5 @@
-﻿using System.IO;
-
 namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Formatting;
+using System.IO;
 
 internal struct ThemedValueFormatterState
 {
@@ -8,5 +7,8 @@ internal struct ThemedValueFormatterState
     public string Format;
     public bool IsTopLevel;
 
-    public ThemedValueFormatterState Nest() => new ThemedValueFormatterState { Output = Output };
+    public ThemedValueFormatterState Nest()
+    {
+        return new ThemedValueFormatterState {Output = this.Output};
+    }
 }

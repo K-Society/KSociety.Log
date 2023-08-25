@@ -1,11 +1,10 @@
-﻿using System;
+﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Rendering;
-
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
 
 /// <summary>
 /// A RichTextBox theme using the styling facilities of the <see cref="System.Windows.Documents.Run"/> class.
@@ -28,7 +27,7 @@ public class RichTextBoxConsoleTheme : RichTextBoxTheme
             throw new ArgumentNullException(nameof(styles));
         }
 
-        _styles = styles.ToDictionary(kv => kv.Key, kv => kv.Value);
+        this._styles = styles.ToDictionary(kv => kv.Key, kv => kv.Value);
     }
 
     /// <summary>
@@ -55,7 +54,7 @@ public class RichTextBoxConsoleTheme : RichTextBoxTheme
     /// <inheritdoc/>
     public override int Set(TextWriter output, RichTextBoxThemeStyle style)
     {
-        if (_styles.TryGetValue(style, out var runStyle))
+        if (this._styles.TryGetValue(style, out var runStyle))
         {
             var buffer = new StringBuilder();
             buffer.Append("<Run");
@@ -63,19 +62,19 @@ public class RichTextBoxConsoleTheme : RichTextBoxTheme
             var _ = 0;
 
             var backgroundColor = runStyle.Background;
-            if (!string.IsNullOrWhiteSpace(backgroundColor))
+            if (!String.IsNullOrWhiteSpace(backgroundColor))
             {
                 buffer.AppendFormat(" Background=\"{0}\"", SpecialCharsEscaping.Apply(backgroundColor, ref _));
             }
 
             var foregroundColor = runStyle.Foreground;
-            if (!string.IsNullOrWhiteSpace(foregroundColor))
+            if (!String.IsNullOrWhiteSpace(foregroundColor))
             {
                 buffer.AppendFormat(" Foreground=\"{0}\"", SpecialCharsEscaping.Apply(foregroundColor, ref _));
             }
 
             var fontWeight = runStyle.FontWeight;
-            if (!string.IsNullOrWhiteSpace(fontWeight))
+            if (!String.IsNullOrWhiteSpace(fontWeight))
             {
                 buffer.AppendFormat(" FontWeight=\"{0}\"", SpecialCharsEscaping.Apply(fontWeight, ref _));
             }

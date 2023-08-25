@@ -45,7 +45,7 @@ public enum RichTextBoxThemeStyle
     Number,
 
     /// <summary>
-    /// <see cref="bool"/> values.
+    /// <see cref="System.Boolean"/> values.
     /// </summary>
     Boolean,
 

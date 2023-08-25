@@ -1,12 +1,12 @@
-﻿using KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR;
-using Serilog;
-using Serilog.Configuration;
-using Serilog.Formatting;
-using Serilog.Sinks.PeriodicBatching;
-using System;
-
 namespace KSociety.Log.Serilog.Sinks.SignalR
 {
+    using KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR;
+    using global::Serilog;
+    using global::Serilog.Configuration;
+    using global::Serilog.Formatting;
+    using global::Serilog.Sinks.PeriodicBatching;
+    using System;
+
     /// <summary>
     /// Adds the WriteTo.SignalR() extension method to <see cref="LoggerConfiguration"/>.
     /// </summary>
@@ -53,9 +53,9 @@ namespace KSociety.Log.Serilog.Sinks.SignalR
             HubProxy proxy,
             SignalRSinkConfiguration signalRSinkConfiguration)
         {
-            if (loggerConfiguration == null) throw new ArgumentNullException(nameof(loggerConfiguration));
-            if (string.IsNullOrEmpty(proxy.Uri))
-                throw new ArgumentException("uri cannot be 'null' or and empty string.");
+            if (loggerConfiguration == null) {throw new ArgumentNullException(nameof(loggerConfiguration));}
+            if (String.IsNullOrEmpty(proxy.Uri))
+            {throw new ArgumentException("uri cannot be 'null' or and empty string.");}
 
             signalRSinkConfiguration.BatchPostingLimit = (signalRSinkConfiguration.BatchPostingLimit == default)
                 ? DefaultBatchPostingLimit

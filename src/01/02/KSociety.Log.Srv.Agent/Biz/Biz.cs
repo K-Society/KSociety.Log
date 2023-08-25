@@ -1,13 +1,13 @@
-﻿using KSociety.Log.App.Dto.Res.Biz;
-using KSociety.Log.Srv.Contract.Biz;
-using Microsoft.Extensions.Logging;
-using ProtoBuf.Grpc.Client;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace KSociety.Log.Srv.Agent.Biz
+﻿namespace KSociety.Log.Srv.Agent.Biz
 {
+    using KSociety.Log.App.Dto.Res.Biz;
+    using KSociety.Log.Srv.Contract.Biz;
+    using Microsoft.Extensions.Logging;
+    using ProtoBuf.Grpc.Client;
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class Biz : Base.Srv.Agent.Connection
     {
         public Biz(Base.Srv.Agent.IAgentConfiguration agentConfiguration, ILoggerFactory loggerFactory)
@@ -21,18 +21,18 @@ namespace KSociety.Log.Srv.Agent.Biz
             WriteLog output = new WriteLog();
             try
             {
-                using (Channel)
+                using (this.Channel)
                 {
-                    IBiz client = Channel.CreateGrpcService<IBiz>();
+                    IBiz client = this.Channel.CreateGrpcService<IBiz>();
 
-                    var result = client.WriteLog(request, ConnectionOptions(cancellationToken));
+                    var result = client.WriteLog(request, this.ConnectionOptions(cancellationToken));
 
                     output = result;
                 }
             }
             catch (Exception ex)
             {
-                Logger.LogError(GetType().FullName + "." + System.Reflection.MethodBase.GetCurrentMethod()?.Name +
+                this.Logger.LogError(this.GetType().FullName + "." + System.Reflection.MethodBase.GetCurrentMethod()?.Name +
                                 " - " + ex.Source + " " + ex.Message + " " + ex.StackTrace);
             }
 
@@ -44,18 +44,18 @@ namespace KSociety.Log.Srv.Agent.Biz
             WriteLog output = new WriteLog();
             try
             {
-                using (Channel)
+                using (this.Channel)
                 {
-                    IBiz client = Channel.CreateGrpcService<IBiz>();
+                    IBiz client = this.Channel.CreateGrpcService<IBiz>();
 
-                    var result = client.WriteLogs(request, ConnectionOptions(cancellationToken));
+                    var result = client.WriteLogs(request, this.ConnectionOptions(cancellationToken));
 
                     output = result;
                 }
             }
             catch (Exception ex)
             {
-                Logger.LogError(GetType().FullName + "." + System.Reflection.MethodBase.GetCurrentMethod()?.Name +
+                this.Logger.LogError(this.GetType().FullName + "." + System.Reflection.MethodBase.GetCurrentMethod()?.Name +
                                 " - " + ex.Source + " " + ex.Message + " " + ex.StackTrace);
             }
 
@@ -67,18 +67,18 @@ namespace KSociety.Log.Srv.Agent.Biz
         {
             try
             {
-                using (Channel)
+                using (this.Channel)
                 {
-                    IBizAsync client = Channel.CreateGrpcService<IBizAsync>();
+                    IBizAsync client = this.Channel.CreateGrpcService<IBizAsync>();
 
-                    return await client.WriteLogAsync(request, ConnectionOptions(cancellationToken))
+                    return await client.WriteLogAsync(request, this.ConnectionOptions(cancellationToken))
                         .ConfigureAwait(false);
 
                 }
             }
             catch (Exception ex)
             {
-                Logger.LogError(GetType().FullName + "." + System.Reflection.MethodBase.GetCurrentMethod()?.Name +
+                this.Logger.LogError(this.GetType().FullName + "." + System.Reflection.MethodBase.GetCurrentMethod()?.Name +
                                 " - " + ex.Source + " " + ex.Message + " " + ex.StackTrace);
             }
 
@@ -90,18 +90,18 @@ namespace KSociety.Log.Srv.Agent.Biz
         {
             try
             {
-                using (Channel)
+                using (this.Channel)
                 {
-                    IBizAsync client = Channel.CreateGrpcService<IBizAsync>();
+                    IBizAsync client = this.Channel.CreateGrpcService<IBizAsync>();
 
-                    return await client.WriteLogsAsync(request, ConnectionOptions(cancellationToken))
+                    return await client.WriteLogsAsync(request, this.ConnectionOptions(cancellationToken))
                         .ConfigureAwait(false);
 
                 }
             }
             catch (Exception ex)
             {
-                Logger.LogError(GetType().FullName + "." + System.Reflection.MethodBase.GetCurrentMethod()?.Name +
+                this.Logger.LogError(this.GetType().FullName + "." + System.Reflection.MethodBase.GetCurrentMethod()?.Name +
                                 " - " + ex.Source + " " + ex.Message + " " + ex.StackTrace);
             }
 

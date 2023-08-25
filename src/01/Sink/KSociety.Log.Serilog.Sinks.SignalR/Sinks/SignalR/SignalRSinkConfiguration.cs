@@ -1,10 +1,10 @@
-﻿using System;
-using Serilog.Events;
-using Serilog.Formatting;
-using Serilog.Formatting.Compact;
-
-namespace KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR
+﻿namespace KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR
 {
+    using System;
+    using global::Serilog.Events;
+    using global::Serilog.Formatting;
+    using global::Serilog.Formatting.Compact;
+
     public class SignalRSinkConfiguration
     {
         public int BatchPostingLimit { get; set; }

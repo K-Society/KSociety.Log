@@ -1,9 +1,9 @@
-﻿using Serilog.Events;
-using Serilog.Formatting;
-using System.IO;
-
-namespace KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR.Output
+﻿namespace KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR.Output
 {
+    using global::Serilog.Events;
+    using global::Serilog.Formatting;
+    using System.IO;
+
     public class LogEventFormatter : ITextFormatter
     {
         public static LogEventFormatter Formatter { get; } = new LogEventFormatter();

@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
+﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+using System.Collections.Generic;
 using System.IO;
 using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Rendering;
 using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
-using Serilog.Events;
-using Serilog.Parsing;
-
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+using global::Serilog.Events;
+using global::Serilog.Parsing;
 
 internal class LevelTokenRenderer : OutputTemplateTokenRenderer
 {
@@ -29,22 +28,22 @@ internal class LevelTokenRenderer : OutputTemplateTokenRenderer
 
     public LevelTokenRenderer(RichTextBoxTheme theme, PropertyToken levelToken)
     {
-        _theme = theme;
-        _levelToken = levelToken;
+        this._theme = theme;
+        this._levelToken = levelToken;
     }
 
     public override void Render(LogEvent logEvent, TextWriter output)
     {
-        var moniker = LevelOutputFormat.GetLevelMoniker(logEvent.Level, _levelToken.Format);
+        var moniker = LevelOutputFormat.GetLevelMoniker(logEvent.Level, this._levelToken.Format);
         if (!Levels.TryGetValue(logEvent.Level, out var levelStyle))
         {
             levelStyle = RichTextBoxThemeStyle.Invalid;
         }
 
         var _ = 0;
-        using (_theme.Apply(output, levelStyle, ref _))
+        using (this._theme.Apply(output, levelStyle, ref _))
         {
-            Padding.Apply(output, moniker, _levelToken.Alignment);
+            Padding.Apply(output, moniker, this._levelToken.Alignment);
         }
     }
 }

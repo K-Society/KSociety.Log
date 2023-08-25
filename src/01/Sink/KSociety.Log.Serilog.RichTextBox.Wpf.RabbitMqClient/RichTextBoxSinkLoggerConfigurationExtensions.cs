@@ -1,17 +1,17 @@
-﻿using System;
-using System.Windows.Threading;
-using KSociety.Log.Serilog.RichTextBox.Wpf.RabbitMqClient.Sinks.RichTextBox;
-using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
-using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
-using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
-using Serilog;
-using Serilog.Configuration;
-using Serilog.Core;
-using Serilog.Events;
-using Serilog.Sinks.PeriodicBatching;
-
-namespace KSociety.Log.Serilog.RichTextBox.Wpf.RabbitMqClient
+﻿namespace KSociety.Log.Serilog.RichTextBox.Wpf.RabbitMqClient
 {
+    using System;
+    using System.Windows.Threading;
+    using KSociety.Log.Serilog.RichTextBox.Wpf.RabbitMqClient.Sinks.RichTextBox;
+    using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
+    using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+    using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
+    using global::Serilog;
+    using global::Serilog.Configuration;
+    using global::Serilog.Core;
+    using global::Serilog.Events;
+    using global::Serilog.Sinks.PeriodicBatching;
+
     /// <summary>
     /// Adds the WriteTo.RichTextBox() extension method to <see cref="LoggerConfiguration"/>.
     /// </summary>

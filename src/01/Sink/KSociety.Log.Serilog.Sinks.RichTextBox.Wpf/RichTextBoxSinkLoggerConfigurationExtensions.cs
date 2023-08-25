@@ -1,17 +1,17 @@
-﻿using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Sinks.RichTextBox;
-using Serilog;
-using Serilog.Configuration;
-using Serilog.Core;
-using Serilog.Events;
-using Serilog.Sinks.PeriodicBatching;
-using System;
-using System.Windows.Threading;
-using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
-using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
-using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
-
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf
+﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf
 {
+    using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Sinks.RichTextBox;
+    using global::Serilog;
+    using global::Serilog.Configuration;
+    using global::Serilog.Core;
+    using global::Serilog.Events;
+    using global::Serilog.Sinks.PeriodicBatching;
+    using System;
+    using System.Windows.Threading;
+    using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
+    using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+    using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
+
     /// <summary>
     /// Adds the WriteTo.RichTextBox() extension method to <see cref="LoggerConfiguration"/>.
     /// </summary>

@@ -1,13 +1,13 @@
-﻿using System.Threading.Tasks;
-using Autofac;
-using KSociety.Base.Srv.Shared.Interface;
-using KSociety.Log.App.Dto.Res.Biz;
-using KSociety.Log.Srv.Contract.Biz;
-using Microsoft.Extensions.Logging;
-using ProtoBuf.Grpc;
-
-namespace KSociety.Log.Srv.Behavior.Biz
+﻿namespace KSociety.Log.Srv.Behavior.Biz
 {
+    using System.Threading.Tasks;
+    using Autofac;
+    using KSociety.Base.Srv.Shared.Interface;
+    using KSociety.Log.App.Dto.Res.Biz;
+    using KSociety.Log.Srv.Contract.Biz;
+    using Microsoft.Extensions.Logging;
+    using ProtoBuf.Grpc;
+
     public class BizAsync : IBizAsync
     {
         private readonly ILoggerFactory _loggerFactory;
@@ -20,26 +20,26 @@ namespace KSociety.Log.Srv.Behavior.Biz
             ICommandHandlerAsync commandHandlerAsync
         )
         {
-            _loggerFactory = loggerFactory;
+            this._loggerFactory = loggerFactory;
 
-            _componentContext = componentContext;
-            _commandHandlerAsync = commandHandlerAsync;
+            this._componentContext = componentContext;
+            this._commandHandlerAsync = commandHandlerAsync;
         }
 
         public async ValueTask<WriteLog> WriteLogAsync(KSociety.Log.App.Dto.Req.Biz.WriteLog request,
             CallContext context = default)
         {
-            return await _commandHandlerAsync
-                .ExecuteWithResponseAsync<KSociety.Log.App.Dto.Req.Biz.WriteLog, WriteLog>(_loggerFactory,
-                    _componentContext, request, context.CancellationToken).ConfigureAwait(false);
+            return await this._commandHandlerAsync
+                .ExecuteWithResponseAsync<KSociety.Log.App.Dto.Req.Biz.WriteLog, WriteLog>(this._loggerFactory,
+                    this._componentContext, request, context.CancellationToken).ConfigureAwait(false);
         }
 
         public async ValueTask<WriteLog> WriteLogsAsync(KSociety.Log.App.Dto.Req.Biz.List.WriteLog request,
             CallContext context = default)
         {
-            return await _commandHandlerAsync
+            return await this._commandHandlerAsync
                 .ExecuteListWithResponseAsync<KSociety.Log.App.Dto.Req.Biz.WriteLog,
-                    KSociety.Log.App.Dto.Req.Biz.List.WriteLog, WriteLog>(_loggerFactory, _componentContext, request,
+                    KSociety.Log.App.Dto.Req.Biz.List.WriteLog, WriteLog>(this._loggerFactory, this._componentContext, request,
                     context.CancellationToken).ConfigureAwait(false);
         }
     }

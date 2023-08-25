@@ -1,9 +1,8 @@
-﻿using System.IO;
+﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+using System.IO;
 using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Rendering;
 using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
-using Serilog.Events;
-
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+using global::Serilog.Events;
 
 internal class ExceptionTokenRenderer : OutputTemplateTokenRenderer
 {
@@ -13,7 +12,7 @@ internal class ExceptionTokenRenderer : OutputTemplateTokenRenderer
 
     public ExceptionTokenRenderer(RichTextBoxTheme theme)
     {
-        _theme = theme;
+        this._theme = theme;
     }
 
     public override void Render(LogEvent logEvent, TextWriter output)
@@ -33,7 +32,7 @@ internal class ExceptionTokenRenderer : OutputTemplateTokenRenderer
             var style = nextLine.StartsWith(_stackFrameLinePrefix) ? RichTextBoxThemeStyle.SecondaryText : RichTextBoxThemeStyle.Text;
             var _ = 0;
 
-            using (_theme.Apply(output, style, ref _))
+            using (this._theme.Apply(output, style, ref _))
             {
                 output.WriteLine(SpecialCharsEscaping.Apply(nextLine, ref _));
             }

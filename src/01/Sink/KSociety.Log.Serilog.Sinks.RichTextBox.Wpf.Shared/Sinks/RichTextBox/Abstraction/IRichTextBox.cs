@@ -1,7 +1,6 @@
-﻿using System;
+﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
+using System;
 using System.Windows.Threading;
-
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
 
 public interface IRichTextBox
 {

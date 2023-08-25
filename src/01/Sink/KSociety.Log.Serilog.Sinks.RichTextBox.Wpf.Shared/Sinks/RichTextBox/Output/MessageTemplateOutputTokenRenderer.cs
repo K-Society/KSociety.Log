@@ -1,12 +1,11 @@
-﻿using System;
+﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+using System;
 using System.IO;
 using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Formatting;
 using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Rendering;
 using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
-using Serilog.Events;
-using Serilog.Parsing;
-
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+using global::Serilog.Events;
+using global::Serilog.Parsing;
 
 internal class MessageTemplateOutputTokenRenderer : OutputTemplateTokenRenderer
 {
@@ -16,8 +15,8 @@ internal class MessageTemplateOutputTokenRenderer : OutputTemplateTokenRenderer
 
     public MessageTemplateOutputTokenRenderer(RichTextBoxTheme theme, PropertyToken token, IFormatProvider formatProvider)
     {
-        _theme = theme ?? throw new ArgumentNullException(nameof(theme));
-        _token = token ?? throw new ArgumentNullException(nameof(token));
+        this._theme = theme ?? throw new ArgumentNullException(nameof(theme));
+        this._token = token ?? throw new ArgumentNullException(nameof(token));
 
         var isLiteral = false;
         var isJson = false;
@@ -43,21 +42,21 @@ internal class MessageTemplateOutputTokenRenderer : OutputTemplateTokenRenderer
             ? (ThemedValueFormatter)new ThemedJsonValueFormatter(theme, formatProvider)
             : new ThemedDisplayValueFormatter(theme, formatProvider);
 
-        _renderer = new ThemedMessageTemplateRenderer(theme, valueFormatter, isLiteral);
+        this._renderer = new ThemedMessageTemplateRenderer(theme, valueFormatter, isLiteral);
     }
 
     public override void Render(LogEvent logEvent, TextWriter output)
     {
-        if (_token.Alignment is null || !_theme.CanBuffer)
+        if (this._token.Alignment is null || !this._theme.CanBuffer)
         {
-            _renderer.Render(logEvent.MessageTemplate, logEvent.Properties, output);
+            this._renderer.Render(logEvent.MessageTemplate, logEvent.Properties, output);
             return;
         }
 
         var buffer = new StringWriter();
-        var invisible = _renderer.Render(logEvent.MessageTemplate, logEvent.Properties, buffer);
+        var invisible = this._renderer.Render(logEvent.MessageTemplate, logEvent.Properties, buffer);
         var value = buffer.ToString();
 
-        Padding.Apply(output, value, _token.Alignment.Value.Widen(invisible));
+        Padding.Apply(output, value, this._token.Alignment.Value.Widen(invisible));
     }
 }

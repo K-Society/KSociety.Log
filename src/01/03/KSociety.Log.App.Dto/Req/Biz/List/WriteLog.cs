@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using KSociety.Base.App.Shared;
-using ProtoBuf;
-
-namespace KSociety.Log.App.Dto.Req.Biz.List
+﻿namespace KSociety.Log.App.Dto.Req.Biz.List
 {
+    using System.Collections.Generic;
+    using KSociety.Base.App.Shared;
+    using ProtoBuf;
+
     [ProtoContract]
     public class WriteLog : AppList<Biz.WriteLog>
     {
@@ -11,7 +11,7 @@ namespace KSociety.Log.App.Dto.Req.Biz.List
 
         public WriteLog(List<Biz.WriteLog> logs)
         {
-            List = logs;
+            this.List = logs;
         }
     }
 }

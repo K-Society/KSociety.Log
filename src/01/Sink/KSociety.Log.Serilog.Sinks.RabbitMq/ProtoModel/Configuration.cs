@@ -1,10 +1,10 @@
-﻿using System;
-using KSociety.Base.App.Shared;
-using KSociety.Log.App.Dto.Req.Biz;
-using KSociety.Log.Biz.Event;
-
-namespace KSociety.Log.Serilog.Sinks.RabbitMq.ProtoModel
+﻿namespace KSociety.Log.Serilog.Sinks.RabbitMq.ProtoModel
 {
+    using System;
+    using KSociety.Base.App.Shared;
+    using KSociety.Log.App.Dto.Req.Biz;
+    using KSociety.Log.Biz.Event;
+
     public static class Configuration
     {
         public static void ProtoBufConfiguration()

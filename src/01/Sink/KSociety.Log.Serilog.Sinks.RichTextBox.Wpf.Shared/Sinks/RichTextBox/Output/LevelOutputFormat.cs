@@ -1,7 +1,6 @@
-﻿using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Rendering;
-using Serilog.Events;
-
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Rendering;
+using global::Serilog.Events;
 
 /// <summary>
 /// Implements the {Level} element.
@@ -59,7 +58,7 @@ internal static class LevelOutputFormat
 
         if (width < 1)
         {
-            return string.Empty;
+            return System.String.Empty;
         }
 
         if (width > 4)

@@ -1,12 +1,11 @@
-﻿using System;
+﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Rendering;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Formatting;
 using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
-using Serilog.Events;
-using Serilog.Parsing;
-
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Rendering;
+using global::Serilog.Events;
+using global::Serilog.Parsing;
 
 internal class ThemedMessageTemplateRenderer
 {
@@ -18,10 +17,10 @@ internal class ThemedMessageTemplateRenderer
 
     public ThemedMessageTemplateRenderer(RichTextBoxTheme theme, ThemedValueFormatter valueFormatter, bool isLiteral)
     {
-        _theme = theme ?? throw new ArgumentNullException(nameof(theme));
-        _valueFormatter = valueFormatter;
-        _isLiteral = isLiteral;
-        _unthemedValueFormatter = valueFormatter.SwitchTheme(_noTheme);
+        this._theme = theme ?? throw new ArgumentNullException(nameof(theme));
+        this._valueFormatter = valueFormatter;
+        this._isLiteral = isLiteral;
+        this._unthemedValueFormatter = valueFormatter.SwitchTheme(_noTheme);
     }
 
     public int Render(MessageTemplate template, IReadOnlyDictionary<string, LogEventPropertyValue> properties, TextWriter output)
@@ -32,12 +31,12 @@ internal class ThemedMessageTemplateRenderer
         {
             if (token is TextToken tt)
             {
-                count += RenderTextToken(tt, output);
+                count += this.RenderTextToken(tt, output);
             }
             else
             {
                 var pt = (PropertyToken)token;
-                count += RenderPropertyToken(pt, properties, output);
+                count += this.RenderPropertyToken(pt, properties, output);
             }
         }
 
@@ -47,7 +46,7 @@ internal class ThemedMessageTemplateRenderer
     private int RenderTextToken(TextToken tt, TextWriter output)
     {
         var count = 0;
-        using (_theme.Apply(output, RichTextBoxThemeStyle.Text, ref count))
+        using (this._theme.Apply(output, RichTextBoxThemeStyle.Text, ref count))
         {
             var text = SpecialCharsEscaping.Apply(tt.Text, ref count);
             output.Write(text);
@@ -61,7 +60,7 @@ internal class ThemedMessageTemplateRenderer
         if (!properties.TryGetValue(pt.PropertyName, out var propertyValue))
         {
             var count = 0;
-            using (_theme.Apply(output, RichTextBoxThemeStyle.Invalid, ref count))
+            using (this._theme.Apply(output, RichTextBoxThemeStyle.Invalid, ref count))
             {
                 output.Write(SpecialCharsEscaping.Apply(pt.ToString(), ref count));
             }
@@ -71,17 +70,17 @@ internal class ThemedMessageTemplateRenderer
 
         if (!pt.Alignment.HasValue)
         {
-            return RenderValue(_theme, _valueFormatter, propertyValue, output, pt.Format);
+            return this.RenderValue(this._theme, this._valueFormatter, propertyValue, output, pt.Format);
         }
 
         var valueOutput = new StringWriter();
 
-        if (!_theme.CanBuffer)
+        if (!this._theme.CanBuffer)
         {
-            return RenderAlignedPropertyTokenUnbuffered(pt, output, propertyValue);
+            return this.RenderAlignedPropertyTokenUnbuffered(pt, output, propertyValue);
         }
 
-        var invisibleCount = RenderValue(_theme, _valueFormatter, propertyValue, valueOutput, pt.Format);
+        var invisibleCount = this.RenderValue(this._theme, this._valueFormatter, propertyValue, valueOutput, pt.Format);
 
         var value = valueOutput.ToString();
 
@@ -100,32 +99,32 @@ internal class ThemedMessageTemplateRenderer
     private int RenderAlignedPropertyTokenUnbuffered(PropertyToken pt, TextWriter output, LogEventPropertyValue propertyValue)
     {
         var valueOutput = new StringWriter();
-        RenderValue(_noTheme, _unthemedValueFormatter, propertyValue, valueOutput, pt.Format);
+        this.RenderValue(_noTheme, this._unthemedValueFormatter, propertyValue, valueOutput, pt.Format);
 
         var valueLength = valueOutput.ToString().Length;
 
         // ReSharper disable once PossibleInvalidOperationException
         if (valueLength >= pt.Alignment.Value.Width)
         {
-            return RenderValue(_theme, _valueFormatter, propertyValue, output, pt.Format);
+            return this.RenderValue(this._theme, this._valueFormatter, propertyValue, output, pt.Format);
         }
 
         if (pt.Alignment.Value.Direction == AlignmentDirection.Left)
         {
-            var invisible = RenderValue(_theme, _valueFormatter, propertyValue, output, pt.Format);
-            Padding.Apply(output, string.Empty, pt.Alignment.Value.Widen(-valueLength));
+            var invisible = this.RenderValue(this._theme, this._valueFormatter, propertyValue, output, pt.Format);
+            Padding.Apply(output, String.Empty, pt.Alignment.Value.Widen(-valueLength));
 
             return invisible;
         }
 
-        Padding.Apply(output, string.Empty, pt.Alignment.Value.Widen(-valueLength));
+        Padding.Apply(output, String.Empty, pt.Alignment.Value.Widen(-valueLength));
 
-        return RenderValue(_theme, _valueFormatter, propertyValue, output, pt.Format);
+        return this.RenderValue(this._theme, this._valueFormatter, propertyValue, output, pt.Format);
     }
 
     private int RenderValue(RichTextBoxTheme theme, ThemedValueFormatter valueFormatter, LogEventPropertyValue propertyValue, TextWriter output, string format)
     {
-        if (_isLiteral && propertyValue is ScalarValue {Value: string} sv)
+        if (this._isLiteral && propertyValue is ScalarValue {Value: string} sv)
         {
             var count = 0;
             using (theme.Apply(output, RichTextBoxThemeStyle.String, ref count))
@@ -137,6 +136,6 @@ internal class ThemedMessageTemplateRenderer
             return count;
         }
 
-        return valueFormatter.Format(propertyValue, output, format, _isLiteral);
+        return valueFormatter.Format(propertyValue, output, format, this._isLiteral);
     }
 }

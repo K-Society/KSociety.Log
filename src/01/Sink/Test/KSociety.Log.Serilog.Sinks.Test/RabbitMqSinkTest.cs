@@ -1,4 +1,5 @@
-﻿using System;
+﻿namespace KSociety.Log.Serilog.Sinks.Test;
+using System;
 using System.Text;
 using System.Threading.Tasks;
 using KSociety.Log.Serilog.Sinks.RabbitMq;
@@ -7,12 +8,10 @@ using Newtonsoft.Json.Linq;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
-using Serilog;
-using Serilog.Core;
-using Serilog.Formatting.Json;
+using global::Serilog;
+using global::Serilog.Core;
+using global::Serilog.Formatting.Json;
 using Xunit;
-
-namespace KSociety.Log.Serilog.Sinks.Test;
 
 /// <summary>
 ///   Tests for <see cref="RabbitMqSink" />.
@@ -73,17 +72,17 @@ public sealed class RabbitMqSinkTest : IDisposable
     [Fact]
     public async Task Error_LogWithExceptionAndProperties_ConsumerReceivesMessage()
     {
-        await InitializeAsync();
+        await this.InitializeAsync();
         var messageTemplate = "Denominator cannot be zero in {numerator}/{denominator}";
 
-        var consumer = new EventingBasicConsumer(channel);
+        var consumer = new EventingBasicConsumer(this.channel);
         var eventRaised = await Assert.RaisesAsync<BasicDeliverEventArgs>(
             h => consumer.Received += h,
             h => consumer.Received -= h,
             async () =>
             {
-                channel.BasicConsume(QueueName, autoAck: true, consumer);
-                logger.Error(new DivideByZeroException(), messageTemplate, 1.0, 0.0);
+                this.channel.BasicConsume(QueueName, autoAck: true, consumer);
+                this.logger.Error(new DivideByZeroException(), messageTemplate, 1.0, 0.0);
 
                 // Wait for consumer to receive the message.
                 await Task.Delay(50);
@@ -101,14 +100,14 @@ public sealed class RabbitMqSinkTest : IDisposable
     /// <inheritdoc />
     public void Dispose()
     {
-        logger?.Dispose();
-        channel?.Dispose();
-        connection?.Dispose();
+        this.logger?.Dispose();
+        this.channel?.Dispose();
+        this.connection?.Dispose();
     }
 
     private async Task InitializeAsync()
     {
-        if (connection == null)
+        if (this.connection == null)
         {
             var factory = new ConnectionFactory { HostName = HostName };
 
@@ -117,8 +116,8 @@ public sealed class RabbitMqSinkTest : IDisposable
             {
                 try
                 {
-                    connection = factory.CreateConnection();
-                    channel = connection.CreateModel();
+                    this.connection = factory.CreateConnection();
+                    this.channel = this.connection.CreateModel();
                     break;
                 }
                 catch (BrokerUnreachableException)

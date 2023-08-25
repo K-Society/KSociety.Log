@@ -79,7 +79,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Serilog.Sinks.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared", "src\01\Sink\KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared\KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.csproj", "{0FA1510C-FDBA-48E8-A29C-C5CCECDED5B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSociety.Log.Serilog.Sinks.XUnit", "src\01\Sink\KSociety.Log.Serilog.Sinks.XUnit\KSociety.Log.Serilog.Sinks.XUnit.csproj", "{7716E023-5480-49CE-BD37-AF13A0F81907}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Serilog.Sinks.XUnit", "src\01\Sink\KSociety.Log.Serilog.Sinks.XUnit\KSociety.Log.Serilog.Sinks.XUnit.csproj", "{7716E023-5480-49CE-BD37-AF13A0F81907}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

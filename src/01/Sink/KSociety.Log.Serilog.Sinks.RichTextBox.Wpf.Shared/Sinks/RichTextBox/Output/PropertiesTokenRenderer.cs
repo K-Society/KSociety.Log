@@ -1,14 +1,13 @@
-﻿using System;
+﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+using System;
 using System.IO;
 using System.Linq;
 using System.Text;
 using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Formatting;
 using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Rendering;
 using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
-using Serilog.Events;
-using Serilog.Parsing;
-
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+using global::Serilog.Events;
+using global::Serilog.Parsing;
 
 internal class PropertiesTokenRenderer : OutputTemplateTokenRenderer
 {
@@ -19,9 +18,9 @@ internal class PropertiesTokenRenderer : OutputTemplateTokenRenderer
 
     public PropertiesTokenRenderer(RichTextBoxTheme theme, PropertyToken token, MessageTemplate outputTemplate, IFormatProvider formatProvider)
     {
-        _outputTemplate = outputTemplate;
-        _theme = theme ?? throw new ArgumentNullException(nameof(theme));
-        _token = token ?? throw new ArgumentNullException(nameof(token));
+        this._outputTemplate = outputTemplate;
+        this._theme = theme ?? throw new ArgumentNullException(nameof(theme));
+        this._token = token ?? throw new ArgumentNullException(nameof(token));
 
         var isJson = false;
 
@@ -37,7 +36,7 @@ internal class PropertiesTokenRenderer : OutputTemplateTokenRenderer
             }
         }
 
-        _valueFormatter = isJson
+        this._valueFormatter = isJson
             ? (ThemedValueFormatter)new ThemedJsonValueFormatter(theme, formatProvider)
             : new ThemedDisplayValueFormatter(theme, formatProvider);
     }
@@ -46,22 +45,22 @@ internal class PropertiesTokenRenderer : OutputTemplateTokenRenderer
     {
         var included = logEvent.Properties
             .Where(p => !TemplateContainsPropertyName(logEvent.MessageTemplate, p.Key) &&
-                        !TemplateContainsPropertyName(_outputTemplate, p.Key))
+                        !TemplateContainsPropertyName(this._outputTemplate, p.Key))
             .Select(p => new LogEventProperty(p.Key, p.Value));
 
         var value = new StructureValue(included);
 
-        if (_token.Alignment is null || !_theme.CanBuffer)
+        if (this._token.Alignment is null || !this._theme.CanBuffer)
         {
-            _valueFormatter.Format(value, output, null);
+            this._valueFormatter.Format(value, output, null);
             return;
         }
 
         var buffer = new StringWriter(new StringBuilder(value.Properties.Count * 16));
-        var invisible = _valueFormatter.Format(value, buffer, null);
+        var invisible = this._valueFormatter.Format(value, buffer, null);
         var str = buffer.ToString();
 
-        Padding.Apply(output, str, _token.Alignment.Value.Widen(invisible));
+        Padding.Apply(output, str, this._token.Alignment.Value.Widen(invisible));
     }
 
     private static bool TemplateContainsPropertyName(MessageTemplate template, string propertyName)

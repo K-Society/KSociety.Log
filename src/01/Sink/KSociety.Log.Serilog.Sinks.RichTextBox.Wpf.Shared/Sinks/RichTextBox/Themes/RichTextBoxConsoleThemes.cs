@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
+﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
+using System.Collections.Generic;
 
 public static class RichTextBoxConsoleThemes
 {

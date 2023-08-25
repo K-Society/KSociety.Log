@@ -1,18 +1,18 @@
-﻿using KSociety.Base.EventBus;
-using KSociety.Base.EventBus.Abstractions.EventBus;
-using KSociety.Base.EventBusRabbitMQ;
-using KSociety.Log.Biz.Event;
-using Microsoft.Extensions.Logging;
-using RabbitMQ.Client;
-using Serilog.Events;
-using Serilog.Formatting;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-
-namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
+﻿namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
 {
+    using KSociety.Base.EventBus;
+    using KSociety.Base.EventBus.Abstractions.EventBus;
+    using KSociety.Base.EventBusRabbitMQ;
+    using KSociety.Log.Biz.Event;
+    using Microsoft.Extensions.Logging;
+    using RabbitMQ.Client;
+    using global::Serilog.Events;
+    using global::Serilog.Formatting;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Threading.Tasks;
+
     public class RabbitMqBatchedSink : IRabbitMqBatchedSink
     {
         private readonly ITextFormatter _formatter;
@@ -31,29 +31,29 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
             RabbitMqSinkConfiguration rabbitMqSinkConfiguration
         )
         {
-            _formatter = rabbitMqSinkConfiguration.TextFormatter;
+            this._formatter = rabbitMqSinkConfiguration.TextFormatter;
 
-            _connectionFactory = connectionFactory;
-            _eventBusParameters = eventBusParameters;
+            this._connectionFactory = connectionFactory;
+            this._eventBusParameters = eventBusParameters;
 
-            _loggerFactory = LoggerFactory.Create(builder =>
+            this._loggerFactory = LoggerFactory.Create(builder =>
             {
                 builder
                     .AddFilter("Microsoft", LogLevel.Warning)
                     .AddFilter("System", LogLevel.Warning);
             });
-            _persistentConnection = new DefaultRabbitMqPersistentConnection(_connectionFactory, _loggerFactory);
+            this._persistentConnection = new DefaultRabbitMqPersistentConnection(this._connectionFactory, this._loggerFactory);
         }
 
         public void Initialize()
         {
-            _eventBus = new Lazy<IEventBusTyped>(new EventBusRabbitMqTyped(
-                _persistentConnection,
-                _loggerFactory,
+            this._eventBus = new Lazy<IEventBusTyped>(new EventBusRabbitMqTyped(
+                this._persistentConnection,
+                this._loggerFactory,
                 null,
-                _eventBusParameters,
+                this._eventBusParameters,
                 "LogQueueDriver"));
-            _eventBus.Value.Initialize();
+            this._eventBus.Value.Initialize();
         }
 
         public async Task EmitBatchAsync(IEnumerable<LogEvent> batch)
@@ -61,7 +61,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
             foreach (var logEvent in batch)
             {
                 var sw = new StringWriter();
-                _formatter.Format(logEvent, sw);
+                this._formatter.Format(logEvent, sw);
 
                 var loggerName = "Default";
                 if (logEvent.Properties.TryGetValue(global::Serilog.Core.Constants.SourceContextPropertyName,
@@ -74,7 +74,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
                     }
                 }
 
-                await _eventBus.Value.Publish(new WriteLogEvent(sw.ToString(), logEvent.Timestamp.DateTime, 1,
+                await this._eventBus.Value.Publish(new WriteLogEvent(sw.ToString(), logEvent.Timestamp.DateTime, 1,
                     (int)logEvent.Level, loggerName)).ConfigureAwait(false);
             }
         }

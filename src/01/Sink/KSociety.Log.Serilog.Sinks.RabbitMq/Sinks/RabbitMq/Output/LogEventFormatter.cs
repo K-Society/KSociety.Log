@@ -1,9 +1,9 @@
-﻿using Serilog.Events;
-using Serilog.Formatting;
-using System.IO;
-
-namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq.Output
+﻿namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq.Output
 {
+    using global::Serilog.Events;
+    using global::Serilog.Formatting;
+    using System.IO;
+
     public class LogEventFormatter : ITextFormatter
     {
         public static LogEventFormatter Formatter { get; } = new LogEventFormatter();

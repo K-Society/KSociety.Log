@@ -1,13 +1,12 @@
-﻿using System;
+﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
-using Serilog.Events;
-using Serilog.Formatting;
-using Serilog.Formatting.Display;
-using Serilog.Parsing;
-
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+using global::Serilog.Events;
+using global::Serilog.Formatting;
+using global::Serilog.Formatting.Display;
+using global::Serilog.Parsing;
 
 public class XamlOutputTemplateRenderer : ITextFormatter
 {
@@ -59,7 +58,7 @@ public class XamlOutputTemplateRenderer : ITextFormatter
             }
         }
 
-        _renderers = renderers.ToArray();
+        this._renderers = renderers.ToArray();
     }
 
     public void Format(LogEvent logEvent, TextWriter output)
@@ -74,7 +73,7 @@ public class XamlOutputTemplateRenderer : ITextFormatter
             throw new ArgumentNullException(nameof(output));
         }
 
-        foreach (var renderer in _renderers)
+        foreach (var renderer in this._renderers)
         {
             renderer.Render(logEvent, output);
         }

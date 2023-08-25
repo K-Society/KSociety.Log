@@ -1,12 +1,12 @@
-﻿using Autofac;
-using KSociety.Base.Srv.Shared.Interface;
-using KSociety.Log.App.Dto.Res.Biz;
-using KSociety.Log.Srv.Contract.Biz;
-using Microsoft.Extensions.Logging;
-using ProtoBuf.Grpc;
-
-namespace KSociety.Log.Srv.Behavior.Biz
+﻿namespace KSociety.Log.Srv.Behavior.Biz
 {
+    using Autofac;
+    using KSociety.Base.Srv.Shared.Interface;
+    using KSociety.Log.App.Dto.Res.Biz;
+    using KSociety.Log.Srv.Contract.Biz;
+    using Microsoft.Extensions.Logging;
+    using ProtoBuf.Grpc;
+
     public class Biz : IBiz
     {
         private readonly ILoggerFactory _loggerFactory;
@@ -20,24 +20,24 @@ namespace KSociety.Log.Srv.Behavior.Biz
             ICommandHandler commandHandler
         )
         {
-            _loggerFactory = loggerFactory;
-            _logger = _loggerFactory.CreateLogger<Biz>();
+            this._loggerFactory = loggerFactory;
+            _logger = this._loggerFactory.CreateLogger<Biz>();
 
-            _componentContext = componentContext;
-            _commandHandler = commandHandler;
+            this._componentContext = componentContext;
+            this._commandHandler = commandHandler;
         }
 
         public WriteLog WriteLog(KSociety.Log.App.Dto.Req.Biz.WriteLog request, CallContext context = default)
         {
-            return _commandHandler.ExecuteWithResponse<KSociety.Log.App.Dto.Req.Biz.WriteLog, WriteLog>(_loggerFactory,
-                _componentContext, request);
+            return this._commandHandler.ExecuteWithResponse<KSociety.Log.App.Dto.Req.Biz.WriteLog, WriteLog>(this._loggerFactory,
+                this._componentContext, request);
         }
 
         public WriteLog WriteLogs(KSociety.Log.App.Dto.Req.Biz.List.WriteLog request, CallContext context = default)
         {
-            return _commandHandler
+            return this._commandHandler
                 .ExecuteListWithResponse<KSociety.Log.App.Dto.Req.Biz.WriteLog,
-                    KSociety.Log.App.Dto.Req.Biz.List.WriteLog, WriteLog>(_loggerFactory, _componentContext, request);
+                    KSociety.Log.App.Dto.Req.Biz.List.WriteLog, WriteLog>(this._loggerFactory, this._componentContext, request);
         }
     }
 }

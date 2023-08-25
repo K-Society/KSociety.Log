@@ -1,12 +1,11 @@
-﻿using KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue;
-using Serilog;
-using Serilog.Configuration;
-using Serilog.Core;
-using Serilog.Events;
-using Serilog.Sinks.PeriodicBatching;
+﻿namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf;
+using KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue;
+using global::Serilog;
+using global::Serilog.Configuration;
+using global::Serilog.Core;
+using global::Serilog.Events;
+using global::Serilog.Sinks.PeriodicBatching;
 using System;
-
-namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf;
 
 public static class RichTextBoxQueueSinkLoggerConfigurationExtensions
 {

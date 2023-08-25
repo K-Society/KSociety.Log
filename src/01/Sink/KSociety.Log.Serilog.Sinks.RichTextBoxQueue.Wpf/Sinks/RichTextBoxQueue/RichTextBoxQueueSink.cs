@@ -1,9 +1,10 @@
-﻿using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
+namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue;
+using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
 using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
 using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
-using Serilog.Events;
-using Serilog.Formatting;
-using Serilog.Sinks.PeriodicBatching;
+using global::Serilog.Events;
+using global::Serilog.Formatting;
+using global::Serilog.Sinks.PeriodicBatching;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,8 +16,6 @@ using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using System.Timers;
 using System.Windows.Threading;
-
-namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue;
 
 public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEventSink, IDisposable
 {
@@ -35,28 +34,28 @@ public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEve
 
     public RichTextBoxQueueSink(string outputTemplate = DefaultRichTextBoxOutputTemplate)
     {
-        _queue = new BufferBlock<LogEvent>();
-        _outputTemplate = outputTemplate;
-        _timer = new System.Timers.Timer();
-        _timer.Elapsed += TimerOnElapsed;
-        _timer.Interval = 300;
+        this._queue = new BufferBlock<LogEvent>();
+        this._outputTemplate = outputTemplate;
+        this._timer = new System.Timers.Timer();
+        this._timer.Elapsed += this.TimerOnElapsed;
+        this._timer.Interval = 300;
         
     }
 
     private async void TimerOnElapsed(object? sender, ElapsedEventArgs e)
     {
-        await _processQueueLock.WaitAsync().ConfigureAwait(false);
+        await this._processQueueLock.WaitAsync().ConfigureAwait(false);
         try
         {
-            _timer.Stop();
+            this._timer.Stop();
 
-            await ProcessQueue().ConfigureAwait(false);
+            await this.ProcessQueue().ConfigureAwait(false);
 
-            _timer.Start();
+            this._timer.Start();
         }
         finally
         {
-            _processQueueLock.Release();
+            this._processQueueLock.Release();
         }
     }
 
@@ -64,9 +63,9 @@ public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEve
     {
         var appliedTheme = theme ?? RichTextBoxConsoleThemes.Literate;
 
-        _formatter = new XamlOutputTemplateRenderer(appliedTheme, _outputTemplate, formatProvider);
+        this._formatter = new XamlOutputTemplateRenderer(appliedTheme, this._outputTemplate, formatProvider);
 
-        _richTextBox = new RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction.RichTextBox(richTextBoxControl);
+        this._richTextBox = new Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction.RichTextBox(richTextBoxControl);
 
         if (!Enum.IsDefined(typeof(DispatcherPriority), dispatcherPriority))
         {
@@ -74,35 +73,35 @@ public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEve
                 typeof(DispatcherPriority));
         }
 
-        _dispatcherPriority = dispatcherPriority;
-        _syncRoot = syncRoot ?? DefaultSyncRoot;
-        _renderAction = Render;
+        this._dispatcherPriority = dispatcherPriority;
+        this._syncRoot = syncRoot ?? DefaultSyncRoot;
+        this._renderAction = this.Render;
 
-        _timer.Start();
+        this._timer.Start();
     }
 
     private async Task ProcessQueue(CancellationToken cancellationToken = default)
     {
         StringBuilder sb = new();
             
-        if (await _queue.OutputAvailableAsync(cancellationToken).ConfigureAwait(false))
+        if (await this._queue.OutputAvailableAsync(cancellationToken).ConfigureAwait(false))
         {
-            while (_queue.TryReceive(null, out var logEvent))
+            while (this._queue.TryReceive(null, out var logEvent))
             {
                 try
                 {
                     sb.Append(
                         $"<Paragraph xmlns =\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xml:space=\"preserve\">");
                     StringWriter writer = new();
-                    _formatter.Format(logEvent, writer);
+                    this._formatter.Format(logEvent, writer);
                     sb.Append(writer);
 
                     sb.Append("</Paragraph>");
                     var xamlParagraphText = sb.ToString();
 
-                    lock (_syncRoot)
+                    lock (this._syncRoot)
                     {
-                        _richTextBox?.BeginInvoke(_dispatcherPriority, _renderAction, xamlParagraphText);
+                        this._richTextBox?.BeginInvoke(this._dispatcherPriority, this._renderAction, xamlParagraphText);
                     }
 
                 }
@@ -119,11 +118,11 @@ public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEve
 
     private void Render(string xamlParagraphText)
     {
-        lock (_syncRoot)
+        lock (this._syncRoot)
         {
             try
             {
-                _richTextBox?.Write(xamlParagraphText);
+                this._richTextBox?.Write(xamlParagraphText);
             }
             catch (Exception)
             {
@@ -134,8 +133,8 @@ public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEve
 
     public void Dispose()
     {
-        _queue.Complete();
-        _timer.Close();
+        this._queue.Complete();
+        this._timer.Close();
     }
 
     private delegate void RenderAction(string xamlParagraphText);
@@ -146,7 +145,7 @@ public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEve
         {
             foreach (var logEvent in batch)
             {
-                await _queue.SendAsync(logEvent).ConfigureAwait(false);
+                await this._queue.SendAsync(logEvent).ConfigureAwait(false);
             }
         }
     }

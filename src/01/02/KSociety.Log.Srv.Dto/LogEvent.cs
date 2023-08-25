@@ -1,8 +1,8 @@
-﻿using System;
-using ProtoBuf;
-
-namespace KSociety.Log.Srv.Dto
+﻿namespace KSociety.Log.Srv.Dto
 {
+    using System;
+    using ProtoBuf;
+
     [ProtoContract]
     public class LogEvent
     {
@@ -44,11 +44,11 @@ namespace KSociety.Log.Srv.Dto
             )
             //: base("log")
         {
-            Message = message;
-            TimeStamp = timeStamp;
-            SequenceId = sequenceId;
-            Level = level;
-            LoggerName = loggerName;
+            this.Message = message;
+            this.TimeStamp = timeStamp;
+            this.SequenceId = sequenceId;
+            this.Level = level;
+            this.LoggerName = loggerName;
             //CallerClassName = callerClassName;
             //CallerFilePath = callerFilePath;
             //CallerLineNumber = callerLineNumber;

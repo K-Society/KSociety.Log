@@ -1,9 +1,9 @@
-﻿using System;
-using KSociety.Base.App.Shared;
-using ProtoBuf;
-
-namespace KSociety.Log.App.Dto.Req.Biz
+﻿namespace KSociety.Log.App.Dto.Req.Biz
 {
+    using System;
+    using KSociety.Base.App.Shared;
+    using ProtoBuf;
+
     [ProtoContract]
     public class WriteLog : IRequest
     {
@@ -44,12 +44,12 @@ namespace KSociety.Log.App.Dto.Req.Biz
             //int callerLineNumber
         )
         {
-            Message = message;
-            TimeStamp = timeStamp;
-            SequenceId = sequenceId;
-            Level = level;
-            LoggerName = loggerName;
-            RoutingKey = routingKey;
+            this.Message = message;
+            this.TimeStamp = timeStamp;
+            this.SequenceId = sequenceId;
+            this.Level = level;
+            this.LoggerName = loggerName;
+            this.RoutingKey = routingKey;
             //CallerClassName = callerClassName;
             //CallerFilePath = callerFilePath;
             //CallerLineNumber = callerLineNumber;

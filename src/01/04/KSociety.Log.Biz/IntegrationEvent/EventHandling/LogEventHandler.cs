@@ -1,12 +1,12 @@
-﻿using KSociety.Base.EventBus.Handlers;
-using KSociety.Log.Biz.Event;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace KSociety.Log.Biz.IntegrationEvent.EventHandling
+﻿namespace KSociety.Log.Biz.IntegrationEvent.EventHandling
 {
+    using KSociety.Base.EventBus.Handlers;
+    using KSociety.Log.Biz.Event;
+    using Microsoft.Extensions.Logging;
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class LogEventHandler : IntegrationEventHandler<WriteLogEvent>
     {
         private readonly ILoggerFactory _loggerFactory;
@@ -15,7 +15,7 @@ namespace KSociety.Log.Biz.IntegrationEvent.EventHandling
             ILoggerFactory loggerFactory
         ) : base ( loggerFactory )
         {
-            _loggerFactory = loggerFactory;
+            this._loggerFactory = loggerFactory;
         }
 
         public override async ValueTask Handle(WriteLogEvent @event, CancellationToken cancellationToken = default)
@@ -24,7 +24,7 @@ namespace KSociety.Log.Biz.IntegrationEvent.EventHandling
             {
                 try
                 {
-                    var logger = _loggerFactory.CreateLogger(@event.LoggerName);
+                    var logger = this._loggerFactory.CreateLogger(@event.LoggerName);
                     logger.Log((LogLevel)@event.Level, @event.Message);
                 }
                 catch (Exception ex)

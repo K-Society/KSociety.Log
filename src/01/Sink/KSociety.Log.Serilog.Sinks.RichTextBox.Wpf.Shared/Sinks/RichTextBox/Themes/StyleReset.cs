@@ -1,7 +1,6 @@
-﻿using System;
+﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
+using System;
 using System.IO;
-
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
 
 internal readonly struct StyleReset : IDisposable
 {
@@ -10,12 +9,12 @@ internal readonly struct StyleReset : IDisposable
 
     public StyleReset(RichTextBoxTheme theme, TextWriter output)
     {
-        _theme = theme;
-        _output = output;
+        this._theme = theme;
+        this._output = output;
     }
 
     public void Dispose()
     {
-        _theme.Reset(_output);
+        this._theme.Reset(this._output);
     }
 }

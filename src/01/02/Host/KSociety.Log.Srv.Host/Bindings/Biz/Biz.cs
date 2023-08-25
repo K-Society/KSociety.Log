@@ -1,16 +1,16 @@
-﻿using System;
-using Autofac;
-using KSociety.Log.Biz.Interface;
-
-namespace KSociety.Log.Srv.Host.Bindings.Biz
+﻿namespace KSociety.Log.Srv.Host.Bindings.Biz
 {
+    using System;
+    using Autofac;
+    using KSociety.Log.Biz.Interface;
+
     public class Biz : Module
     {
         private readonly bool _debugFlag;
 
         public Biz(bool debugFlag)
         {
-            _debugFlag = debugFlag;
+            this._debugFlag = debugFlag;
 
         }
 
@@ -23,7 +23,7 @@ namespace KSociety.Log.Srv.Host.Bindings.Biz
             }
             catch (Exception ex)
             {
-                if (_debugFlag)
+                if (this._debugFlag)
                 {
                     Console.WriteLine("Transaction: " + ex.Message + " - " + ex.StackTrace);
                 }

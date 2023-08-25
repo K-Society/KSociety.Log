@@ -1,10 +1,10 @@
-﻿using System;
-using Serilog.Events;
-using Serilog.Formatting;
-using Serilog.Formatting.Compact;
-
-namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
+﻿namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
 {
+    using System;
+    using global::Serilog.Events;
+    using global::Serilog.Formatting;
+    using global::Serilog.Formatting.Compact;
+
     public class RabbitMqSinkConfiguration
     {
         public int BatchPostingLimit { get; set; }

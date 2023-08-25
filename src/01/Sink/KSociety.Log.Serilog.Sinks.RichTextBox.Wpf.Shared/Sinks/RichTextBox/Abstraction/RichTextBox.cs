@@ -1,11 +1,10 @@
-﻿using Serilog.Debugging;
+﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
+using global::Serilog.Debugging;
 using System;
 using System.Linq;
 using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Windows.Threading;
-
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
 
 public class RichTextBox : IRichTextBox
 {
@@ -13,7 +12,7 @@ public class RichTextBox : IRichTextBox
 
     public RichTextBox(System.Windows.Controls.RichTextBox richTextBox)
     {
-        _richTextBox = richTextBox ?? throw new ArgumentNullException(nameof(richTextBox));
+        this._richTextBox = richTextBox ?? throw new ArgumentNullException(nameof(richTextBox));
     }
 
     public void Write(string xamlParagraphText)
@@ -34,7 +33,7 @@ public class RichTextBox : IRichTextBox
 
         var inLines = parsedParagraph.Inlines.ToList();
 
-        var flowDocument = _richTextBox.Document ??= new FlowDocument();
+        var flowDocument = this._richTextBox.Document ??= new FlowDocument();
 
         if (flowDocument.Blocks.LastBlock is not Paragraph paragraph)
         {
@@ -47,11 +46,11 @@ public class RichTextBox : IRichTextBox
 
     public bool CheckAccess()
     {
-        return _richTextBox.CheckAccess();
+        return this._richTextBox.CheckAccess();
     }
 
     public DispatcherOperation BeginInvoke(DispatcherPriority priority, Delegate method, object arg)
     {
-        return _richTextBox.Dispatcher.BeginInvoke(priority, method, arg);
+        return this._richTextBox.Dispatcher.BeginInvoke(priority, method, arg);
     }
 }

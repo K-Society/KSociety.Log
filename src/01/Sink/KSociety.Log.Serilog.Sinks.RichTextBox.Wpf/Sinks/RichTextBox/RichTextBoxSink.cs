@@ -1,18 +1,18 @@
-﻿using Serilog.Events;
-using Serilog.Formatting;
-using Serilog.Sinks.PeriodicBatching;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Threading;
-using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
-
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Sinks.RichTextBox
+﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Sinks.RichTextBox
 {
+    using global::Serilog.Events;
+    using global::Serilog.Formatting;
+    using global::Serilog.Sinks.PeriodicBatching;
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Windows.Threading;
+    using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
+
     internal sealed class RichTextBoxSink : IBatchedLogEventSink, IDisposable
     {
         private readonly IRichTextBox _richTextBox;
@@ -24,8 +24,8 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Sinks.RichTextBox
 
         public RichTextBoxSink(IRichTextBox richTextBox, ITextFormatter formatter, DispatcherPriority dispatcherPriority, object syncRoot)
         {
-            _richTextBox = richTextBox ?? throw new ArgumentNullException(nameof(richTextBox));
-            _formatter = formatter ?? throw new ArgumentNullException(nameof(formatter));
+            this._richTextBox = richTextBox ?? throw new ArgumentNullException(nameof(richTextBox));
+            this._formatter = formatter ?? throw new ArgumentNullException(nameof(formatter));
 
             if (!Enum.IsDefined(typeof(DispatcherPriority), dispatcherPriority))
             {
@@ -33,17 +33,17 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Sinks.RichTextBox
                     typeof(DispatcherPriority));
             }
 
-            _dispatcherPriority = dispatcherPriority;
-            _syncRoot = syncRoot ?? throw new ArgumentNullException(nameof(syncRoot));
+            this._dispatcherPriority = dispatcherPriority;
+            this._syncRoot = syncRoot ?? throw new ArgumentNullException(nameof(syncRoot));
 
-            _renderAction = Render;
+            this._renderAction = this.Render;
         }
 
         private void Render(string xamlParagraphText)
         {
-            lock (_syncRoot)
+            lock (this._syncRoot)
             {
-                _richTextBox.Write(xamlParagraphText);
+                this._richTextBox.Write(xamlParagraphText);
             }
         }
 
@@ -63,14 +63,14 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Sinks.RichTextBox
                 {
                     sb.Append($"<Paragraph xmlns =\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xml:space=\"preserve\">");
                     StringWriter writer = new();
-                    _formatter.Format(logEvent, writer);
+                    this._formatter.Format(logEvent, writer);
                     sb.Append(writer);
 
                     sb.Append("</Paragraph>");
                     string xamlParagraphText = sb.ToString();
-                    lock (_syncRoot)
+                    lock (this._syncRoot)
                     {
-                        _richTextBox.BeginInvoke(_dispatcherPriority, _renderAction, xamlParagraphText);
+                        this._richTextBox.BeginInvoke(this._dispatcherPriority, this._renderAction, xamlParagraphText);
                     }
                     sb.Clear();
                 }

@@ -1,11 +1,10 @@
-﻿using System;
+﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+using System;
 using System.IO;
 using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Rendering;
 using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
-using Serilog.Events;
-using Serilog.Parsing;
-
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+using global::Serilog.Events;
+using global::Serilog.Parsing;
 
 internal class TimestampTokenRenderer : OutputTemplateTokenRenderer
 {
@@ -15,9 +14,9 @@ internal class TimestampTokenRenderer : OutputTemplateTokenRenderer
 
     public TimestampTokenRenderer(RichTextBoxTheme theme, PropertyToken token, IFormatProvider formatProvider)
     {
-        _theme = theme;
-        _token = token;
-        _formatProvider = formatProvider;
+        this._theme = theme;
+        this._token = token;
+        this._formatProvider = formatProvider;
     }
 
     public override void Render(LogEvent logEvent, TextWriter output)
@@ -28,19 +27,19 @@ internal class TimestampTokenRenderer : OutputTemplateTokenRenderer
 
         var _ = 0;
 
-        using (_theme.Apply(output, RichTextBoxThemeStyle.SecondaryText, ref _))
+        using (this._theme.Apply(output, RichTextBoxThemeStyle.SecondaryText, ref _))
         {
-            if (_token.Alignment is null)
+            if (this._token.Alignment is null)
             {
-                sv.Render(output, _token.Format, _formatProvider);
+                sv.Render(output, this._token.Format, this._formatProvider);
             }
             else
             {
                 var buffer = new StringWriter();
-                sv.Render(buffer, _token.Format, _formatProvider);
+                sv.Render(buffer, this._token.Format, this._formatProvider);
 
                 var str = buffer.ToString();
-                Padding.Apply(output, str, _token.Alignment);
+                Padding.Apply(output, str, this._token.Alignment);
             }
         }
     }

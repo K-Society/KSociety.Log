@@ -1,15 +1,15 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
-using KSociety.Base.App.Shared;
-using KSociety.Log.App.Dto.Req.Biz;
-using KSociety.Log.Biz.Event;
-using KSociety.Log.Biz.Interface;
-using Microsoft.Extensions.Logging;
-
-namespace KSociety.Log.App.ReqHdlr.Biz
+﻿namespace KSociety.Log.App.ReqHdlr.Biz
 {
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using AutoMapper;
+    using KSociety.Base.App.Shared;
+    using KSociety.Log.App.Dto.Req.Biz;
+    using KSociety.Log.Biz.Event;
+    using KSociety.Log.Biz.Interface;
+    using Microsoft.Extensions.Logging;
+
     public class WriteLogReqHdlr :
         IRequestHandlerWithResponse<WriteLog, Dto.Res.Biz.WriteLog>,
         IRequestHandlerWithResponseAsync<WriteLog, Dto.Res.Biz.WriteLog>
@@ -21,10 +21,10 @@ namespace KSociety.Log.App.ReqHdlr.Biz
 
         public WriteLogReqHdlr(ILoggerFactory loggerFactory, IBiz biz, IMapper mapper)
         {
-            _loggerFactory = loggerFactory;
-            _logger = _loggerFactory.CreateLogger<WriteLogReqHdlr>();
-            _biz = biz;
-            _mapper = mapper;
+            this._loggerFactory = loggerFactory;
+            this._logger = this._loggerFactory.CreateLogger<WriteLogReqHdlr>();
+            this._biz = biz;
+            this._mapper = mapper;
         }
 
         public Dto.Res.Biz.WriteLog Execute(WriteLog request)
@@ -33,12 +33,12 @@ namespace KSociety.Log.App.ReqHdlr.Biz
 
             try
             {
-                var message = _mapper.Map<WriteLogEvent>(request);
-                _biz.WriteLog(message);
+                var message = this._mapper.Map<WriteLogEvent>(request);
+                this._biz.WriteLog(message);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "WriteLogReqHdlr Execute: ");
+                this._logger.LogError(ex, "WriteLogReqHdlr Execute: ");
             }
 
             return output;
@@ -51,12 +51,12 @@ namespace KSociety.Log.App.ReqHdlr.Biz
 
             try
             {
-                var message = _mapper.Map<WriteLogEvent>(request);
-                await _biz.WriteLogAsync(message).ConfigureAwait(false);
+                var message = this._mapper.Map<WriteLogEvent>(request);
+                await this._biz.WriteLogAsync(message).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "WriteLogReqHdlr ExecuteAsync: ");
+                this._logger.LogError(ex, "WriteLogReqHdlr ExecuteAsync: ");
             }
 
             return output;

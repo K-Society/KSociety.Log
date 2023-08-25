@@ -1,7 +1,6 @@
-﻿using System.IO;
-using Serilog.Events;
-
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+using System.IO;
+using global::Serilog.Events;
 
 internal abstract class OutputTemplateTokenRenderer
 {

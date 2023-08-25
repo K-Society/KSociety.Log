@@ -1,13 +1,13 @@
-﻿using Microsoft.Extensions.Logging;
-using Serilog.Events;
-using Serilog.Formatting;
-using Serilog.Sinks.PeriodicBatching;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-
-namespace KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR
+﻿namespace KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR
 {
+    using Microsoft.Extensions.Logging;
+    using global::Serilog.Events;
+    using global::Serilog.Formatting;
+    using global::Serilog.Sinks.PeriodicBatching;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Threading.Tasks;
+
     public class SignalRSink : IBatchedLogEventSink
     {
         private readonly ITextFormatter _formatter;
@@ -17,10 +17,10 @@ namespace KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR
 
         public SignalRSink(SignalRSinkConfiguration signalRSinkConfiguration, HubProxy proxy)
         {
-            _formatter = signalRSinkConfiguration.TextFormatter;
-            _proxy = proxy;
+            this._formatter = signalRSinkConfiguration.TextFormatter;
+            this._proxy = proxy;
 
-            _loggerFactory = LoggerFactory.Create(builder =>
+            this._loggerFactory = LoggerFactory.Create(builder =>
             {
                 builder
                     .AddFilter("Microsoft", LogLevel.Warning)
@@ -33,9 +33,9 @@ namespace KSociety.Log.Serilog.Sinks.SignalR.Sinks.SignalR
             foreach (var logEvent in events)
             {
                 var sw = new StringWriter();
-                _formatter.Format(logEvent, sw);
+                this._formatter.Format(logEvent, sw);
 
-                await _proxy
+                await this._proxy
                     .Log(new Srv.Dto.LogEvent(sw.ToString(), logEvent.Timestamp.DateTime, 1, (int)logEvent.Level,
                         "LoggerName")).ConfigureAwait(false);
             }

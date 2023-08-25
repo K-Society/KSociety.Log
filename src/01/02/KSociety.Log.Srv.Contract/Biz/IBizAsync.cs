@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
-using KSociety.Log.App.Dto.Res.Biz;
-using ProtoBuf.Grpc;
-using ProtoBuf.Grpc.Configuration;
-
-namespace KSociety.Log.Srv.Contract.Biz
+﻿namespace KSociety.Log.Srv.Contract.Biz
 {
+    using System.Threading.Tasks;
+    using KSociety.Log.App.Dto.Res.Biz;
+    using ProtoBuf.Grpc;
+    using ProtoBuf.Grpc.Configuration;
+
     [Service]
     public interface IBizAsync
     {

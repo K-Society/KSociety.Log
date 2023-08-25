@@ -1,6 +1,5 @@
-﻿using System.IO;
-
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
+﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
+using System.IO;
 
 /// <summary>
 /// The base class for styled RichTextBox output.
@@ -39,8 +38,8 @@ public abstract class RichTextBoxTheme
 
     internal StyleReset Apply(TextWriter output, RichTextBoxThemeStyle style, ref int invisibleCharacterCount)
     {
-        invisibleCharacterCount += Set(output, style);
-        invisibleCharacterCount += ResetCharCount;
+        invisibleCharacterCount += this.Set(output, style);
+        invisibleCharacterCount += this.ResetCharCount;
 
         return new StyleReset(this, output);
     }

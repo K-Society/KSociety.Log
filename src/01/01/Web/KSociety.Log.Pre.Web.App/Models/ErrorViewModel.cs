@@ -4,6 +4,6 @@ namespace KSociety.Log.Pre.Web.App.Models
     {
         public string RequestId { get; set; }
 
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+        public bool ShowRequestId => !System.String.IsNullOrEmpty(this.RequestId);
     }
 }

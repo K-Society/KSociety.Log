@@ -1,25 +1,25 @@
-﻿using Autofac;
-using KSociety.Base.EventBus;
-using KSociety.Base.InfraSub.Shared.Class;
-using KSociety.Base.Srv.Host.Shared.Bindings;
-using KSociety.Base.Srv.Host.Shared.Class;
-using KSociety.Log.Biz.Interface;
-using KSociety.Log.Srv.Behavior.Biz;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using ProtoBuf.Grpc.Server;
-using RabbitMQ.Client;
-using Serilog;
-using System;
-using System.IO.Compression;
-
-namespace KSociety.Log.Srv.Host
+﻿namespace KSociety.Log.Srv.Host
 {
+    using Autofac;
+    using KSociety.Base.EventBus;
+    using KSociety.Base.InfraSub.Shared.Class;
+    using KSociety.Base.Srv.Host.Shared.Bindings;
+    using KSociety.Base.Srv.Host.Shared.Class;
+    using KSociety.Log.Biz.Interface;
+    using KSociety.Log.Srv.Behavior.Biz;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Server.Kestrel.Core;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using ProtoBuf.Grpc.Server;
+    using RabbitMQ.Client;
+    using global::Serilog;
+    using System;
+    using System.IO.Compression;
+
     public class Startup
     {
         public IHostApplicationLifetime AppLifetime { get; private set; }
@@ -31,11 +31,11 @@ namespace KSociety.Log.Srv.Host
 
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
 
-            DebugFlag = Configuration.GetValue<bool>("DebugFlag");
+            this.DebugFlag = this.Configuration.GetValue<bool>("DebugFlag");
 
-            MessageBrokerOptions = Configuration.GetSection("MessageBroker").Get<MessageBrokerOptions>();
+            this.MessageBrokerOptions = this.Configuration.GetSection("MessageBroker").Get<MessageBrokerOptions>();
         }
 
         public IConfiguration Configuration { get; }
@@ -45,7 +45,7 @@ namespace KSociety.Log.Srv.Host
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<KestrelServerOptions>(
-                Configuration.GetSection("Kestrel"));
+                this.Configuration.GetSection("Kestrel"));
 
             //services.AddCodeFirstGrpc();
             services.AddCodeFirstGrpc(options =>
@@ -80,10 +80,10 @@ namespace KSociety.Log.Srv.Host
                         IEventBusParameters, IConnectionFactory,
                         Base.EventBus.ExchangeDeclareParameters,
                         Base.EventBus.QueueDeclareParameters,
-                        EventBusParameters>(MessageBrokerOptions, DebugFlag));
+                        EventBusParameters>(this.MessageBrokerOptions, this.DebugFlag));
 
                 //Transaction, don't move this line.
-                builder.RegisterModule(new Bindings.Biz.Biz(DebugFlag));
+                builder.RegisterModule(new Bindings.Biz.Biz(this.DebugFlag));
 
             }
             catch (Exception ex)
@@ -96,7 +96,7 @@ namespace KSociety.Log.Srv.Host
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime appLifetime,
             IHostLifetime hostLifetime, ILifetimeScope autofacContainer)
         {
-            AppLifetime = appLifetime;
+            this.AppLifetime = appLifetime;
             AutofacContainer = autofacContainer;
 
             appLifetime.ApplicationStarted.Register(OnStarted);

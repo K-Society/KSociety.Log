@@ -1,9 +1,9 @@
-﻿using KSociety.Log.App.Dto.Res.Biz;
-using ProtoBuf.Grpc;
-using ProtoBuf.Grpc.Configuration;
-
 namespace KSociety.Log.Srv.Contract.Biz
 {
+    using KSociety.Log.App.Dto.Res.Biz;
+    using ProtoBuf.Grpc;
+    using ProtoBuf.Grpc.Configuration;
+
     [Service]
     public interface IBiz
     {

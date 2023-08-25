@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
-using KSociety.Log.Srv.Dto;
-
-namespace KSociety.Log.Pre.Web.App.Hubs
+﻿namespace KSociety.Log.Pre.Web.App.Hubs
 {
+    using System.Threading.Tasks;
+    using KSociety.Log.Srv.Dto;
+
     public interface ILoggingHub
     {
         Task ReceiveLog(LogEvent logEvent);

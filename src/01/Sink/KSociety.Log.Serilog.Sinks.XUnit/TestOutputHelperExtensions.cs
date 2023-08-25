@@ -1,12 +1,12 @@
-﻿using System;
-using Serilog;
-using Serilog.Core;
-using Serilog.Events;
-using Serilog.Formatting;
-using Xunit.Abstractions;
-
-namespace KSociety.Log.Serilog.Sinks.XUnit
+﻿namespace KSociety.Log.Serilog.Sinks.XUnit
 {
+    using System;
+    using global::Serilog;
+    using global::Serilog.Core;
+    using global::Serilog.Events;
+    using global::Serilog.Formatting;
+    using Xunit.Abstractions;
+
     /// <summary>
     /// Provides extension methods that create Serilog loggers
     /// directly from <see cref="ITestOutputHelper"/> objects.

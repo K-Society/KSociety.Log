@@ -1,10 +1,9 @@
-﻿using System;
+﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+using System;
 using System.IO;
 using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Rendering;
-using Serilog.Events;
-using Serilog.Parsing;
-
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+using global::Serilog.Events;
+using global::Serilog.Parsing;
 
 internal class NewLineTokenRenderer : OutputTemplateTokenRenderer
 {
@@ -12,14 +11,14 @@ internal class NewLineTokenRenderer : OutputTemplateTokenRenderer
 
     public NewLineTokenRenderer(Alignment? alignment)
     {
-        _alignment = alignment;
+        this._alignment = alignment;
     }
 
     public override void Render(LogEvent logEvent, TextWriter output)
     {
-        if (_alignment.HasValue)
+        if (this._alignment.HasValue)
         {
-            Padding.Apply(output, Environment.NewLine, _alignment.Value.Widen(Environment.NewLine.Length));
+            Padding.Apply(output, Environment.NewLine, this._alignment.Value.Widen(Environment.NewLine.Length));
         }
         else
         {

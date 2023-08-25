@@ -1,16 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using KSociety.Base.EventBus;
-using KSociety.Base.EventBus.Abstractions.EventBus;
-using KSociety.Base.EventBusRabbitMQ;
-using KSociety.Base.EventBusRabbitMQ.Helper;
-using KSociety.Log.Biz.Event;
-using KSociety.Log.Biz.IntegrationEvent.EventHandling;
-using KSociety.Log.Biz.Interface;
-using Microsoft.Extensions.Logging;
-
 namespace KSociety.Log.Biz.Class
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using KSociety.Base.EventBus;
+    using KSociety.Base.EventBus.Abstractions.EventBus;
+    using KSociety.Base.EventBusRabbitMQ;
+    using KSociety.Base.EventBusRabbitMQ.Helper;
+    using KSociety.Log.Biz.Event;
+    using KSociety.Log.Biz.IntegrationEvent.EventHandling;
+    using KSociety.Log.Biz.Interface;
+    using Microsoft.Extensions.Logging;
+
     public class Biz : IBiz
     {
         private readonly ILogger<Biz> _logger;
@@ -25,24 +25,24 @@ namespace KSociety.Log.Biz.Class
             IEventBusParameters eventBusParameters,
             IRabbitMqPersistentConnection persistentConnection)
         {
-            _loggerFactory = loggerFactory;
-            _logger = _loggerFactory.CreateLogger<Biz>();
-            _eventBusParameters = eventBusParameters;
-            _persistentConnection = persistentConnection;
-            _logger.LogInformation("KSociety.Log.Biz.Class.Biz!");
-            _subscriber = new Subscriber(_loggerFactory, _persistentConnection, _eventBusParameters);
+            this._loggerFactory = loggerFactory;
+            this._logger = this._loggerFactory.CreateLogger<Biz>();
+            this._eventBusParameters = eventBusParameters;
+            this._persistentConnection = persistentConnection;
+            this._logger.LogInformation("KSociety.Log.Biz.Class.Biz!");
+            this._subscriber = new Subscriber(this._loggerFactory, this._persistentConnection, this._eventBusParameters);
         }
 
         public void LoadEventBus()
         {
-            _subscriber.SubscribeTyped<LogEventHandler, WriteLogEvent>(
-                EventBusName, "LogQueueServer", "log", new LogEventHandler(_loggerFactory)
+            this._subscriber.SubscribeTyped<LogEventHandler, WriteLogEvent>(
+                EventBusName, "LogQueueServer", "log", new LogEventHandler(this._loggerFactory)
             );
         }
 
         public bool WriteLog(WriteLogEvent logEvent)
         {
-            ((IEventBusTyped)_subscriber.EventBus[EventBusName]).Publish(logEvent).ConfigureAwait(false);
+            ((IEventBusTyped)this._subscriber.EventBus[EventBusName]).Publish(logEvent).ConfigureAwait(false);
 
             return true;
         }
@@ -51,7 +51,7 @@ namespace KSociety.Log.Biz.Class
         {
             foreach (var logEvent in logEvents)
             {
-                ((IEventBusTyped)_subscriber.EventBus[EventBusName]).Publish(logEvent).ConfigureAwait(false);
+                ((IEventBusTyped)this._subscriber.EventBus[EventBusName]).Publish(logEvent).ConfigureAwait(false);
             }
 
             return true;
@@ -59,7 +59,7 @@ namespace KSociety.Log.Biz.Class
 
         public async ValueTask<bool> WriteLogAsync(WriteLogEvent logEvent)
         {
-            await ((IEventBusTyped)_subscriber.EventBus[EventBusName]).Publish(logEvent).ConfigureAwait(false);
+            await ((IEventBusTyped)this._subscriber.EventBus[EventBusName]).Publish(logEvent).ConfigureAwait(false);
 
             return true;
         }
@@ -68,7 +68,7 @@ namespace KSociety.Log.Biz.Class
         {
             foreach (var logEvent in logEvents)
             {
-                await ((IEventBusTyped)_subscriber.EventBus[EventBusName]).Publish(logEvent).ConfigureAwait(false);
+                await ((IEventBusTyped)this._subscriber.EventBus[EventBusName]).Publish(logEvent).ConfigureAwait(false);
             }
 
             return true;

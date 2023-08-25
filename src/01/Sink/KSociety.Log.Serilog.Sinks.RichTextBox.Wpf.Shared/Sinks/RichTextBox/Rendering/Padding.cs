@@ -1,7 +1,6 @@
-﻿using System.IO;
-using Serilog.Parsing;
-
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Rendering;
+﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Rendering;
+using System.IO;
+using global::Serilog.Parsing;
 
 internal static class Padding
 {

@@ -1,9 +1,9 @@
-﻿using Autofac;
-using KSociety.Log.Biz.Interface;
-using Microsoft.Extensions.Logging;
-
-namespace KSociety.Log.Biz.Class
+﻿namespace KSociety.Log.Biz.Class
 {
+    using Autofac;
+    using KSociety.Log.Biz.Interface;
+    using Microsoft.Extensions.Logging;
+
     public class Startup : IStartable
     {
         private readonly ILogger<Startup> _logger;
@@ -15,16 +15,16 @@ namespace KSociety.Log.Biz.Class
             IBiz biz
         )
         {
-            _loggerFactory = loggerFactory;
-            _logger = _loggerFactory.CreateLogger<Startup>();
-            _biz = biz;
-            _logger.LogInformation("KSociety.Log startup! ");
+            this._loggerFactory = loggerFactory;
+            this._logger = this._loggerFactory.CreateLogger<Startup>();
+            this._biz = biz;
+            this._logger.LogInformation("KSociety.Log startup! ");
         }
 
         public void Start()
         {
-            _logger.LogTrace("KSociety.Log staring...");
-            _biz.LoadEventBus();
+            this._logger.LogTrace("KSociety.Log staring...");
+            this._biz.LoadEventBus();
         }
     }
 }

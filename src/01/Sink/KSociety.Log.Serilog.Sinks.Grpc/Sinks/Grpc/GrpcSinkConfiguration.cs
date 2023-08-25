@@ -1,10 +1,10 @@
-﻿using Serilog.Events;
-using Serilog.Formatting;
-using Serilog.Formatting.Compact;
-using System;
-
-namespace KSociety.Log.Serilog.Sinks.Grpc.Sinks.Grpc
+﻿namespace KSociety.Log.Serilog.Sinks.Grpc.Sinks.Grpc
 {
+    using global::Serilog.Events;
+    using global::Serilog.Formatting;
+    using global::Serilog.Formatting.Compact;
+    using System;
+
     public class GrpcSinkConfiguration
     {
         public int BatchPostingLimit { get; set; }

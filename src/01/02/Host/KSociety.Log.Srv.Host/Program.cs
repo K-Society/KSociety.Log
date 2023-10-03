@@ -19,7 +19,6 @@ try
 {
     Log.Information("Log init main");
     await CreateHostBuilder(args).Build().RunAsync();
-
 }
 catch (Exception ex)
 {

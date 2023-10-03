@@ -1,4 +1,4 @@
-﻿namespace KSociety.Log.Srv.Agent.Biz
+namespace KSociety.Log.Srv.Agent.Biz
 {
     using KSociety.Log.App.Dto.Res.Biz;
     using KSociety.Log.Srv.Contract.Biz;
@@ -32,7 +32,7 @@
             }
             catch (Exception ex)
             {
-                this.Logger.LogError(this.GetType().FullName + "." + System.Reflection.MethodBase.GetCurrentMethod()?.Name +
+                this.Logger?.LogError(this.GetType().FullName + "." + System.Reflection.MethodBase.GetCurrentMethod()?.Name +
                                 " - " + ex.Source + " " + ex.Message + " " + ex.StackTrace);
             }
 
@@ -55,7 +55,7 @@
             }
             catch (Exception ex)
             {
-                this.Logger.LogError(this.GetType().FullName + "." + System.Reflection.MethodBase.GetCurrentMethod()?.Name +
+                this.Logger?.LogError(this.GetType().FullName + "." + System.Reflection.MethodBase.GetCurrentMethod()?.Name +
                                 " - " + ex.Source + " " + ex.Message + " " + ex.StackTrace);
             }
 
@@ -78,7 +78,7 @@
             }
             catch (Exception ex)
             {
-                this.Logger.LogError(this.GetType().FullName + "." + System.Reflection.MethodBase.GetCurrentMethod()?.Name +
+                this.Logger?.LogError(this.GetType().FullName + "." + System.Reflection.MethodBase.GetCurrentMethod()?.Name +
                                 " - " + ex.Source + " " + ex.Message + " " + ex.StackTrace);
             }
 
@@ -101,7 +101,7 @@
             }
             catch (Exception ex)
             {
-                this.Logger.LogError(this.GetType().FullName + "." + System.Reflection.MethodBase.GetCurrentMethod()?.Name +
+                this.Logger?.LogError(this.GetType().FullName + "." + System.Reflection.MethodBase.GetCurrentMethod()?.Name +
                                 " - " + ex.Source + " " + ex.Message + " " + ex.StackTrace);
             }
 

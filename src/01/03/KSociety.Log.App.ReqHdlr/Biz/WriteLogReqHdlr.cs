@@ -1,9 +1,8 @@
-﻿namespace KSociety.Log.App.ReqHdlr.Biz
+namespace KSociety.Log.App.ReqHdlr.Biz
 {
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using AutoMapper;
     using KSociety.Base.App.Shared;
     using KSociety.Log.App.Dto.Req.Biz;
     using KSociety.Log.Biz.Event;
@@ -17,14 +16,12 @@
         private readonly ILoggerFactory _loggerFactory;
         private readonly ILogger<WriteLogReqHdlr> _logger;
         private readonly IBiz _biz;
-        private readonly IMapper _mapper;
 
-        public WriteLogReqHdlr(ILoggerFactory loggerFactory, IBiz biz, IMapper mapper)
+        public WriteLogReqHdlr(ILoggerFactory loggerFactory, IBiz biz)
         {
             this._loggerFactory = loggerFactory;
             this._logger = this._loggerFactory.CreateLogger<WriteLogReqHdlr>();
             this._biz = biz;
-            this._mapper = mapper;
         }
 
         public Dto.Res.Biz.WriteLog Execute(WriteLog request)
@@ -33,7 +30,7 @@
 
             try
             {
-                var message = this._mapper.Map<WriteLogEvent>(request);
+                var message = new WriteLogEvent(request.Message, request.TimeStamp, request.SequenceId, request.Level, request.LoggerName);//this._mapper.Map<WriteLogEvent>(request);
                 this._biz.WriteLog(message);
             }
             catch (Exception ex)
@@ -51,7 +48,7 @@
 
             try
             {
-                var message = this._mapper.Map<WriteLogEvent>(request);
+                var message = new WriteLogEvent(request.Message, request.TimeStamp, request.SequenceId, request.Level, request.LoggerName);//this._mapper.Map<WriteLogEvent>(request);
                 await this._biz.WriteLogAsync(message).ConfigureAwait(false);
             }
             catch (Exception ex)

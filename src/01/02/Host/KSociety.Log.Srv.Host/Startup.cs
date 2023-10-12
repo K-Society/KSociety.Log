@@ -1,4 +1,4 @@
-﻿namespace KSociety.Log.Srv.Host
+namespace KSociety.Log.Srv.Host
 {
     using Autofac;
     using KSociety.Base.EventBus;
@@ -67,8 +67,8 @@
                 builder.RegisterModule(new KSociety.Base.Srv.Host.Shared.Bindings.Log());
 
                 //AutoMapper.
-                builder.RegisterModule(
-                    new KSociety.Base.Srv.Host.Shared.Bindings.AutoMapper(AssemblyTool.GetAssembly()));
+                //builder.RegisterModule(
+                //    new KSociety.Base.Srv.Host.Shared.Bindings.AutoMapper(AssemblyTool.GetAssembly()));
 
                 //CommandHdlr.
                 builder.RegisterModule(new CommandHdlr(AssemblyTool.GetAssembly()));

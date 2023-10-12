@@ -1,4 +1,4 @@
-﻿namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
+namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
 {
     using KSociety.Base.EventBus;
     using KSociety.Base.EventBus.Abstractions.EventBus;
@@ -47,13 +47,20 @@
 
         public void Initialize()
         {
-            this._eventBus = new Lazy<IEventBusTyped>(new EventBusRabbitMqTyped(
+            this._eventBus = new Lazy<IEventBusTyped>(this.GetEventBusTyped);
+            this._eventBus.Value.Initialize();
+        }
+
+        private IEventBusTyped GetEventBusTyped()
+        {
+            var eventBus = new EventBusRabbitMqTyped(
                 this._persistentConnection,
                 this._loggerFactory,
                 null,
                 this._eventBusParameters,
-                "LogQueueDriver"));
-            this._eventBus.Value.Initialize();
+                "LogQueueDriver");
+
+            return eventBus;
         }
 
         public async Task EmitBatchAsync(IEnumerable<LogEvent> batch)

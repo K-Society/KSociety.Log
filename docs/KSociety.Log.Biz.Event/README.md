@@ -15,7 +15,7 @@ The generic shared library.
 
 | GitHub Repository | NuGet | Download |
 | ------------- | ------------- | ------------- |
-| [KSociety.Log.Biz.Event](https://github.com/K-Society/KSociety.Log/tree/develop/Src/01/04/KSociety.Log.Biz.Event) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Biz.Event)](https://www.nuget.org/packages/KSociety.Log.Biz.Event) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.Biz.Event) |
+| [KSociety.Log.Biz.Event](https://github.com/K-Society/KSociety.Log/tree/master/src/01/04/KSociety.Log.Biz.Event) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Biz.Event)](https://www.nuget.org/packages/KSociety.Log.Biz.Event) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.Biz.Event) |
 
 ## License
 The project is under Microsoft Reciprocal License [(MS-RL)](http://www.opensource.org/licenses/MS-RL)

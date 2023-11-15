@@ -13,8 +13,8 @@ namespace KSociety.Log.Serilog.Sinks.XUnit.Sinks.XUnit
     /// </summary>
     public class TestOutputSink : ILogEventSink
     {
-        private readonly IMessageSink _messageSink;
-        private readonly ITestOutputHelper _testOutputHelper;
+        private readonly IMessageSink? _messageSink;
+        private readonly ITestOutputHelper? _testOutputHelper;
         private readonly ITextFormatter _textFormatter;
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace KSociety.Log.Serilog.Sinks.XUnit.Sinks.XUnit
         /// </summary>
         /// <param name="messageSink">An <see cref="IMessageSink"/> implementation that can be used to provide test output</param>
         /// <param name="textFormatter">The <see cref="ITextFormatter"/> used when rendering the message</param>
-        public TestOutputSink(IMessageSink messageSink, ITextFormatter textFormatter)
+        public TestOutputSink(IMessageSink? messageSink, ITextFormatter textFormatter)
         {
             this._messageSink = messageSink ?? throw new ArgumentNullException(nameof(messageSink));
             this._textFormatter = textFormatter ?? throw new ArgumentNullException(nameof(textFormatter));
@@ -33,7 +33,7 @@ namespace KSociety.Log.Serilog.Sinks.XUnit.Sinks.XUnit
         /// </summary>
         /// <param name="testOutputHelper">An <see cref="ITestOutputHelper"/> implementation that can be used to provide test output</param>
         /// <param name="textFormatter">The <see cref="ITextFormatter"/> used when rendering the message</param>
-        public TestOutputSink(ITestOutputHelper testOutputHelper, ITextFormatter textFormatter)
+        public TestOutputSink(ITestOutputHelper? testOutputHelper, ITextFormatter textFormatter)
         {
             this._testOutputHelper = testOutputHelper ?? throw new ArgumentNullException(nameof(testOutputHelper));
             this._textFormatter = textFormatter ?? throw new ArgumentNullException(nameof(textFormatter));

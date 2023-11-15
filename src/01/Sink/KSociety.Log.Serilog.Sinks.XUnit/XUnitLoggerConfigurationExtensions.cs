@@ -31,7 +31,7 @@ namespace KSociety.Log.Serilog.Sinks.XUnit
         /// <returns>Configuration object allowing method chaining.</returns>
         public static LoggerConfiguration TestOutput(
             this LoggerSinkConfiguration sinkConfiguration,
-            IMessageSink messageSink,
+            IMessageSink? messageSink,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
             string outputTemplate = DefaultConsoleOutputTemplate,
             IFormatProvider formatProvider = null,
@@ -59,7 +59,7 @@ namespace KSociety.Log.Serilog.Sinks.XUnit
         /// <returns>Configuration object allowing method chaining.</returns>
         public static LoggerConfiguration TestOutput(
             this LoggerSinkConfiguration sinkConfiguration,
-            IMessageSink messageSink,
+            IMessageSink? messageSink,
             ITextFormatter formatter,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
             LoggingLevelSwitch levelSwitch = null)
@@ -84,7 +84,7 @@ namespace KSociety.Log.Serilog.Sinks.XUnit
         /// <returns>Configuration object allowing method chaining.</returns>
         public static LoggerConfiguration TestOutput(
             this LoggerSinkConfiguration sinkConfiguration,
-            ITestOutputHelper testOutputHelper,
+            ITestOutputHelper? testOutputHelper,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
             string outputTemplate = DefaultConsoleOutputTemplate,
             IFormatProvider formatProvider = null,
@@ -112,7 +112,7 @@ namespace KSociety.Log.Serilog.Sinks.XUnit
         /// <returns>Configuration object allowing method chaining.</returns>
         public static LoggerConfiguration TestOutput(
             this LoggerSinkConfiguration sinkConfiguration,
-            ITestOutputHelper testOutputHelper,
+            ITestOutputHelper? testOutputHelper,
             ITextFormatter formatter,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
             LoggingLevelSwitch levelSwitch = null)

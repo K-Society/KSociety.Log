@@ -15,7 +15,7 @@ The generic shared library.
 
 | GitHub Repository | NuGet | Download |
 | ------------- | ------------- | ------------- |
-| [KSociety.Log.App.Dto](https://github.com/K-Society/KSociety.Log/tree/develop/Src/01/03/KSociety.Log.App.Dto) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.App.Dto)](https://www.nuget.org/packages/KSociety.Log.App.Dto) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.App.Dto) |
+| [KSociety.Log.App.Dto](https://github.com/K-Society/KSociety.Log/tree/master/src/01/03/KSociety.Log.App.Dto) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.App.Dto)](https://www.nuget.org/packages/KSociety.Log.App.Dto) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.App.Dto) |
 
 ## License
 The project is under Microsoft Reciprocal License [(MS-RL)](http://www.opensource.org/licenses/MS-RL)

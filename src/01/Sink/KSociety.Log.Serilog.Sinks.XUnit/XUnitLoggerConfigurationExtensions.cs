@@ -31,11 +31,11 @@ namespace KSociety.Log.Serilog.Sinks.XUnit
         /// <returns>Configuration object allowing method chaining.</returns>
         public static LoggerConfiguration TestOutput(
             this LoggerSinkConfiguration sinkConfiguration,
-            IMessageSink messageSink,
+            IMessageSink? messageSink,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
             string outputTemplate = DefaultConsoleOutputTemplate,
-            IFormatProvider formatProvider = null,
-            LoggingLevelSwitch levelSwitch = null)
+            IFormatProvider? formatProvider = null,
+            LoggingLevelSwitch? levelSwitch = null)
         {
             if (sinkConfiguration == null) {throw new ArgumentNullException(nameof(sinkConfiguration));}
             if (messageSink == null) {throw new ArgumentNullException(nameof(messageSink));}
@@ -59,10 +59,10 @@ namespace KSociety.Log.Serilog.Sinks.XUnit
         /// <returns>Configuration object allowing method chaining.</returns>
         public static LoggerConfiguration TestOutput(
             this LoggerSinkConfiguration sinkConfiguration,
-            IMessageSink messageSink,
+            IMessageSink? messageSink,
             ITextFormatter formatter,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
-            LoggingLevelSwitch levelSwitch = null)
+            LoggingLevelSwitch? levelSwitch = null)
         {
             if (sinkConfiguration == null){ throw new ArgumentNullException(nameof(sinkConfiguration));}
             if (formatter == null) {throw new ArgumentNullException(nameof(formatter));}
@@ -84,11 +84,11 @@ namespace KSociety.Log.Serilog.Sinks.XUnit
         /// <returns>Configuration object allowing method chaining.</returns>
         public static LoggerConfiguration TestOutput(
             this LoggerSinkConfiguration sinkConfiguration,
-            ITestOutputHelper testOutputHelper,
+            ITestOutputHelper? testOutputHelper,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
             string outputTemplate = DefaultConsoleOutputTemplate,
-            IFormatProvider formatProvider = null,
-            LoggingLevelSwitch levelSwitch = null)
+            IFormatProvider? formatProvider = null,
+            LoggingLevelSwitch? levelSwitch = null)
         {
             if (sinkConfiguration == null) {throw new ArgumentNullException(nameof(sinkConfiguration));}
             if (testOutputHelper == null) {throw new ArgumentNullException(nameof(testOutputHelper));}
@@ -112,10 +112,10 @@ namespace KSociety.Log.Serilog.Sinks.XUnit
         /// <returns>Configuration object allowing method chaining.</returns>
         public static LoggerConfiguration TestOutput(
             this LoggerSinkConfiguration sinkConfiguration,
-            ITestOutputHelper testOutputHelper,
+            ITestOutputHelper? testOutputHelper,
             ITextFormatter formatter,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
-            LoggingLevelSwitch levelSwitch = null)
+            LoggingLevelSwitch? levelSwitch = null)
         {
             if (sinkConfiguration == null) {throw new ArgumentNullException(nameof(sinkConfiguration));}
             if (formatter == null) {throw new ArgumentNullException(nameof(formatter));}

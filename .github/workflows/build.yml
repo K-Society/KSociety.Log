@@ -52,7 +52,7 @@ jobs:
         shell: pwsh
         run: Compress-Archive -LiteralPath .\build\KSociety.Log.Install\bin\Release\net7.0\KSociety.Log.Install-${{ steps.nbgv.outputs.SimpleVersion }}-net7.0.exe -DestinationPath .\build\KSociety.Log.Install\bin\Release\net7.0\K-Society.Log-${{ steps.nbgv.outputs.SimpleVersion }}-net7.0.zip -Force
 
-	- name: Build KSociety.Log net8.0
+      - name: Build KSociety.Log net8.0
         shell: cmd
         run: ./build.cmd net8.0
 
@@ -80,5 +80,5 @@ jobs:
           files: |
             ./build/KSociety.Log.Install/bin/Release/net6.0/K-Society.Log-${{ steps.nbgv.outputs.SimpleVersion }}-net6.0.zip
             ./build/KSociety.Log.Install/bin/Release/net7.0/K-Society.Log-${{ steps.nbgv.outputs.SimpleVersion }}-net7.0.zip
-	    ./build/KSociety.Log.Install/bin/Release/net8.0/K-Society.Log-${{ steps.nbgv.outputs.SimpleVersion }}-net8.0.zip
+            ./build/KSociety.Log.Install/bin/Release/net8.0/K-Society.Log-${{ steps.nbgv.outputs.SimpleVersion }}-net8.0.zip
         

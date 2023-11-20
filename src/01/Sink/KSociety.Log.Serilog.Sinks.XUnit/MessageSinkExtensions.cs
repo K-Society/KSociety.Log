@@ -59,7 +59,7 @@ namespace KSociety.Log.Serilog.Sinks.XUnit
             this IMessageSink? messageSink,
             ITextFormatter formatter,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
-            LoggingLevelSwitch levelSwitch = null)
+            LoggingLevelSwitch? levelSwitch = null)
         {
             return new LoggerConfiguration()
                 .WriteTo.TestOutput(

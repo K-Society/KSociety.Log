@@ -52,6 +52,14 @@ jobs:
         shell: pwsh
         run: Compress-Archive -LiteralPath .\build\KSociety.Log.Install\bin\Release\net7.0\KSociety.Log.Install-${{ steps.nbgv.outputs.SimpleVersion }}-net7.0.exe -DestinationPath .\build\KSociety.Log.Install\bin\Release\net7.0\K-Society.Log-${{ steps.nbgv.outputs.SimpleVersion }}-net7.0.zip -Force
 
+	- name: Build KSociety.Log net8.0
+        shell: cmd
+        run: ./build.cmd net8.0
+
+      - name: Zip Installer net8.0
+        shell: pwsh
+        run: Compress-Archive -LiteralPath .\build\KSociety.Log.Install\bin\Release\net8.0\KSociety.Log.Install-${{ steps.nbgv.outputs.SimpleVersion }}-net8.0.exe -DestinationPath .\build\KSociety.Log.Install\bin\Release\net8.0\K-Society.Log-${{ steps.nbgv.outputs.SimpleVersion }}-net8.0.zip -Force
+
       - name: Push to GitHub Packages
         if: github.event_name == 'push' && github.repository_owner == 'K-Society' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop')
         run: dotnet nuget push "build/**/bin/Release/*.nupkg" --source https://nuget.pkg.github.com/K-Society/index.json --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
@@ -72,4 +80,5 @@ jobs:
           files: |
             ./build/KSociety.Log.Install/bin/Release/net6.0/K-Society.Log-${{ steps.nbgv.outputs.SimpleVersion }}-net6.0.zip
             ./build/KSociety.Log.Install/bin/Release/net7.0/K-Society.Log-${{ steps.nbgv.outputs.SimpleVersion }}-net7.0.zip
+	    ./build/KSociety.Log.Install/bin/Release/net8.0/K-Society.Log-${{ steps.nbgv.outputs.SimpleVersion }}-net8.0.zip
         

@@ -26,7 +26,7 @@
         /// <returns>The Serilog logger that logs to <paramref name="testOutputHelper"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="testOutputHelper"/> is null.</exception>
         public static Logger CreateTestLogger(
-            this ITestOutputHelper testOutputHelper,
+            this ITestOutputHelper? testOutputHelper,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
             string outputTemplate = TestOutputLoggerConfigurationExtensions.DefaultConsoleOutputTemplate,
             IFormatProvider formatProvider = null,
@@ -56,7 +56,7 @@
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="testOutputHelper"/>
         /// or <paramref name="formatter"/> is null.</exception>
         public static Logger CreateTestLogger(
-            this ITestOutputHelper testOutputHelper,
+            this ITestOutputHelper? testOutputHelper,
             ITextFormatter formatter,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
             LoggingLevelSwitch levelSwitch = null)

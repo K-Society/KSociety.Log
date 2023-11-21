@@ -1,4 +1,4 @@
-﻿namespace KSociety.Log.Serilog.Sinks.XUnit
+namespace KSociety.Log.Serilog.Sinks.XUnit
 {
     using System;
     using global::Serilog;
@@ -26,11 +26,11 @@
         /// <returns>The Serilog logger that logs to <paramref name="messageSink"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="messageSink"/> is null.</exception>
         public static Logger CreateTestLogger(
-            this IMessageSink messageSink,
+            this IMessageSink? messageSink,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
             string outputTemplate = TestOutputLoggerConfigurationExtensions.DefaultConsoleOutputTemplate,
-            IFormatProvider formatProvider = null,
-            LoggingLevelSwitch levelSwitch = null)
+            IFormatProvider? formatProvider = null,
+            LoggingLevelSwitch? levelSwitch = null)
         {
             return new LoggerConfiguration()
                 .WriteTo.TestOutput(
@@ -56,10 +56,10 @@
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="messageSink"/>
         /// or <paramref name="formatter"/> is null.</exception>
         public static Logger CreateTestLogger(
-            this IMessageSink messageSink,
+            this IMessageSink? messageSink,
             ITextFormatter formatter,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
-            LoggingLevelSwitch levelSwitch = null)
+            LoggingLevelSwitch? levelSwitch = null)
         {
             return new LoggerConfiguration()
                 .WriteTo.TestOutput(

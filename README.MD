@@ -118,44 +118,44 @@ The presentation layer.
 ### 1.1 Presentation - Web
 | GitHub Repository | NuGet | Download |
 | ------------- | ------------- | ------------- |
-| [KSociety.Log.Pre.Web.App](https://github.com/K-Society/KSociety.Log/tree/master/Src/01/01/Web/KSociety.Log.Pre.Web.App) |  |  |
+| [KSociety.Log.Pre.Web.App](https://github.com/K-Society/KSociety.Log/tree/master/src/01/01/Web/KSociety.Log.Pre.Web.App) |  |  |
 
 ### 2. Service 
 The service layer.
 
 | GitHub Repository | NuGet | Download |
 | ------------- | ------------- | ------------- |
-| [KSociety.Log.Srv.Agent](https://github.com/K-Society/KSociety.Log/tree/master/Src/01/02/KSociety.Log.Srv.Agent) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Srv.Agent)](https://www.nuget.org/packages/KSociety.Log.Srv.Agent) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.Srv.Agent) |
-| [KSociety.Log.Srv.Behavior](https://github.com/K-Society/KSociety.Log/tree/master/Src/01/02/KSociety.Log.Srv.Behavior) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Srv.Behavior)](https://www.nuget.org/packages/KSociety.Log.Srv.Behavior) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.Srv.Behavior) |
-| [KSociety.Log.Srv.Contract](https://github.com/K-Society/KSociety.Log/tree/master/Src/01/02/KSociety.Log.Srv.Contract) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Srv.Contract)](https://www.nuget.org/packages/KSociety.Log.Srv.Contract) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.Srv.Contract) |
-| [KSociety.Log.Srv.Dto](https://github.com/K-Society/KSociety.Log/tree/master/Src/01/02/KSociety.Log.Srv.Dto) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Srv.Dto)](https://www.nuget.org/packages/KSociety.Log.Srv.Dto) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.Srv.Dto) |
+| [KSociety.Log.Srv.Agent](https://github.com/K-Society/KSociety.Log/tree/master/src/01/02/KSociety.Log.Srv.Agent) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Srv.Agent)](https://www.nuget.org/packages/KSociety.Log.Srv.Agent) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.Srv.Agent) |
+| [KSociety.Log.Srv.Behavior](https://github.com/K-Society/KSociety.Log/tree/master/src/01/02/KSociety.Log.Srv.Behavior) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Srv.Behavior)](https://www.nuget.org/packages/KSociety.Log.Srv.Behavior) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.Srv.Behavior) |
+| [KSociety.Log.Srv.Contract](https://github.com/K-Society/KSociety.Log/tree/master/src/01/02/KSociety.Log.Srv.Contract) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Srv.Contract)](https://www.nuget.org/packages/KSociety.Log.Srv.Contract) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.Srv.Contract) |
+| [KSociety.Log.Srv.Dto](https://github.com/K-Society/KSociety.Log/tree/master/src/01/02/KSociety.Log.Srv.Dto) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Srv.Dto)](https://www.nuget.org/packages/KSociety.Log.Srv.Dto) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.Srv.Dto) |
 
 ### 2.1 Service - Host
 
 | GitHub Repository | NuGet | Download |
 | ------------- | ------------- | ------------- |
-| [KSociety.Log.Srv.Host](https://github.com/K-Society/KSociety.Log/tree/master/Src/01/02/Host/KSociety.Log.Srv.Host) |  |  |
+| [KSociety.Log.Srv.Host](https://github.com/K-Society/KSociety.Log/tree/master/src/01/02/Host/KSociety.Log.Srv.Host) |  |  |
 
 ### 3. Application
 The application layer.
 
 | GitHub Repository | NuGet | Download |
 | ------------- | ------------- | ------------- |
-| [KSociety.Log.App.Dto](https://github.com/K-Society/KSociety.Log/tree/develop/Src/01/03/KSociety.Log.App.Dto) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.App.Dto)](https://www.nuget.org/packages/KSociety.Log.App.Dto) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.App.Dto) |
-| [KSociety.Log.App.ReqHdlr](https://github.com/K-Society/KSociety.Log/tree/develop/Src/01/03/KSociety.Log.App.ReqHdlr) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.App.ReqHdlr)](https://www.nuget.org/packages/KSociety.Log.App.ReqHdlr) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.App.ReqHdlr) |
+| [KSociety.Log.App.Dto](https://github.com/K-Society/KSociety.Log/tree/master/src/01/03/KSociety.Log.App.Dto) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.App.Dto)](https://www.nuget.org/packages/KSociety.Log.App.Dto) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.App.Dto) |
+| [KSociety.Log.App.ReqHdlr](https://github.com/K-Society/KSociety.Log/tree/master/src/01/03/KSociety.Log.App.ReqHdlr) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.App.ReqHdlr)](https://www.nuget.org/packages/KSociety.Log.App.ReqHdlr) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.App.ReqHdlr) |
 
 ### 4. Business
 | GitHub Repository | NuGet | Download |
 | ------------- | ------------- | ------------- |
-| [KSociety.Log.Biz](https://github.com/K-Society/KSociety.Log/tree/develop/Src/01/04/KSociety.Log.Biz) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Biz)](https://www.nuget.org/packages/KSociety.Log.Biz) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.Biz) |
-| [KSociety.Log.Biz.Event](https://github.com/K-Society/KSociety.Log/tree/develop/Src/01/04/KSociety.Log.Biz.Event) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Biz.Event)](https://www.nuget.org/packages/KSociety.Log.Biz.Event) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.Biz.Event) |
+| [KSociety.Log.Biz](https://github.com/K-Society/KSociety.Log/tree/master/src/01/04/KSociety.Log.Biz) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Biz)](https://www.nuget.org/packages/KSociety.Log.Biz) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.Biz) |
+| [KSociety.Log.Biz.Event](https://github.com/K-Society/KSociety.Log/tree/master/src/01/04/KSociety.Log.Biz.Event) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Biz.Event)](https://www.nuget.org/packages/KSociety.Log.Biz.Event) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.Biz.Event) |
 
 ### Sink
 | GitHub Repository | NuGet | Download |
 | ------------- | ------------- | ------------- |
-| [KSociety.Log.Serilog.Sinks.Grpc](https://github.com/K-Society/KSociety.Log/tree/master/Src/01/Sink/KSociety.Log.Serilog.Sinks.Grpc) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Serilog.Sinks.Grpc)](https://www.nuget.org/packages/KSociety.Log.Serilog.Sinks.Grpc) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.Serilog.Sinks.Grpc) |
-| [KSociety.Log.Serilog.Sinks.RabbitMq](https://github.com/K-Society/KSociety.Log/tree/master/Src/01/Sink/KSociety.Log.Serilog.Sinks.RabbitMq) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Serilog.Sinks.RabbitMq)](https://www.nuget.org/packages/KSociety.Log.Serilog.Sinks.RabbitMq) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.Serilog.Sinks.RabbitMq) |
-| [KSociety.Log.Serilog.Sinks.SignalR](https://github.com/K-Society/KSociety.Log/tree/master/Src/01/Sink/KSociety.Log.Serilog.Sinks.SignalR) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Serilog.Sinks.SignalR)](https://www.nuget.org/packages/KSociety.Log.Serilog.Sinks.SignalR) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.Serilog.Sinks.SignalR) |
+| [KSociety.Log.Serilog.Sinks.Grpc](https://github.com/K-Society/KSociety.Log/tree/master/src/01/Sink/KSociety.Log.Serilog.Sinks.Grpc) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Serilog.Sinks.Grpc)](https://www.nuget.org/packages/KSociety.Log.Serilog.Sinks.Grpc) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.Serilog.Sinks.Grpc) |
+| [KSociety.Log.Serilog.Sinks.RabbitMq](https://github.com/K-Society/KSociety.Log/tree/master/src/01/Sink/KSociety.Log.Serilog.Sinks.RabbitMq) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Serilog.Sinks.RabbitMq)](https://www.nuget.org/packages/KSociety.Log.Serilog.Sinks.RabbitMq) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.Serilog.Sinks.RabbitMq) |
+| [KSociety.Log.Serilog.Sinks.SignalR](https://github.com/K-Society/KSociety.Log/tree/master/src/01/Sink/KSociety.Log.Serilog.Sinks.SignalR) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Serilog.Sinks.SignalR)](https://www.nuget.org/packages/KSociety.Log.Serilog.Sinks.SignalR) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.Serilog.Sinks.SignalR) |
 
 ## License
 The project is under Microsoft Reciprocal License [(MS-RL)](http://www.opensource.org/licenses/MS-RL)
@@ -169,7 +169,7 @@ List of technologies, frameworks and libraries used for implementation:
 - [protobuf-net](https://github.com/protobuf-net/protobuf-net) (protobuf-net is a contract based serializer for .NET code)
 - [RabbitMQ.Client](https://www.rabbitmq.com/dotnet.html) (The RabbitMQ .NET client is an implementation of an AMQP 0-9-1 client library for C#)
 - [Serilog](https://serilog.net/) (structured logging)
-- [KSociety.Base.App.Shared](https://github.com/K-Society/KSociety.Base/tree/develop/Src/01/03/KSociety.Base.App.Shared) ()
-- [KSociety.Base.EventBusRabbitMQ](https://github.com/K-Society/KSociety.Base/tree/master/Src/01/KSocietyBaseEventBus/KSociety.Base.EventBusRabbitMQ) ()
-- [KSociety.Base.Srv.Agent](https://github.com/K-Society/KSociety.Base/tree/develop/Src/01/02/KSociety.Base.Srv.Agent) ()
-- [KSociety.Base.Srv.Host.Shared](https://github.com/K-Society/KSociety.Base/tree/develop/Src/01/02/KSociety.Base.Srv.Shared) ()
+- [KSociety.Base.App.Shared](https://github.com/K-Society/KSociety.Base/tree/master/src/01/03/KSociety.Base.App.Shared) ()
+- [KSociety.Base.EventBusRabbitMQ](https://github.com/K-Society/KSociety.Base/tree/master/src/01/KSocietyBaseEventBus/KSociety.Base.EventBusRabbitMQ) ()
+- [KSociety.Base.Srv.Agent](https://github.com/K-Society/KSociety.Base/tree/master/src/01/02/KSociety.Base.Srv.Agent) ()
+- [KSociety.Base.Srv.Host.Shared](https://github.com/K-Society/KSociety.Base/tree/master/src/01/02/KSociety.Base.Srv.Shared) ()

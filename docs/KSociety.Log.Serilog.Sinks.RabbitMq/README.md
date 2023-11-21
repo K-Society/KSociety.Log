@@ -21,7 +21,7 @@ Serilog sink to transmit log messages to RabbitMQ.
 
 | GitHub Repository | NuGet | Download |
 | ------------- | ------------- | ------------- |
-| [KSociety.Log.Serilog.Sinks.RabbitMq](https://github.com/K-Society/KSociety.Log/tree/master/Src/01/Sink/KSociety.Log.Serilog.Sinks.RabbitMq) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Serilog.Sinks.RabbitMq)](https://www.nuget.org/packages/KSociety.Log.Serilog.Sinks.RabbitMq) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.Serilog.Sinks.RabbitMq) |
+| [KSociety.Log.Serilog.Sinks.RabbitMq](https://github.com/K-Society/KSociety.Log/tree/master/src/01/Sink/KSociety.Log.Serilog.Sinks.RabbitMq) | [![NuGet](https://img.shields.io/nuget/v/KSociety.Log.Serilog.Sinks.RabbitMq)](https://www.nuget.org/packages/KSociety.Log.Serilog.Sinks.RabbitMq) | ![NuGet](https://img.shields.io/nuget/dt/KSociety.Log.Serilog.Sinks.RabbitMq) |
 
 ## License
 The project is under Microsoft Reciprocal License [(MS-RL)](http://www.opensource.org/licenses/MS-RL)

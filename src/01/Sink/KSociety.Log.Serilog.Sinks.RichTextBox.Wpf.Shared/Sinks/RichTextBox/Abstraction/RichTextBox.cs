@@ -1,26 +1,24 @@
 namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
-using global::Serilog.Debugging;
 using System;
 using System.Linq;
-using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Windows.Threading;
+using global::Serilog.Debugging;
 
 public class RichTextBox : IRichTextBox
 {
     private readonly System.Windows.Controls.RichTextBox _richTextBox;
-    //private static readonly object DefaultSyncRoot = new();
 
     public RichTextBox(System.Windows.Controls.RichTextBox richTextBox)
     {
         this._richTextBox = richTextBox ?? throw new ArgumentNullException(nameof(richTextBox));
-        this._richTextBox.DataContextChanged += this.RichTextBoxOnDataContextChanged;
+        this._richTextBox.TextChanged += this.RichTextBoxTextChanged;
     }
 
-    private void RichTextBoxOnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+    private void RichTextBoxTextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
-        this._richTextBox.DataContextChanged -= this.RichTextBoxOnDataContextChanged;
+        this._richTextBox.TextChanged -= this.RichTextBoxTextChanged;
         if (sender is System.Windows.Controls.RichTextBox richTextBox)
         {
             var flowDocument = this._richTextBox.Document;
@@ -35,7 +33,7 @@ public class RichTextBox : IRichTextBox
 
             richTextBox.ScrollToEnd();
         }
-        this._richTextBox.DataContextChanged += this.RichTextBoxOnDataContextChanged;
+        this._richTextBox.TextChanged += this.RichTextBoxTextChanged;
     }
 
     public void Write(string xamlParagraphText)

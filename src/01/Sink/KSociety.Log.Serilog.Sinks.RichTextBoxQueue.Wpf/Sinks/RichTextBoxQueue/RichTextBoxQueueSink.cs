@@ -30,6 +30,7 @@ public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEve
     private object _syncRoot;
     private RenderAction _renderAction;
     private readonly System.Timers.Timer _timer;
+    private readonly System.Timers.Timer _timerLimiter;
     private readonly SemaphoreSlim _processQueueLock = new SemaphoreSlim(1, 1);
 
     public RichTextBoxQueueSink(string outputTemplate = DefaultRichTextBoxOutputTemplate)
@@ -38,8 +39,12 @@ public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEve
         this._outputTemplate = outputTemplate;
         this._timer = new System.Timers.Timer();
         this._timer.Elapsed += this.TimerOnElapsed;
-        this._timer.Interval = 300;
-        
+        this._timer.Interval = 47;
+
+        this._timerLimiter = new System.Timers.Timer();
+        this._timerLimiter.Elapsed += this.TimerLimiterOnElapsed;
+        this._timerLimiter.Interval = 53;
+
     }
 
     private async void TimerOnElapsed(object? sender, ElapsedEventArgs e)
@@ -59,13 +64,25 @@ public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEve
         }
     }
 
+    private void TimerLimiterOnElapsed(object? sender, ElapsedEventArgs e)
+    {
+        this._timerLimiter.Stop();
+
+        this._richTextBox?.LimitRows();
+
+        this._timerLimiter.Start();
+    }
+
     public void AddRichTextBox(System.Windows.Controls.RichTextBox richTextBoxControl, DispatcherPriority dispatcherPriority = DispatcherPriority.Background, IFormatProvider? formatProvider = null, RichTextBoxTheme? theme = null, object? syncRoot = null)
     {
         var appliedTheme = theme ?? RichTextBoxConsoleThemes.Literate;
 
         this._formatter = new XamlOutputTemplateRenderer(appliedTheme, this._outputTemplate, formatProvider);
 
-        this._richTextBox = new Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction.RichTextBox(richTextBoxControl);
+        lock (this._syncRoot)
+        {
+            this._richTextBox = new Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction.RichTextBox(richTextBoxControl);
+        }
 
         if (!Enum.IsDefined(typeof(DispatcherPriority), dispatcherPriority))
         {
@@ -134,6 +151,7 @@ public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEve
     {
         this._queue.Complete();
         this._timer.Close();
+        this._timerLimiter.Close();
     }
 
     private delegate void RenderAction(string xamlParagraphText);

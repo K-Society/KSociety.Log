@@ -13,27 +13,28 @@ public class RichTextBox : IRichTextBox
     public RichTextBox(System.Windows.Controls.RichTextBox richTextBox)
     {
         this._richTextBox = richTextBox ?? throw new ArgumentNullException(nameof(richTextBox));
-        this._richTextBox.TextChanged += this.RichTextBoxTextChanged;
+        this._richTextBox.TextChanged += RichTextBoxTextChanged;
     }
 
-    private void RichTextBoxTextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    private static void RichTextBoxTextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
-        this._richTextBox.TextChanged -= this.RichTextBoxTextChanged;
         if (sender is System.Windows.Controls.RichTextBox richTextBox)
         {
-            var flowDocument = this._richTextBox.Document;
-
-            if (flowDocument.Blocks.LastBlock is Paragraph paragraph)
-            {
-                while (paragraph.Inlines.Count > 500)
-                {
-                    paragraph.Inlines.Remove(paragraph.Inlines.FirstInline);
-                }
-            }
-
             richTextBox.ScrollToEnd();
         }
-        this._richTextBox.TextChanged += this.RichTextBoxTextChanged;
+    }
+
+    public void LimitRows()
+    {
+        var flowDocument = this._richTextBox.Document;
+
+        if (flowDocument.Blocks.LastBlock is Paragraph paragraph)
+        {
+            while (paragraph.Inlines.Count > 1000)
+            {
+                paragraph.Inlines.Remove(paragraph.Inlines.FirstInline);
+            }
+        }
     }
 
     public void Write(string xamlParagraphText)
@@ -43,11 +44,9 @@ public class RichTextBox : IRichTextBox
         try
         {
             parsedParagraph = (Paragraph) XamlReader.Parse(xamlParagraphText);
-
         }
         catch (XamlParseException ex)
         {
-
             SelfLog.WriteLine($"Error parsing `{xamlParagraphText}` to XAML: {ex.Message}");
             throw;
         }

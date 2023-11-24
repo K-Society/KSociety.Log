@@ -4,6 +4,7 @@ using System.Windows.Threading;
 
 public interface IRichTextBox
 {
+    void LimitRows();
     void Write(string xamlParagraphText);
 
     bool CheckAccess();

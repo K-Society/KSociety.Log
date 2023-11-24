@@ -1,4 +1,4 @@
-﻿namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf;
+namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf;
 using KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue;
 using global::Serilog;
 using global::Serilog.Configuration;
@@ -10,8 +10,8 @@ using System;
 public static class RichTextBoxQueueSinkLoggerConfigurationExtensions
 {
     private const int DefaultBatchPostingLimit = 500;
-    private static readonly TimeSpan DefaultPeriod = TimeSpan.FromMilliseconds(200);
-    private static RichTextBoxQueueSink? _richTextBoxQueueSink;
+    private static readonly TimeSpan DefaultPeriod = TimeSpan.FromMilliseconds(100);
+    private static RichTextBoxQueueSink? RichTextBoxQueueSink;
 
     /// <param name="sinkConfiguration">Logger sink configuration.</param>
     /// <param name="richTextBoxQueueSink"></param>
@@ -31,7 +31,7 @@ public static class RichTextBoxQueueSinkLoggerConfigurationExtensions
             throw new ArgumentNullException(nameof(sinkConfiguration));
         }
 
-        _richTextBoxQueueSink = richTextBoxQueueSink ?? throw new ArgumentNullException(nameof(richTextBoxQueueSink));
+        RichTextBoxQueueSink = richTextBoxQueueSink ?? throw new ArgumentNullException(nameof(richTextBoxQueueSink));
 
         var periodicBatchingSinkOptions = new PeriodicBatchingSinkOptions
         {
@@ -41,7 +41,7 @@ public static class RichTextBoxQueueSinkLoggerConfigurationExtensions
             QueueLimit = 10000
         };
 
-        var periodicBatchingSink = new PeriodicBatchingSink(_richTextBoxQueueSink, periodicBatchingSinkOptions);
+        var periodicBatchingSink = new PeriodicBatchingSink(RichTextBoxQueueSink, periodicBatchingSinkOptions);
 
         return sinkConfiguration.Sink(periodicBatchingSink, restrictedToMinimumLevel, levelSwitch);
     }

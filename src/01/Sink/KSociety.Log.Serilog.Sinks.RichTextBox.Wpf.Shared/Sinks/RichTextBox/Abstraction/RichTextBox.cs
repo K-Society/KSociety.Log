@@ -1,4 +1,4 @@
-﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
+namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
 using global::Serilog.Debugging;
 using System;
 using System.Linq;
@@ -42,6 +42,16 @@ public class RichTextBox : IRichTextBox
         }
 
         paragraph.Inlines.AddRange(inLines);
+
+        //while (flowDocument.Blocks.Count > 500)
+        //{
+        //    flowDocument.Blocks.Remove(flowDocument.Blocks.FirstBlock);
+        //}
+
+        while (paragraph.Inlines.Count > 500)
+        {
+            paragraph.Inlines.Remove(paragraph.Inlines.FirstInline);
+        }
     }
 
     public bool CheckAccess()

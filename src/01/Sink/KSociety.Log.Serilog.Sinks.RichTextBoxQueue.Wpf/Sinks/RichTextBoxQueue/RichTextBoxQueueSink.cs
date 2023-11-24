@@ -103,7 +103,6 @@ public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEve
                     {
                         this._richTextBox?.BeginInvoke(this._dispatcherPriority, this._renderAction, xamlParagraphText);
                     }
-
                 }
                 catch (Exception)
                 {

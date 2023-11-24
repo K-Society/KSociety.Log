@@ -20,6 +20,7 @@ public class RichTextBox : IRichTextBox
 
     private void RichTextBoxOnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
+        this._richTextBox.DataContextChanged -= this.RichTextBoxOnDataContextChanged;
         if (sender is System.Windows.Controls.RichTextBox richTextBox)
         {
             var flowDocument = this._richTextBox.Document;
@@ -34,6 +35,7 @@ public class RichTextBox : IRichTextBox
 
             richTextBox.ScrollToEnd();
         }
+        this._richTextBox.DataContextChanged += this.RichTextBoxOnDataContextChanged;
     }
 
     public void Write(string xamlParagraphText)

@@ -9,30 +9,45 @@ using global::Serilog.Debugging;
 public class RichTextBox : IRichTextBox
 {
     private readonly System.Windows.Controls.RichTextBox _richTextBox;
+    private readonly object _syncRoot;
 
-    public RichTextBox(System.Windows.Controls.RichTextBox richTextBox)
+    public RichTextBox(System.Windows.Controls.RichTextBox richTextBox, object syncRoot)
     {
         this._richTextBox = richTextBox ?? throw new ArgumentNullException(nameof(richTextBox));
-        this._richTextBox.TextChanged += RichTextBoxTextChanged;
+        this._syncRoot = syncRoot;
+        this._richTextBox.TextChanged += this.RichTextBoxTextChanged;
     }
 
-    private static void RichTextBoxTextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    private void RichTextBoxTextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
-        if (sender is System.Windows.Controls.RichTextBox richTextBox)
+        lock (this._syncRoot)
         {
-            richTextBox.ScrollToEnd();
+            if (sender is System.Windows.Controls.RichTextBox richTextBox)
+            {
+                richTextBox.ScrollToEnd();
+            }
         }
     }
 
     public void LimitRows()
     {
-        var flowDocument = this._richTextBox.Document;
-
-        if (flowDocument.Blocks.LastBlock is Paragraph paragraph)
+        lock (this._syncRoot)
         {
-            while (paragraph.Inlines.Count > 1000)
+            try
             {
-                paragraph.Inlines.Remove(paragraph.Inlines.FirstInline);
+                var flowDocument = this._richTextBox.Document;
+
+                if (flowDocument.Blocks.LastBlock is Paragraph paragraph)
+                {
+                    while (paragraph.Inlines.Count > 1000)
+                    {
+                        paragraph.Inlines.Remove(paragraph.Inlines.FirstInline);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                ;
             }
         }
     }
@@ -48,20 +63,30 @@ public class RichTextBox : IRichTextBox
         catch (XamlParseException ex)
         {
             SelfLog.WriteLine($"Error parsing `{xamlParagraphText}` to XAML: {ex.Message}");
-            throw;
+            return;
         }
 
         var inLines = parsedParagraph.Inlines.ToList();
 
-        var flowDocument = this._richTextBox.Document ??= new FlowDocument();
-
-        if (flowDocument.Blocks.LastBlock is not Paragraph paragraph)
+        lock (this._syncRoot)
         {
-            paragraph = new Paragraph();
-            flowDocument.Blocks.Add(paragraph);
-        }
+            try
+            {
+                var flowDocument = this._richTextBox.Document ??= new FlowDocument();
 
-        paragraph.Inlines.AddRange(inLines);
+                if (flowDocument.Blocks.LastBlock is not Paragraph paragraph)
+                {
+                    paragraph = new Paragraph();
+                    flowDocument.Blocks.Add(paragraph);
+                }
+
+                paragraph.Inlines.AddRange(inLines);
+            }
+            catch (Exception)
+            {
+                ;
+            }
+        }
     }
 
     public bool CheckAccess()

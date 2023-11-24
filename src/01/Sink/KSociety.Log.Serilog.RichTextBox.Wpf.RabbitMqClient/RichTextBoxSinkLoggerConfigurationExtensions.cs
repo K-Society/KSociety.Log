@@ -1,4 +1,4 @@
-﻿namespace KSociety.Log.Serilog.RichTextBox.Wpf.RabbitMqClient
+namespace KSociety.Log.Serilog.RichTextBox.Wpf.RabbitMqClient
 {
     using System;
     using System.Windows.Threading;
@@ -76,7 +76,7 @@
 
             var formatter = new XamlOutputTemplateRenderer(appliedTheme, outputTemplate, formatProvider);
 
-            var richTextBox = new Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction.RichTextBox(richTextBoxControl);
+            var richTextBox = new Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction.RichTextBox(richTextBoxControl, syncRoot);
 
             var richTextBoxSink = new RichTextBoxSink(richTextBox, formatter, dispatcherPriority, syncRoot);
 

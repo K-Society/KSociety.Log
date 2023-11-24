@@ -68,11 +68,8 @@ public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEve
     {
         this._timerLimiter.Stop();
 
-        lock (this._syncRoot)
-        {
-            this._richTextBox?.LimitRows();
-        }
-
+        this._richTextBox?.LimitRows();
+        
         this._timerLimiter.Start();
     }
 
@@ -90,12 +87,13 @@ public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEve
 
         this._dispatcherPriority = dispatcherPriority;
         this._syncRoot = syncRoot ?? DefaultSyncRoot;
-        this._renderAction = this.Render;
-
+        
         lock (this._syncRoot)
         {
-            this._richTextBox = new Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction.RichTextBox(richTextBoxControl);
+            this._richTextBox = new Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction.RichTextBox(richTextBoxControl, this._syncRoot);
         }
+
+        this._renderAction = this.Render;
 
         this._timer.Start();
         this._timerLimiter.Start();
@@ -138,16 +136,13 @@ public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEve
 
     private void Render(string xamlParagraphText)
     {
-        lock (this._syncRoot)
+        try
         {
-            try
-            {
-                this._richTextBox?.Write(xamlParagraphText);
-            }
-            catch (Exception)
-            {
-                //Console.WriteLine("Render: {0}", xamlParagraphText);
-            }
+            this._richTextBox?.Write(xamlParagraphText);
+        }
+        catch (Exception)
+        {
+            //Console.WriteLine("Render: {0}", xamlParagraphText);
         }
     }
 
@@ -162,12 +157,19 @@ public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEve
 
     public async Task EmitBatchAsync(IEnumerable<LogEvent> batch)
     {
-        if (batch.Any())
+        try
         {
-            foreach (var logEvent in batch)
+            if (batch.Any())
             {
-                await this._queue.SendAsync(logEvent).ConfigureAwait(false);
+                foreach (var logEvent in batch)
+                {
+                    await this._queue.SendAsync(logEvent).ConfigureAwait(false);
+                }
             }
+        }
+        catch (Exception)
+        {
+            ;
         }
     }
 

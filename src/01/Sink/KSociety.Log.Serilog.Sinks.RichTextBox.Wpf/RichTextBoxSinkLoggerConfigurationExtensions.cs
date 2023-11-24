@@ -1,4 +1,4 @@
-﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf
+namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf
 {
     using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Sinks.RichTextBox;
     using global::Serilog;
@@ -76,7 +76,7 @@
 
             var formatter = new XamlOutputTemplateRenderer(appliedTheme, outputTemplate, formatProvider);
 
-            var richTextBox = new Shared.Sinks.RichTextBox.Abstraction.RichTextBox(richTextBoxControl);
+            var richTextBox = new Shared.Sinks.RichTextBox.Abstraction.RichTextBox(richTextBoxControl, syncRoot);
 
             var richTextBoxSink = new RichTextBoxSink(richTextBox, formatter, dispatcherPriority, syncRoot);
 

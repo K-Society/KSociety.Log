@@ -68,7 +68,10 @@ public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEve
     {
         this._timerLimiter.Stop();
 
-        this._richTextBox?.LimitRows();
+        lock (this._syncRoot)
+        {
+            this._richTextBox?.LimitRows();
+        }
 
         this._timerLimiter.Start();
     }
@@ -78,11 +81,6 @@ public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEve
         var appliedTheme = theme ?? RichTextBoxConsoleThemes.Literate;
 
         this._formatter = new XamlOutputTemplateRenderer(appliedTheme, this._outputTemplate, formatProvider);
-
-        lock (this._syncRoot)
-        {
-            this._richTextBox = new Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction.RichTextBox(richTextBoxControl);
-        }
 
         if (!Enum.IsDefined(typeof(DispatcherPriority), dispatcherPriority))
         {
@@ -94,7 +92,13 @@ public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEve
         this._syncRoot = syncRoot ?? DefaultSyncRoot;
         this._renderAction = this.Render;
 
+        lock (this._syncRoot)
+        {
+            this._richTextBox = new Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction.RichTextBox(richTextBoxControl);
+        }
+
         this._timer.Start();
+        this._timerLimiter.Start();
     }
 
     private async Task ProcessQueue(CancellationToken cancellationToken = default)

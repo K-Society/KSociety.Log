@@ -2,6 +2,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Ab
 using global::Serilog.Debugging;
 using System;
 using System.Linq;
+using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Windows.Threading;
@@ -9,10 +10,32 @@ using System.Windows.Threading;
 public class RichTextBox : IRichTextBox
 {
     private readonly System.Windows.Controls.RichTextBox _richTextBox;
+    //private static readonly object DefaultSyncRoot = new();
 
     public RichTextBox(System.Windows.Controls.RichTextBox richTextBox)
     {
         this._richTextBox = richTextBox ?? throw new ArgumentNullException(nameof(richTextBox));
+        this._richTextBox.DataContextChanged += this.RichTextBoxOnDataContextChanged;
+    }
+
+    private void RichTextBoxOnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+    {
+        this._richTextBox.DataContextChanged -= this.RichTextBoxOnDataContextChanged;
+        if (sender is System.Windows.Controls.RichTextBox richTextBox)
+        {
+            var flowDocument = this._richTextBox.Document;
+
+            if (flowDocument.Blocks.LastBlock is Paragraph paragraph)
+            {
+                while (paragraph.Inlines.Count > 500)
+                {
+                    paragraph.Inlines.Remove(paragraph.Inlines.FirstInline);
+                }
+            }
+
+            richTextBox.ScrollToEnd();
+        }
+        this._richTextBox.DataContextChanged += this.RichTextBoxOnDataContextChanged;
     }
 
     public void Write(string xamlParagraphText)
@@ -42,16 +65,6 @@ public class RichTextBox : IRichTextBox
         }
 
         paragraph.Inlines.AddRange(inLines);
-
-        //while (flowDocument.Blocks.Count > 500)
-        //{
-        //    flowDocument.Blocks.Remove(flowDocument.Blocks.FirstBlock);
-        //}
-
-        while (paragraph.Inlines.Count > 500)
-        {
-            paragraph.Inlines.Remove(paragraph.Inlines.FirstInline);
-        }
     }
 
     public bool CheckAccess()

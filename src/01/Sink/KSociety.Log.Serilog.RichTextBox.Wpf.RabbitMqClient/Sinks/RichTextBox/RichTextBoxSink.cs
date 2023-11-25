@@ -1,4 +1,4 @@
-﻿namespace KSociety.Log.Serilog.RichTextBox.Wpf.RabbitMqClient.Sinks.RichTextBox
+namespace KSociety.Log.Serilog.RichTextBox.Wpf.RabbitMqClient.Sinks.RichTextBox
 {
     using System;
     using System.Collections.Generic;
@@ -45,7 +45,7 @@
 
             lock (this._syncRoot)
             {
-                this._richTextBox.Write(xamlParagraphText);
+                //this._richTextBox.Write(xamlParagraphText);
             }
         }
 
@@ -70,7 +70,7 @@
 
                     sb.Append("</Paragraph>");
                     string xamlParagraphText = sb.ToString();
-                    await this._richTextBox.BeginInvoke(this._dispatcherPriority, this._renderAction, xamlParagraphText);
+                    await this._richTextBox.BeginInvoke(this._dispatcherPriority, /*this._renderAction,*/ xamlParagraphText);
                     sb.Clear();
                 }
             }

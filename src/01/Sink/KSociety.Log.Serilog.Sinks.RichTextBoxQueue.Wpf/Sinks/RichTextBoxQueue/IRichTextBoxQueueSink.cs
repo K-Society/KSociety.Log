@@ -1,6 +1,6 @@
-﻿namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue;
-using System.Windows.Threading;
+namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue;
 using System;
+using System.Windows.Threading;
 using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
 
 public interface IRichTextBoxQueueSink

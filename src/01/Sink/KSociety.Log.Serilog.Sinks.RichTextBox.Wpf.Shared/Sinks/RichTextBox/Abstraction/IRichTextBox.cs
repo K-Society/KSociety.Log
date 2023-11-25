@@ -1,13 +1,14 @@
 namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
-using System;
+using System.Threading.Tasks;
 using System.Windows.Threading;
 
 public interface IRichTextBox
 {
     void LimitRows();
-    void Write(string xamlParagraphText);
+
+    //void Write(string xamlParagraphText);
 
     bool CheckAccess();
 
-    public DispatcherOperation BeginInvoke(DispatcherPriority priority, Delegate method, object arg);
+    ValueTask BeginInvoke(DispatcherPriority priority, /*Delegate method,*/ string arg);
 }

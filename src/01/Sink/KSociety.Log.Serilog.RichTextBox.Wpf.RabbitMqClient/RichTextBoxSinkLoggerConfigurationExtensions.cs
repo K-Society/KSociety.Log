@@ -11,6 +11,7 @@ namespace KSociety.Log.Serilog.RichTextBox.Wpf.RabbitMqClient
     using global::Serilog.Core;
     using global::Serilog.Events;
     using global::Serilog.Sinks.PeriodicBatching;
+    using RichTextBox = System.Windows.Controls.RichTextBox;
 
     /// <summary>
     /// Adds the WriteTo.RichTextBox() extension method to <see cref="LoggerConfiguration"/>.
@@ -46,7 +47,7 @@ namespace KSociety.Log.Serilog.RichTextBox.Wpf.RabbitMqClient
         /// <exception cref="ArgumentNullException">When <paramref name="outputTemplate"/> is <code>null</code></exception>
         public static LoggerConfiguration RichTextBox(
             this LoggerSinkConfiguration sinkConfiguration,
-            System.Windows.Controls.RichTextBox richTextBoxControl,
+            RichTextBox? richTextBoxControl,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
             string outputTemplate = DefaultRichTextBoxOutputTemplate,
             IFormatProvider? formatProvider = null,
@@ -76,7 +77,7 @@ namespace KSociety.Log.Serilog.RichTextBox.Wpf.RabbitMqClient
 
             var formatter = new XamlOutputTemplateRenderer(appliedTheme, outputTemplate, formatProvider);
 
-            var richTextBox = new Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction.RichTextBox(richTextBoxControl, syncRoot);
+            var richTextBox = new Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction.RichTextBox(richTextBoxControl, formatter, dispatcherPriority, syncRoot);
 
             var richTextBoxSink = new RichTextBoxSink(richTextBox, formatter, dispatcherPriority, syncRoot);
 

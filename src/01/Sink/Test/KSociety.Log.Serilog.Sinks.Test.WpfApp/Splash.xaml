@@ -1,0 +1,56 @@
+<Window x:Class="KSociety.Log.Serilog.Sinks.Test.WpfApp.Splash"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KSociety.Log.Serilog.Sinks.Test.WpfApp"
+        xmlns:viewModel="clr-namespace:KSociety.Log.Serilog.Sinks.Test.WpfApp.ViewModel"
+        Height="Auto"
+        Width="Auto"
+        ResizeMode="NoResize"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance viewModel:Splash, IsDesignTimeCreatable=True}"
+        WindowStartupLocation="CenterScreen" 
+        WindowStyle="None"
+        AllowsTransparency="True" 
+        Background="Transparent" 
+        ShowInTaskbar="False" 
+        SizeToContent="Manual" Initialized="Window_Initialized">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/KSociety.Log.Serilog.Sinks.Test.WpfApp;component/KSociety.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Storyboard x:Key="SplashAnimation" Completed="SplashAnimationOnCompleted">
+                <DoubleAnimation Storyboard.TargetName="Image" 
+                                 Storyboard.TargetProperty="Opacity"
+                                 From="1.0" To="0.0" Duration="0:0:1" 
+                                 AutoReverse="False">
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="Image" 
+                                 Storyboard.TargetProperty="Height"
+                                 From="0.0" To="{Binding Height, TargetNullValue=0}" Duration="0:0:1" 
+                                 AutoReverse="False">
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="Image" 
+                                 Storyboard.TargetProperty="Width"
+                                 From="0.0" To="{Binding Width, TargetNullValue=0}" Duration="0:0:1" 
+                                 AutoReverse="False">
+                </DoubleAnimation>
+            </Storyboard>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Image Name="Image" Source="{StaticResource LogoKSociety}">
+                <Image.Triggers>
+                    <EventTrigger RoutedEvent="Image.Loaded">
+                        <BeginStoryboard Storyboard="{StaticResource SplashAnimation}">
+
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Image.Triggers>
+            </Image>
+        </StackPanel>
+    </Grid>
+</Window>

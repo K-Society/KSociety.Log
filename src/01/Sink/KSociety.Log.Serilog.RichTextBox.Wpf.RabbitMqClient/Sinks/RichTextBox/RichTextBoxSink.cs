@@ -69,7 +69,7 @@ namespace KSociety.Log.Serilog.RichTextBox.Wpf.RabbitMqClient.Sinks.RichTextBox
                     sb.Append(writer);
 
                     sb.Append("</Paragraph>");
-                    string xamlParagraphText = sb.ToString();
+                    string? xamlParagraphText = sb.ToString();
                     await this._richTextBox.BeginInvoke(this._dispatcherPriority, /*this._renderAction,*/ xamlParagraphText);
                     sb.Clear();
                 }

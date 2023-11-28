@@ -1,0 +1,6 @@
+Exception: Cannot find non-neutral culture related to 'en-us'.
+
+<ItemGroup>
+    <RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="false" />
+</ItemGroup>
+

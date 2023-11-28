@@ -1,14 +1,11 @@
 namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
-using System.Timers;
 using System.Windows.Threading;
 using global::Serilog.Events;
 using global::Serilog.Formatting;
@@ -23,63 +20,46 @@ public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEve
     private static readonly object DefaultSyncRoot = new();
 
     private IRichTextBox? _richTextBox;
-    private readonly ActionBlock<LogEvent> _queue;
-    //private readonly ConcurrentQueue<LogEvent> _queue;
+    private readonly BufferBlock<LogEvent> _queue;
     private readonly string _outputTemplate;
-    private ITextFormatter _formatter;
+    private ITextFormatter? _formatter;
     private DispatcherPriority _dispatcherPriority;
     private object _syncRoot;
-    //private RenderAction _renderAction;
-    private readonly System.Timers.Timer _timer;
-    private readonly System.Timers.Timer _timerLimiter;
-    private readonly SemaphoreSlim _processQueueLock = new SemaphoreSlim(1, 1);
+    private readonly IObservable<LogEvent> _observable;
+    private IDisposable _observer;
 
     public RichTextBoxQueueSink(string outputTemplate = DefaultRichTextBoxOutputTemplate)
     {
-        var dataFlowBlockOptions = new ExecutionDataflowBlockOptions()
-        {
-            MaxDegreeOfParallelism = 10
-        };
-        this._queue = new ActionBlock<LogEvent>(this.ProcessQueue, dataFlowBlockOptions);
+        this._queue = new BufferBlock<LogEvent>();
+        
         this._outputTemplate = outputTemplate;
         //this._timer = new System.Timers.Timer();
         //this._timer.Elapsed += this.TimerOnElapsed;
-        //this._timer.Interval = 47;
-
-        this._timerLimiter = new System.Timers.Timer();
-        this._timerLimiter.Elapsed += this.TimerLimiterOnElapsed;
-        this._timerLimiter.Interval = 53;
-
+        //this._timer.Interval = 300;
+        this._observable = this._queue.AsObservable();
     }
 
     //private async void TimerOnElapsed(object? sender, ElapsedEventArgs e)
     //{
-    //    await this._processQueueLock.WaitAsync().ConfigureAwait(false);
+    //    //await this._processQueueLock.WaitAsync().ConfigureAwait(false);
     //    try
     //    {
     //        this._timer.Stop();
 
-    //        //await this.ProcessQueue().ConfigureAwait(false);
+    //        await this.ProcessQueue().ConfigureAwait(false);
 
     //        this._timer.Start();
     //    }
     //    finally
     //    {
-    //        this._processQueueLock.Release();
+    //        //this._processQueueLock.Release();
     //    }
     //}
 
-    private void TimerLimiterOnElapsed(object? sender, ElapsedEventArgs e)
+    public void AddRichTextBox(System.Windows.Controls.RichTextBox? richTextBoxControl, DispatcherPriority dispatcherPriority = DispatcherPriority.Background, IFormatProvider? formatProvider = null, RichTextBoxTheme? theme = null, object? syncRoot = null)
     {
-        this._timerLimiter.Stop();
+        this._syncRoot = syncRoot ?? DefaultSyncRoot;
 
-        this._richTextBox?.LimitRows();
-        
-        this._timerLimiter.Start();
-    }
-
-    public void AddRichTextBox(System.Windows.Controls.RichTextBox richTextBoxControl, DispatcherPriority dispatcherPriority = DispatcherPriority.Background, IFormatProvider? formatProvider = null, RichTextBoxTheme? theme = null, object? syncRoot = null)
-    {
         var appliedTheme = theme ?? RichTextBoxConsoleThemes.Literate;
 
         this._formatter = new XamlOutputTemplateRenderer(appliedTheme, this._outputTemplate, formatProvider);
@@ -91,66 +71,51 @@ public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEve
         }
 
         this._dispatcherPriority = dispatcherPriority;
-        this._syncRoot = syncRoot ?? DefaultSyncRoot;
-        
-        lock (this._syncRoot)
-        {
-            this._richTextBox = new Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction.RichTextBox(richTextBoxControl, this._syncRoot);
-        }
 
-        //this._renderAction = this.Render;
+        this._richTextBox = new Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction.RichTextBox(richTextBoxControl, this._formatter, this._dispatcherPriority, this._syncRoot);
 
-        this._timer.Start();
-        this._timerLimiter.Start();
+        this._observer = this._observable.Subscribe(this._richTextBox);
+
+        //this._timer.Start();
     }
 
-    private async Task ProcessQueue(LogEvent logEvent)
-    {
-        StringBuilder sb = new();
-            
-        try
-        {
-            //sb.Append($"<Paragraph xmlns =\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xml:space=\"preserve\">");
-            StringWriter writer = new();
-            this._formatter.Format(logEvent, writer);
-            sb.Append(writer);
-
-            //sb.Append("</Paragraph>");
-            var xamlParagraphText = sb.ToString();
-
-            //await this._richTextBox.BeginInvoke(this._dispatcherPriority, this._renderAction, xamlParagraphText).ConfigureAwait(false);
-            await this._richTextBox.BeginInvoke(this._dispatcherPriority, xamlParagraphText).ConfigureAwait(false);
-
-        }
-        catch (Exception)
-        {
-            //Console.WriteLine("ProcessQueue: {0}", ex.Message);
-        }finally
-        {
-            sb.Clear();
-        }
-    }
-
-    //private void Render(string xamlParagraphText)
+    //private async Task ProcessQueue(CancellationToken cancellationToken = default)
     //{
-    //    try
+    //    StringBuilder sb = new();
+
+    //    if (await this._queue.OutputAvailableAsync(cancellationToken).ConfigureAwait(false))
     //    {
-    //        this._richTextBox?.Write(xamlParagraphText);
-    //    }
-    //    catch (Exception)
-    //    {
-    //        //Console.WriteLine("Render: {0}", xamlParagraphText);
+    //        while (this._queue.TryReceive(null, out var logEvent))
+    //        {
+    //            try
+    //            {
+    //                sb.Append($"<Paragraph xmlns =\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xml:space=\"preserve\">");
+    //                StringWriter writer = new();
+    //                this._formatter.Format(logEvent, writer);
+    //                sb.Append(writer);
+
+    //                sb.Append("</Paragraph>");
+    //                var xamlParagraphText = sb.ToString();
+
+    //                await this._richTextBox.BeginInvoke(this._dispatcherPriority, /*this._renderAction,*/ xamlParagraphText).ConfigureAwait(false);
+    //            }
+    //            catch (Exception)
+    //            {
+    //                ; //Console.WriteLine("ProcessQueue: {0}", ex.Message);
+    //            }
+    //            finally
+    //            {
+    //                sb.Clear();
+    //            }
+    //        }
     //    }
     //}
 
     public void Dispose()
     {
         this._queue.Complete();
-        this._timer.Close();
-        this._timerLimiter.Close();
+        this._observer.Dispose();
     }
-
-    private delegate void RenderAction(string xamlParagraphText);
 
     public async Task EmitBatchAsync(IEnumerable<LogEvent> batch)
     {

@@ -11,6 +11,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf
     using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
     using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
     using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
+    using RichTextBox = System.Windows.Controls.RichTextBox;
 
     /// <summary>
     /// Adds the WriteTo.RichTextBox() extension method to <see cref="LoggerConfiguration"/>.
@@ -46,7 +47,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf
         /// <exception cref="ArgumentNullException">When <paramref name="outputTemplate"/> is <code>null</code></exception>
         public static LoggerConfiguration RichTextBox(
             this LoggerSinkConfiguration sinkConfiguration,
-            System.Windows.Controls.RichTextBox richTextBoxControl,
+            RichTextBox? richTextBoxControl,
             LogEventLevel restrictedToMinimumLevel = LevelAlias.Minimum,
             string outputTemplate = DefaultRichTextBoxOutputTemplate,
             IFormatProvider? formatProvider = null,
@@ -76,7 +77,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf
 
             var formatter = new XamlOutputTemplateRenderer(appliedTheme, outputTemplate, formatProvider);
 
-            var richTextBox = new Shared.Sinks.RichTextBox.Abstraction.RichTextBox(richTextBoxControl, syncRoot);
+            var richTextBox = new Shared.Sinks.RichTextBox.Abstraction.RichTextBox(richTextBoxControl, formatter, dispatcherPriority, syncRoot);
 
             var richTextBoxSink = new RichTextBoxSink(richTextBox, formatter, dispatcherPriority, syncRoot);
 

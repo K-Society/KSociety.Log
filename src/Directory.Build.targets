@@ -39,4 +39,11 @@
 
     </When>
   </Choose>
+
+  <Target Condition=" '$(UseWPF)' != '' AND '$(UseWPF)' == 'true' " Name="RemoveWpfTemp" AfterTargets="Build">
+    <ItemGroup>
+      <WpfTempDirectories Include="$([System.IO.Directory]::GetDirectories(&quot;$(MSBuildThisFileDirectory)..\build\&quot;,&quot;$(ProjectName)_*_wpftmp&quot;))"/>
+    </ItemGroup>
+    <RemoveDir Directories="@(WpfTempDirectories)" />
+  </Target>
 </Project>

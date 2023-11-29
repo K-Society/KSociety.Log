@@ -3,7 +3,7 @@ using System.Security;
 
 internal static class SpecialCharsEscaping
 {
-    public static string Apply(string value, ref int invisibleCharacterCount)
+    public static string? Apply(string? value, ref int invisibleCharacterCount)
     {
         var escapedValue = SecurityElement.Escape(value) ?? System.String.Empty;
         invisibleCharacterCount += escapedValue.Length - value.Length;

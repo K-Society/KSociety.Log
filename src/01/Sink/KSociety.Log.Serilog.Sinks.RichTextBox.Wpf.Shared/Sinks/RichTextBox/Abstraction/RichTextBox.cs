@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Windows.Threading;
@@ -18,7 +19,7 @@ public class RichTextBox : IRichTextBox
     private readonly object _syncRoot;
     private readonly ITextFormatter? _formatter;
     private readonly DispatcherPriority _dispatcherPriority;
-    private readonly System.ComponentModel.BackgroundWorker _backgroundWorker;
+    private readonly BackgroundWorker _backgroundWorker;
 
     private delegate void RichTextBoxAppendTextDelegate(System.Windows.Controls.RichTextBox wpfRichTextBox, string xamlParagraphText, object syncRoot);
 
@@ -31,7 +32,7 @@ public class RichTextBox : IRichTextBox
         this._syncRoot = syncRoot;
         this._dispatcherPriority = dispatcherPriority;
 
-        this._backgroundWorker = new System.ComponentModel.BackgroundWorker();
+        this._backgroundWorker = new BackgroundWorker();
 
         this._backgroundWorker.DoWork += this.BackgroundWorkerOnDoWork;
         this._backgroundWorker.RunWorkerCompleted += this.BackgroundWorkerOnRunWorkerCompleted;
@@ -125,20 +126,23 @@ public class RichTextBox : IRichTextBox
             lock (syncRoot)
             {
                 var parsedParagraph = (Paragraph)XamlReader.Parse(xamlParagraphText);
-                var inLines = parsedParagraph.Inlines.ToList();
+                parsedParagraph.Margin = new Thickness(0D);
+
                 var flowDocument = wpfRichTextBox.Document ??= new FlowDocument();
 
-                if (flowDocument.Blocks.LastBlock is not Paragraph paragraph)
+                if (flowDocument.Blocks.LastBlock is Paragraph {Inlines.Count: 0} paragraph)
                 {
-                    paragraph = new Paragraph();
-                    flowDocument.Blocks.Add(paragraph);
+                    paragraph.Inlines.AddRange(parsedParagraph.Inlines.ToList());
+                    paragraph.Margin = new Thickness(0D);
                 }
-
-                paragraph.Inlines.AddRange(inLines);
-
+                else
+                {
+                    flowDocument.Blocks.Add(parsedParagraph);
+                }
+                
                 wpfRichTextBox.ScrollToEnd();
 
-                if (paragraph.Inlines.Count > 8000)
+                if (flowDocument.Blocks.Count > 1000)
                 {
                     this.StartRichTextBoxLimiter();
                 }
@@ -156,24 +160,17 @@ public class RichTextBox : IRichTextBox
         {
             lock (syncRoot)
             {
-                if (wpfRichTextBox.Document.Blocks.Count >= 1)
+                if (wpfRichTextBox.Document.Blocks.Count > 1000)
                 {
-                    if (wpfRichTextBox.Document.Blocks.LastBlock is Paragraph paragraph)
+                    var blocksToRemove = wpfRichTextBox.Document.Blocks.Count - 1000;
+                    for (var i = 0; i < blocksToRemove; i++)
                     {
-                        if (paragraph.Inlines.Count > 8000)
-                        {
-                            var inLinesToRemove = paragraph.Inlines.Count - 7840;
-
-                            for (var i = 0; i < inLinesToRemove; i++)
-                            {
-                                paragraph.Inlines.Remove(paragraph.Inlines.FirstInline);
-                            }
-                        }
+                        wpfRichTextBox.Document.Blocks.Remove(wpfRichTextBox.Document.Blocks.FirstBlock);
                     }
                 }
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             ;
         }
@@ -197,7 +194,7 @@ public class RichTextBox : IRichTextBox
         {
             sb.Append($"<Paragraph xmlns =\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xml:space=\"preserve\">");
             StringWriter writer = new();
-            this._formatter.Format(value, writer);
+            this._formatter?.Format(value, writer);
             sb.Append(writer);
 
             sb.Append("</Paragraph>");

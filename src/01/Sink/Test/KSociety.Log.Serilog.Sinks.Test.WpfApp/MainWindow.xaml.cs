@@ -49,11 +49,14 @@ namespace KSociety.Log.Serilog.Sinks.Test.WpfApp
         {
             try
             {
+                
 
-
-                for (var i = 0; i < 5080; i++)
+                for (var i = 0; i < 8; i++)
                 {
-                    this._logger.LogInformation("Log Message: {0}", i);
+                    //this._logger.LogTrace("Log Trace Message: {0}", i);
+                    //this._logger.LogDebug("Log Debug Message: {0}", i);
+                    //this._logger.LogInformation("Log Information Message: {0}", i);
+                    this._logger.LogError(new Exception("Something fishy going on!"), "Window_Loader: ");
                 }
             }
             catch (Exception)

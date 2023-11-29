@@ -1,8 +1,8 @@
-﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
+using Themes;
 using global::Serilog.Events;
 using global::Serilog.Formatting;
 using global::Serilog.Formatting.Display;

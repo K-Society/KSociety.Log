@@ -1,7 +1,7 @@
-﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
 using System;
 using System.IO;
-using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Rendering;
+using Rendering;
 using global::Serilog.Events;
 using global::Serilog.Parsing;
 
@@ -22,7 +22,9 @@ internal class NewLineTokenRenderer : OutputTemplateTokenRenderer
         }
         else
         {
-            output.WriteLine();
+
+            //output.WriteLine();
+            output.Write(String.Empty);
         }
     }
 }

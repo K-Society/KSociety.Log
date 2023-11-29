@@ -2,14 +2,15 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Ab
 
 using System;
 using System.Threading.Tasks;
-using System.Windows.Threading;
 using global::Serilog.Events;
 
 public interface IRichTextBox : IObserver<LogEvent>
 {
-    //void Write(string xamlParagraphText);
+    void StartRichTextBoxLimiter();
+
+    void StopRichTextBoxLimiter();
 
     bool CheckAccess();
 
-    ValueTask BeginInvoke(DispatcherPriority priority, string? xamlParagraphText);
+    ValueTask BeginInvoke(string? xamlParagraphText);
 }

@@ -33,28 +33,9 @@ public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEve
         this._queue = new BufferBlock<LogEvent>();
         
         this._outputTemplate = outputTemplate;
-        //this._timer = new System.Timers.Timer();
-        //this._timer.Elapsed += this.TimerOnElapsed;
-        //this._timer.Interval = 300;
+
         this._observable = this._queue.AsObservable();
     }
-
-    //private async void TimerOnElapsed(object? sender, ElapsedEventArgs e)
-    //{
-    //    //await this._processQueueLock.WaitAsync().ConfigureAwait(false);
-    //    try
-    //    {
-    //        this._timer.Stop();
-
-    //        await this.ProcessQueue().ConfigureAwait(false);
-
-    //        this._timer.Start();
-    //    }
-    //    finally
-    //    {
-    //        //this._processQueueLock.Release();
-    //    }
-    //}
 
     public void AddRichTextBox(System.Windows.Controls.RichTextBox? richTextBoxControl, DispatcherPriority dispatcherPriority = DispatcherPriority.Background, IFormatProvider? formatProvider = null, RichTextBoxTheme? theme = null, object? syncRoot = null)
     {
@@ -75,44 +56,11 @@ public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEve
         this._richTextBox = new Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction.RichTextBox(richTextBoxControl, this._formatter, this._dispatcherPriority, this._syncRoot);
 
         this._observer = this._observable.Subscribe(this._richTextBox);
-
-        //this._timer.Start();
     }
-
-    //private async Task ProcessQueue(CancellationToken cancellationToken = default)
-    //{
-    //    StringBuilder sb = new();
-
-    //    if (await this._queue.OutputAvailableAsync(cancellationToken).ConfigureAwait(false))
-    //    {
-    //        while (this._queue.TryReceive(null, out var logEvent))
-    //        {
-    //            try
-    //            {
-    //                sb.Append($"<Paragraph xmlns =\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xml:space=\"preserve\">");
-    //                StringWriter writer = new();
-    //                this._formatter.Format(logEvent, writer);
-    //                sb.Append(writer);
-
-    //                sb.Append("</Paragraph>");
-    //                var xamlParagraphText = sb.ToString();
-
-    //                await this._richTextBox.BeginInvoke(this._dispatcherPriority, /*this._renderAction,*/ xamlParagraphText).ConfigureAwait(false);
-    //            }
-    //            catch (Exception)
-    //            {
-    //                ; //Console.WriteLine("ProcessQueue: {0}", ex.Message);
-    //            }
-    //            finally
-    //            {
-    //                sb.Clear();
-    //            }
-    //        }
-    //    }
-    //}
 
     public void Dispose()
     {
+        this._richTextBox.StopRichTextBoxLimiter();
         this._queue.Complete();
         this._observer.Dispose();
     }

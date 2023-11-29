@@ -1,5 +1,7 @@
 namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
+
 using System;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -16,16 +18,11 @@ public class RichTextBox : IRichTextBox
     private readonly object _syncRoot;
     private readonly ITextFormatter? _formatter;
     private readonly DispatcherPriority _dispatcherPriority;
+    private readonly System.ComponentModel.BackgroundWorker _backgroundWorker;
 
-    private delegate void RichTextBoxAppendTextDelegate(System.Windows.Controls.RichTextBox wpfRichTextBox,
-        string xamlParagraphText, /*Table table, TableRowGroup tableRowGroup,*/ object syncRoot);
+    private delegate void RichTextBoxAppendTextDelegate(System.Windows.Controls.RichTextBox wpfRichTextBox, string xamlParagraphText, object syncRoot);
 
-    //#region [Fields]
-
-    //private readonly Table _table = new();
-    //private readonly TableRowGroup _tableRowGroup = new();
-
-    //#endregion
+    private delegate void RichTextBoxLimiterDelegate(System.Windows.Controls.RichTextBox wpfRichTextBox, object? args, object syncRoot);
 
     public RichTextBox(System.Windows.Controls.RichTextBox? richTextBox, ITextFormatter? formatter, DispatcherPriority dispatcherPriority, object syncRoot)
     {
@@ -34,135 +31,101 @@ public class RichTextBox : IRichTextBox
         this._syncRoot = syncRoot;
         this._dispatcherPriority = dispatcherPriority;
 
+        this._backgroundWorker = new System.ComponentModel.BackgroundWorker();
 
-        //this._table.RowGroups.Add(this._tableRowGroup);
-
-        //var column1 = new TableColumn() { Width = new GridLength(140, GridUnitType.Pixel) };
-        //var column2 = new TableColumn() { Width = new GridLength(80, GridUnitType.Pixel) };
-        //var column3 = new TableColumn() { Width = GridLength.Auto };
-
-        //var column1 = new TableColumn() { Width = GridLength.Auto };
-
-        //this._table.Columns.Add(column1);
-        //this._table.Columns.Add(column2);
-        //this._table.Columns.Add(column3);
-
-        //this._richTextBox.Document.Blocks.Add(this._table);
-
-        this._richTextBox.TextChanged += this.RichTextBoxTextChanged;
+        this._backgroundWorker.DoWork += this.BackgroundWorkerOnDoWork;
+        this._backgroundWorker.RunWorkerCompleted += this.BackgroundWorkerOnRunWorkerCompleted;
     }
 
-    private void RichTextBoxTextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    private void BackgroundWorkerOnRunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
     {
-        lock (this._syncRoot)
+        //if (e.Cancelled)
+        //{
+        //    return;
+        //}
+        ;
+        //this._backgroundWorker.RunWorkerAsync();
+    }
+
+    public void StartRichTextBoxLimiter()
+    {
+        if (!this._backgroundWorker.IsBusy)
         {
-            if (sender is System.Windows.Controls.RichTextBox richTextBox)
-            {
-                richTextBox.ScrollToEnd();
-            }
+            this._backgroundWorker.RunWorkerAsync();
         }
     }
 
-    //public void Write(string xamlParagraphText)
-    //{
-    //    Paragraph parsedParagraph;
+    public void StopRichTextBoxLimiter()
+    {
+        //if (!this._backgroundWorker.IsBusy)
+        //{
+            this._backgroundWorker.CancelAsync();
+        //}
+    }
 
-    //    try
-    //    {
-    //        parsedParagraph = (Paragraph)XamlReader.Parse(xamlParagraphText);
+    private async void BackgroundWorkerOnDoWork(object? sender, DoWorkEventArgs e)
+    {
+        var helperBackgroundWorker = sender as BackgroundWorker;
 
-    //    }
-    //    catch (XamlParseException ex)
-    //    {
+        e.Result = await this.BackgroundProcessLogicMethod(helperBackgroundWorker, e.Argument).ConfigureAwait(false);
 
-    //        SelfLog.WriteLine($"Error parsing `{xamlParagraphText}` to XAML: {ex.Message}");
-    //        throw;
-    //    }
+        if (helperBackgroundWorker.CancellationPending)
+        {
+            e.Cancel = true;
+        }
+    }
 
-    //    var inLines = parsedParagraph.Inlines.ToList();
+    private async ValueTask<bool> BackgroundProcessLogicMethod(BackgroundWorker helperBackgroundWorker, object? arg)
+    {
+        try
+        {
+            var delegateArray = new object[3];
 
-    //    var flowDocument = this._richTextBox.Document ??= new FlowDocument();
+            delegateArray[0] = this._richTextBox;
+            delegateArray[1] = arg;
+            delegateArray[2] = this._syncRoot;
 
-    //    if (flowDocument.Blocks.LastBlock is not Paragraph paragraph)
-    //    {
-    //        paragraph = new Paragraph();
-    //        flowDocument.Blocks.Add(paragraph);
-    //    }
-
-    //    paragraph.Inlines.AddRange(inLines);
-    //}
+            await this._richTextBox.Dispatcher.BeginInvoke(new RichTextBoxLimiterDelegate(RichTextBoxLimiterDelegateMethod), this._dispatcherPriority, delegateArray);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            ;
+        }
+        return false;
+    }
 
     public bool CheckAccess()
     {
         return this._richTextBox.CheckAccess();
     }
 
-    //public DispatcherOperation BeginInvoke(DispatcherPriority priority, Delegate method, object arg)
-    //{
-    //    return this._richTextBox.Dispatcher.BeginInvoke(priority, method, arg);
-    //}
-
-    public async ValueTask BeginInvoke(DispatcherPriority priority, string? xamlParagraphText)
+    public async ValueTask BeginInvoke(string? xamlParagraphText)
     {
         try
         {
-            //Paragraph parsedParagraph;
-
-            //var parsedParagraph = (Paragraph)XamlReader.Parse(xamlParagraphText);
-
-            //var inLines = parsedParagraph.Inlines.ToList();
-            //;
-            //var _0 = inLines[0];
-            //var _1 = inLines[1];
-            //var _2 = inLines[2];
-            //var _3 = inLines[3];
-            //var _4 = inLines[4];
-            //var _5 = inLines[5];
-            //var _6 = inLines[6];
-            //var _7 = inLines[7];
-
-            //inLines.RemoveRange(0, 5);
-
-            //var parsedParagraph2 = new Paragraph() {Margin = new Thickness(0.0), Foreground = System.Windows.Media.Brushes.LawnGreen };
-            //parsedParagraph2.Inlines.AddRange(inLines);
-
-            object?[] delegateArray = new object[3];
+            var delegateArray = new object[3];
             
             delegateArray[0] = this._richTextBox;
             delegateArray[1] = xamlParagraphText;
-            //delegateArray[2] = this._table;
-            //delegateArray[3] = this._tableRowGroup;
             delegateArray[2] = this._syncRoot;
 
-            await this._richTextBox.Dispatcher.BeginInvoke(
-                new RichTextBoxAppendTextDelegate(RichTextBoxAppendTextDelegateMethod), priority, delegateArray);
-
-            //await result;
+            await this._richTextBox.Dispatcher.BeginInvoke(new RichTextBoxAppendTextDelegate(this.RichTextBoxAppendTextDelegateMethod), this._dispatcherPriority, delegateArray);
         }
-        catch (Exception )
+        catch (Exception ex)
         {
             ;
         }
-        //await this._richTextBox?.Dispatcher.BeginInvoke(p, riority, method, arg);
     }
 
-    private static void RichTextBoxAppendTextDelegateMethod(
-        System.Windows.Controls.RichTextBox wpfRichTextBox,
-        string xamlParagraphText, /*Table table, TableRowGroup tableRowGroup,*/ object syncRoot)
+    private void RichTextBoxAppendTextDelegateMethod(System.Windows.Controls.RichTextBox wpfRichTextBox, string xamlParagraphText, object syncRoot)
     {
         try
         {
-            //var inline1 = new Run(cell1);
-            //var inline2 = new Run(cell2);
-            //var inline3 = new Run(cell3);
             lock (syncRoot)
             {
-
-
                 var parsedParagraph = (Paragraph)XamlReader.Parse(xamlParagraphText);
-
                 var inLines = parsedParagraph.Inlines.ToList();
-
                 var flowDocument = wpfRichTextBox.Document ??= new FlowDocument();
 
                 if (flowDocument.Blocks.LastBlock is not Paragraph paragraph)
@@ -172,51 +135,58 @@ public class RichTextBox : IRichTextBox
                 }
 
                 paragraph.Inlines.AddRange(inLines);
+
+                wpfRichTextBox.ScrollToEnd();
+
+                if (paragraph.Inlines.Count > 8000)
+                {
+                    this.StartRichTextBoxLimiter();
+                }
             }
-
-            //var paragraph1 = new Paragraph(cell1) {Margin = new Thickness(0.0), Foreground = color};
-
-            //var paragraph2 = new Paragraph(cell2) {Margin = new Thickness(0.0), Foreground = color};
-
-            //var paragraph3 = new Paragraph(cell3) {Margin = new Thickness(0.0), Foreground = color};
-
-            //var tableRow = new TableRow();
-            //var tableCell1 = new TableCell() { };
-            //var tableCell2 = new TableCell() { };
-            //var tableCell3 = new TableCell() { };
-
-            //tableCell1.Blocks.Add(parsedParagraph);
-            //tableCell2.Blocks.Add(paragraph2);
-            //tableCell3.Blocks.Add(cell3);
-
-
-
-            //tableRow.Cells.Add(tableCell1);
-            //tableRow.Cells.Add(tableCell2);
-            //tableRow.Cells.Add(tableCell3);
-
-            //tableRowGroup.Rows.Add(tableRow);
-
-            //lock (syncRoot)
-            //{
-            //    wpfRichTextBox.Document.Blocks.Add(table);
-            //}
         }
-        catch (Exception )
+        catch (Exception)
         {
-            //var m = ex.Message;
+            ;
+        }
+    }
+
+    private static void RichTextBoxLimiterDelegateMethod(System.Windows.Controls.RichTextBox wpfRichTextBox, object? args, object syncRoot)
+    {
+        try
+        {
+            lock (syncRoot)
+            {
+                if (wpfRichTextBox.Document.Blocks.Count >= 1)
+                {
+                    if (wpfRichTextBox.Document.Blocks.LastBlock is Paragraph paragraph)
+                    {
+                        if (paragraph.Inlines.Count > 8000)
+                        {
+                            var inLinesToRemove = paragraph.Inlines.Count - 7840;
+
+                            for (var i = 0; i < inLinesToRemove; i++)
+                            {
+                                paragraph.Inlines.Remove(paragraph.Inlines.FirstInline);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
             ;
         }
     }
 
     public void OnCompleted()
     {
-
+        ;
     }
 
     public void OnError(Exception error)
     {
-
+        ;
     }
 
     public async void OnNext(LogEvent value)
@@ -232,8 +202,7 @@ public class RichTextBox : IRichTextBox
 
             sb.Append("</Paragraph>");
             var xamlParagraphText = sb.ToString();
-
-            await this.BeginInvoke(this._dispatcherPriority, xamlParagraphText).ConfigureAwait(false);
+            await this.BeginInvoke(xamlParagraphText).ConfigureAwait(false);
         }
         catch (Exception)
         {

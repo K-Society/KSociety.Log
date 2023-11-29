@@ -51,7 +51,7 @@ namespace KSociety.Log.Serilog.Sinks.Test.WpfApp
             {
 
 
-                for (var i = 0; i < 10000; i++)
+                for (var i = 0; i < 5080; i++)
                 {
                     this._logger.LogInformation("Log Message: {0}", i);
                 }

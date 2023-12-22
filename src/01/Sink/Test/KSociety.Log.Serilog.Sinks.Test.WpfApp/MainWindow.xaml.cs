@@ -51,7 +51,7 @@ namespace KSociety.Log.Serilog.Sinks.Test.WpfApp
             {
                 
 
-                for (var i = 0; i < 8; i++)
+                for (var i = 0; i < 10000; i++)
                 {
                     //this._logger.LogTrace("Log Trace Message: {0}", i);
                     //this._logger.LogDebug("Log Debug Message: {0}", i);

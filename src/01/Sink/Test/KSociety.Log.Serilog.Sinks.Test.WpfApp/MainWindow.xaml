@@ -7,9 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
         Closing="MainWindow_OnClosing" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
-    <Grid>
-        <local:LogViewer 
-            HorizontalAlignment="Stretch" 
-            Margin="0,0,0,0" VerticalAlignment="Stretch"/>
-    </Grid>
+
+    <local:LogViewer 
+        HorizontalAlignment="Stretch" 
+        Margin="0,0,0,0" VerticalAlignment="Stretch"/>
 </Window>

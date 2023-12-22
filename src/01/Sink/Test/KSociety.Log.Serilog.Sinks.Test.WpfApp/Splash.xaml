@@ -40,17 +40,15 @@
             </Storyboard>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Image Name="Image" Source="{StaticResource LogoKSociety}">
-                <Image.Triggers>
-                    <EventTrigger RoutedEvent="Image.Loaded">
-                        <BeginStoryboard Storyboard="{StaticResource SplashAnimation}">
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Image Name="Image" Source="{StaticResource LogoKSociety}">
+            <Image.Triggers>
+                <EventTrigger RoutedEvent="Image.Loaded">
+                    <BeginStoryboard Storyboard="{StaticResource SplashAnimation}">
 
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Image.Triggers>
-            </Image>
-        </StackPanel>
-    </Grid>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Image.Triggers>
+        </Image>
+    </StackPanel>
 </Window>

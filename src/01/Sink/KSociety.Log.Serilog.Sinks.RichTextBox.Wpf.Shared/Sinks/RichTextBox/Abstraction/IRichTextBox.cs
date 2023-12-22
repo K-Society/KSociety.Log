@@ -1,12 +1,16 @@
-﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
-using System;
-using System.Windows.Threading;
+namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
 
-public interface IRichTextBox
+using System;
+using System.Threading.Tasks;
+using global::Serilog.Events;
+
+public interface IRichTextBox : IObserver<LogEvent>
 {
-    void Write(string xamlParagraphText);
+    void StartRichTextBoxLimiter();
+
+    void StopRichTextBoxLimiter();
 
     bool CheckAccess();
 
-    public DispatcherOperation BeginInvoke(DispatcherPriority priority, Delegate method, object arg);
+    ValueTask BeginInvoke(string? xamlParagraphText);
 }

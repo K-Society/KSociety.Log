@@ -1,12 +1,12 @@
-﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
 using System.IO;
-using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Rendering;
-using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
+using Rendering;
+using Themes;
 using global::Serilog.Events;
 
 internal class ExceptionTokenRenderer : OutputTemplateTokenRenderer
 {
-    private const string _stackFrameLinePrefix = "   ";
+    private const string StackFrameLinePrefix = "   ";
 
     private readonly RichTextBoxTheme _theme;
 
@@ -26,15 +26,15 @@ internal class ExceptionTokenRenderer : OutputTemplateTokenRenderer
 
         var lines = new StringReader(logEvent.Exception.ToString());
 
-        string nextLine;
-        while ((nextLine = lines.ReadLine()) != null)
+        while (lines.ReadLine() is { } nextLine)
         {
-            var style = nextLine.StartsWith(_stackFrameLinePrefix) ? RichTextBoxThemeStyle.SecondaryText : RichTextBoxThemeStyle.Text;
+            var style = nextLine.StartsWith(StackFrameLinePrefix) ? RichTextBoxThemeStyle.SecondaryText : RichTextBoxThemeStyle.Text;
             var _ = 0;
 
             using (this._theme.Apply(output, style, ref _))
             {
-                output.WriteLine(SpecialCharsEscaping.Apply(nextLine, ref _));
+                //output.WriteLine(SpecialCharsEscaping.Apply(nextLine, ref _));
+                output.Write(SpecialCharsEscaping.Apply(nextLine, ref _));
             }
         }
     }

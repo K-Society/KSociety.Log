@@ -1,4 +1,4 @@
-﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Sinks.RichTextBox
+namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Sinks.RichTextBox
 {
     using global::Serilog.Events;
     using global::Serilog.Formatting;
@@ -43,7 +43,7 @@
         {
             lock (this._syncRoot)
             {
-                this._richTextBox.Write(xamlParagraphText);
+                //this._richTextBox.Write(xamlParagraphText);
             }
         }
 
@@ -67,10 +67,10 @@
                     sb.Append(writer);
 
                     sb.Append("</Paragraph>");
-                    string xamlParagraphText = sb.ToString();
+                    string? xamlParagraphText = sb.ToString();
                     lock (this._syncRoot)
                     {
-                        this._richTextBox.BeginInvoke(this._dispatcherPriority, this._renderAction, xamlParagraphText);
+                        this._richTextBox.BeginInvoke(/*this._dispatcherPriority,*/ /*this._renderAction,*/ xamlParagraphText);
                     }
                     sb.Clear();
                 }

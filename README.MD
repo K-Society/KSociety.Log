@@ -8,7 +8,7 @@
 ## Introduction
 
 This is the README file for KSociety.Log.
-KSociety.Log is a .NET 6.0 and .NET 7.0 centralized log system, to work properly it needs [RabbitMQ](https://github.com/K-Society/KSociety.RabbitMQ.Install/releases).
+KSociety.Log is a .NET 6.0, .NET 7.0 and .NET 8.0 centralized log system, to work properly it needs [RabbitMQ](https://github.com/K-Society/KSociety.RabbitMQ.Install/releases).
 
 ### Examples
 

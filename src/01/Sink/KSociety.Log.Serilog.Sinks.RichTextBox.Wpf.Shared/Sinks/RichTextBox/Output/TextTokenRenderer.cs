@@ -1,15 +1,15 @@
-﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
+namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
 using System.IO;
-using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Rendering;
-using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
+using Rendering;
+using Themes;
 using global::Serilog.Events;
 
 internal class TextTokenRenderer : OutputTemplateTokenRenderer
 {
     private readonly RichTextBoxTheme _theme;
-    private readonly string _text;
+    private readonly string? _text;
 
-    public TextTokenRenderer(RichTextBoxTheme theme, string text)
+    public TextTokenRenderer(RichTextBoxTheme theme, string? text)
     {
         this._theme = theme;
         this._text = text;

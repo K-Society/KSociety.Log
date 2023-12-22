@@ -13,46 +13,45 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <DockPanel>
-        <Grid>
-            <GroupBox Header="Log viewer">
-                <Grid Background="DimGray">
-                    <RichTextBox
-                        x:Name="RichTextBox"
-                        BorderThickness="0"
-                        Foreground="LightGray"
-                        FontFamily="Cascadia Mono, Consolas, Courier New, monospace"
-                        FontSize="12"
-                        IsReadOnly="True"
-                        VerticalScrollBarVisibility="Hidden"
-                        HorizontalScrollBarVisibility="Hidden"
-                        Margin="0">
-                        <!--<RichTextBox.Resources>
-                            <Style TargetType="{x:Type Paragraph}">
-                                <Setter Property="Margin" Value="0" />
-                            </Style>
-                        </RichTextBox.Resources>-->
-                        <!--<FlowDocument>
-                            
-                            <Paragraph>Hello, world!</Paragraph>
-                        </FlowDocument>-->
-                        
-                        <RichTextBox.Background>
-                            <ImageBrush ImageSource="{StaticResource LogoKSocietyGray}" Stretch="Uniform">
-                                <ImageBrush.RelativeTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform CenterY="0.5" CenterX="0.5" ScaleX="0.9" ScaleY="0.9"/>
-                                        <SkewTransform CenterX="0.5" CenterY="0.5"/>
-                                        <RotateTransform CenterX="0.5" CenterY="0.5"/>
-                                        <TranslateTransform/>
-                                    </TransformGroup>
-                                </ImageBrush.RelativeTransform>
 
-                            </ImageBrush>
-                        </RichTextBox.Background>
-                    </RichTextBox>
-                </Grid>
-            </GroupBox>
+    <GroupBox Header="Log viewer">
+        <Grid Background="DimGray">
+            <RichTextBox
+                    x:Name="RichTextBox"
+                    BorderThickness="0"
+                    Foreground="LightGray"
+                    FontFamily="Cascadia Mono, Consolas, Courier New, monospace"
+                    FontSize="12"
+                    IsReadOnly="True"
+                    VerticalScrollBarVisibility="Hidden"
+                    HorizontalScrollBarVisibility="Hidden"
+                    Margin="0"
+                    IsUndoEnabled="false"
+                    UndoLimit="0">
+                <!--<RichTextBox.Resources>
+                        <Style TargetType="{x:Type Paragraph}">
+                            <Setter Property="Margin" Value="0" />
+                        </Style>
+                    </RichTextBox.Resources>-->
+                <!--<FlowDocument>
+                            
+                        <Paragraph>Hello, world!</Paragraph>
+                    </FlowDocument>-->
+
+                <RichTextBox.Background>
+                    <ImageBrush ImageSource="{StaticResource LogoKSocietyGray}" Stretch="Uniform">
+                        <ImageBrush.RelativeTransform>
+                            <TransformGroup>
+                                <ScaleTransform CenterY="0.5" CenterX="0.5" ScaleX="0.9" ScaleY="0.9"/>
+                                <SkewTransform CenterX="0.5" CenterY="0.5"/>
+                                <RotateTransform CenterX="0.5" CenterY="0.5"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </ImageBrush.RelativeTransform>
+
+                    </ImageBrush>
+                </RichTextBox.Background>
+            </RichTextBox>
         </Grid>
-    </DockPanel>
+    </GroupBox>
 </UserControl>

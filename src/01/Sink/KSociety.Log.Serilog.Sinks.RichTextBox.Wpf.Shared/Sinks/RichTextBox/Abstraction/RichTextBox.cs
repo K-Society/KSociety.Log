@@ -21,6 +21,11 @@ public class RichTextBox : IRichTextBox
     private readonly DispatcherPriority _dispatcherPriority;
     private readonly BackgroundWorker _backgroundWorker;
 
+    private const string Paragraph1 = "<Paragraph xmlns =\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xml:space=\"preserve\">";
+    private const string Paragraph2 = "</Paragraph>";
+    private static readonly Thickness Thickness = new(0D);
+    private static readonly StringBuilder StringBuilder = new();
+
     private delegate void RichTextBoxAppendTextDelegate(System.Windows.Controls.RichTextBox wpfRichTextBox, string xamlParagraphText, object syncRoot);
 
     private delegate void RichTextBoxLimiterDelegate(System.Windows.Controls.RichTextBox wpfRichTextBox, object? args, object syncRoot);
@@ -123,29 +128,26 @@ public class RichTextBox : IRichTextBox
     {
         try
         {
-            lock (syncRoot)
+            var parsedParagraph = (Paragraph)XamlReader.Parse(xamlParagraphText);
+            parsedParagraph.Margin = Thickness;
+
+            var flowDocument = wpfRichTextBox.Document ??= new FlowDocument();
+
+            if (flowDocument.Blocks.LastBlock is Paragraph {Inlines.Count: 0} paragraph)
             {
-                var parsedParagraph = (Paragraph)XamlReader.Parse(xamlParagraphText);
-                parsedParagraph.Margin = new Thickness(0D);
-
-                var flowDocument = wpfRichTextBox.Document ??= new FlowDocument();
-
-                if (flowDocument.Blocks.LastBlock is Paragraph {Inlines.Count: 0} paragraph)
-                {
-                    paragraph.Inlines.AddRange(parsedParagraph.Inlines.ToList());
-                    paragraph.Margin = new Thickness(0D);
-                }
-                else
-                {
-                    flowDocument.Blocks.Add(parsedParagraph);
-                }
+                paragraph.Inlines.AddRange(parsedParagraph.Inlines.ToList());
+                paragraph.Margin = Thickness;
+            }
+            else
+            {
+                flowDocument.Blocks.Add(parsedParagraph);
+            }
                 
-                wpfRichTextBox.ScrollToEnd();
+            wpfRichTextBox.ScrollToEnd();
 
-                if (flowDocument.Blocks.Count > 1000)
-                {
-                    this.StartRichTextBoxLimiter();
-                }
+            if (flowDocument.Blocks.Count > 1000)
+            {
+                this.StartRichTextBoxLimiter();
             }
         }
         catch (Exception)
@@ -158,15 +160,12 @@ public class RichTextBox : IRichTextBox
     {
         try
         {
-            lock (syncRoot)
+            if (wpfRichTextBox.Document.Blocks.Count > 1000)
             {
-                if (wpfRichTextBox.Document.Blocks.Count > 1000)
+                var blocksToRemove = wpfRichTextBox.Document.Blocks.Count - 1000;
+                for (var i = 0; i < blocksToRemove; i++)
                 {
-                    var blocksToRemove = wpfRichTextBox.Document.Blocks.Count - 1000;
-                    for (var i = 0; i < blocksToRemove; i++)
-                    {
-                        wpfRichTextBox.Document.Blocks.Remove(wpfRichTextBox.Document.Blocks.FirstBlock);
-                    }
+                    wpfRichTextBox.Document.Blocks.Remove(wpfRichTextBox.Document.Blocks.FirstBlock);
                 }
             }
         }
@@ -188,26 +187,26 @@ public class RichTextBox : IRichTextBox
 
     public async void OnNext(LogEvent value)
     {
-        StringBuilder sb = new();
-
+        StringWriter writer = new();
+        
         try
         {
-            sb.Append($"<Paragraph xmlns =\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xml:space=\"preserve\">");
-            StringWriter writer = new();
-            this._formatter?.Format(value, writer);
-            sb.Append(writer);
+            StringBuilder.Clear();
+            StringBuilder.Append(Paragraph1);
 
-            sb.Append("</Paragraph>");
-            var xamlParagraphText = sb.ToString();
-            await this.BeginInvoke(xamlParagraphText).ConfigureAwait(false);
+            this._formatter?.Format(value, writer);
+            StringBuilder.Append(writer);
+
+            StringBuilder.Append(Paragraph2);
+            await this.BeginInvoke(StringBuilder.ToString()).ConfigureAwait(false);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             ;
         }
         finally
         {
-            sb.Clear();
+            await writer.DisposeAsync().ConfigureAwait(false);
         }
     }
 }

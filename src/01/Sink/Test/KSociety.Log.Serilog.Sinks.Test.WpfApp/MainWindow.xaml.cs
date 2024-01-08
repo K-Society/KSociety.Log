@@ -56,7 +56,7 @@ namespace KSociety.Log.Serilog.Sinks.Test.WpfApp
                     //this._logger.LogTrace("Log Trace Message: {0}", i);
                     //this._logger.LogDebug("Log Debug Message: {0}", i);
                     //this._logger.LogInformation("Log Information Message: {0}", i);
-                    this._logger.LogError(new Exception("Something fishy going on!"), "Window_Loader: ");
+                    this._logger.LogError(new Exception("Something fishy going on!"), "{0} - Window_Loader: ", i);
                 }
             }
             catch (Exception)

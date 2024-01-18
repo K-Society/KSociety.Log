@@ -80,7 +80,6 @@ public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEve
         }
         catch (Exception)
         {
-            ;
         }
     }
 

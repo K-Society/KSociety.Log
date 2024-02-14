@@ -5,13 +5,13 @@
 
   <PropertyGroup>
     <!--<GeneratePackageOnBuild>true</GeneratePackageOnBuild>-->
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KSociety.Base.EventBus" Version="1.3.37" />
+    <PackageReference Include="KSociety.Base.EventBus" Version="1.3.49" />
   </ItemGroup>
 
 </Project>

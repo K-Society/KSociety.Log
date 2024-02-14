@@ -31,8 +31,9 @@ finally
     Log.CloseAndFlush();
 }
 
-static IHostBuilder CreateHostBuilder(string[] args) =>
-    Host.CreateDefaultBuilder(args)
+static IHostBuilder CreateHostBuilder(string[] args)
+{
+    return Host.CreateDefaultBuilder(args)
         .UseSystemd()
         .UseWindowsService()
         .UseSerilog()
@@ -41,3 +42,4 @@ static IHostBuilder CreateHostBuilder(string[] args) =>
         {
             webBuilder.UseStartup<Startup>();
         });
+}

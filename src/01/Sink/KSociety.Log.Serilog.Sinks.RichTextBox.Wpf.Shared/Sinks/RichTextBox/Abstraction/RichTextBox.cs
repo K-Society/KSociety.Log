@@ -30,6 +30,10 @@ public class RichTextBox : IRichTextBox
 
     private delegate void RichTextBoxLimiterDelegate(System.Windows.Controls.RichTextBox wpfRichTextBox, object? args, object syncRoot);
 
+    //private readonly object[] _backgroundProcessLogicMethodArray;
+    //private readonly object[] _beginInvokeArray;
+    //private readonly StringWriter _writer = new();
+
     public RichTextBox(System.Windows.Controls.RichTextBox? richTextBox, ITextFormatter? formatter, DispatcherPriority dispatcherPriority, object syncRoot)
     {
         this._richTextBox = richTextBox ?? throw new ArgumentNullException(nameof(richTextBox));
@@ -37,6 +41,9 @@ public class RichTextBox : IRichTextBox
         this._syncRoot = syncRoot;
         this._dispatcherPriority = dispatcherPriority;
 
+
+        //this._backgroundProcessLogicMethodArray = new object[3];
+        //this._beginInvokeArray = new object[3];
         this._backgroundWorker = new BackgroundWorker();
 
         this._backgroundWorker.DoWork += this.BackgroundWorkerOnDoWork;
@@ -85,13 +92,12 @@ public class RichTextBox : IRichTextBox
     {
         try
         {
-            var delegateArray = new object[3];
+            var backgroundProcessLogicMethodArray = new object[3];
+            backgroundProcessLogicMethodArray[0] = this._richTextBox;
+            backgroundProcessLogicMethodArray[1] = arg;
+            backgroundProcessLogicMethodArray[2] = this._syncRoot;
 
-            delegateArray[0] = this._richTextBox;
-            delegateArray[1] = arg;
-            delegateArray[2] = this._syncRoot;
-
-            await this._richTextBox.Dispatcher.BeginInvoke(new RichTextBoxLimiterDelegate(RichTextBoxLimiterDelegateMethod), this._dispatcherPriority, delegateArray);
+            await this._richTextBox.Dispatcher.BeginInvoke(new RichTextBoxLimiterDelegate(RichTextBoxLimiterDelegateMethod), this._dispatcherPriority, backgroundProcessLogicMethodArray);
             return true;
         }
         catch (Exception ex)
@@ -110,13 +116,12 @@ public class RichTextBox : IRichTextBox
     {
         try
         {
-            var delegateArray = new object[3];
-            
-            delegateArray[0] = this._richTextBox;
-            delegateArray[1] = xamlParagraphText;
-            delegateArray[2] = this._syncRoot;
+            var beginInvokeArray = new object[3];
+            beginInvokeArray[0] = this._richTextBox;
+            beginInvokeArray[1] = xamlParagraphText;
+            beginInvokeArray[2] = this._syncRoot;
 
-            await this._richTextBox.Dispatcher.BeginInvoke(new RichTextBoxAppendTextDelegate(this.RichTextBoxAppendTextDelegateMethod), this._dispatcherPriority, delegateArray);
+            await this._richTextBox.Dispatcher.BeginInvoke(new RichTextBoxAppendTextDelegate(this.RichTextBoxAppendTextDelegateMethod), this._dispatcherPriority, beginInvokeArray);
         }
         catch (Exception ex)
         {
@@ -187,10 +192,11 @@ public class RichTextBox : IRichTextBox
 
     public async void OnNext(LogEvent value)
     {
-        StringWriter writer = new();
+        
         
         try
         {
+            await using StringWriter writer = new();
             StringBuilder.Clear();
             StringBuilder.Append(Paragraph1);
 
@@ -200,13 +206,13 @@ public class RichTextBox : IRichTextBox
             StringBuilder.Append(Paragraph2);
             await this.BeginInvoke(StringBuilder.ToString()).ConfigureAwait(false);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             ;
         }
-        finally
-        {
-            await writer.DisposeAsync().ConfigureAwait(false);
-        }
+        //finally
+        //{
+        //    await writer.DisposeAsync().ConfigureAwait(false);
+        //}
     }
 }

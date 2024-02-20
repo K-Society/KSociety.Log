@@ -48,7 +48,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
         public void Initialize()
         {
             this._eventBus = new Lazy<IEventBusTyped>(this.GetEventBusTyped);
-            this._eventBus.Value.Initialize();
+            this._eventBus.Value.Initialize<WriteLogEvent>();
         }
 
         private IEventBusTyped GetEventBusTyped()
@@ -72,7 +72,7 @@ namespace KSociety.Log.Serilog.Sinks.RabbitMq.Sinks.RabbitMq
 
                 var loggerName = "Default";
                 if (logEvent.Properties.TryGetValue(global::Serilog.Core.Constants.SourceContextPropertyName,
-                        out LogEventPropertyValue sourceContext))
+                        out var sourceContext))
                 {
                     var sv = sourceContext as ScalarValue;
                     if (sv?.Value is string value)

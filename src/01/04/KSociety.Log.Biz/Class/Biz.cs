@@ -30,7 +30,7 @@ namespace KSociety.Log.Biz.Class
             this._eventBusParameters = eventBusParameters;
             this._persistentConnection = persistentConnection;
             this._logger.LogInformation("KSociety.Log.Biz.Class.Biz!");
-            this._subscriber = new Subscriber(this._loggerFactory, this._persistentConnection, this._eventBusParameters);
+            this._subscriber = new Subscriber(this._loggerFactory, this._persistentConnection, this._eventBusParameters, 10, true);
         }
 
         public void LoadEventBus()

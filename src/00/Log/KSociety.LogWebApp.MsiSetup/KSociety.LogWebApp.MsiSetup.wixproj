@@ -1,10 +1,10 @@
-<Project Sdk="WixToolset.Sdk/4.0.4">
+<Project Sdk="WixToolset.Sdk/5.0.0">
   <PropertyGroup>
     <Cultures>en-US</Cultures>
     <OutputName>KSociety.LogWebApp</OutputName>
     <NetVersion>net6.0</NetVersion>
   </PropertyGroup>
-  <ItemGroup>
+  <!--<ItemGroup>
     <HarvestDirectory Include="..\..\..\..\build\KSociety.Log.Pre.Web.App\bin\Release\$(NetVersion)\publish">
       <ComponentGroupName>HarvestedComponents</ComponentGroupName>
       <DirectoryRefId>NetVersionFolder</DirectoryRefId>
@@ -19,11 +19,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Filter.xslt" />
-  </ItemGroup>
+  </ItemGroup>-->
   <ItemGroup>
-    <PackageReference Include="WixToolset.Firewall.wixext" Version="4.0.4" />
-    <PackageReference Include="WixToolset.Heat" Version="4.0.4" />
-    <PackageReference Include="WixToolset.UI.wixext" Version="4.0.4" />
+    <PackageReference Include="WixToolset.Firewall.wixext" Version="5.0.0" />
+    <PackageReference Include="WixToolset.Heat" Version="5.0.0" />
+    <PackageReference Include="WixToolset.UI.wixext" Version="5.0.0" />
   </ItemGroup>
   <Target Name="CustomBeforeBuild" BeforeTargets="BeforeBuild" DependsOnTargets="GetBuildVersion">
     <CreateProperty Value="$(OutputName)-$(BuildVersion3Components)-$(NetVersion)">

@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Cultures>en-US</Cultures>
     <OutputName>KSociety.Log.Install</OutputName>
-    <NetVersion>net6.0</NetVersion>
+    <NetVersion>net8.0</NetVersion>
     <OutputType>Bundle</OutputType>
   </PropertyGroup>
   <ItemGroup>

@@ -1,10 +1,11 @@
 namespace KSociety.Log.Srv.Host
 {
+    using System;
+    using System.IO.Compression;
     using Autofac;
-    using KSociety.Base.EventBus;
+    using global::Serilog;
     using KSociety.Base.InfraSub.Shared.Class;
     using KSociety.Base.Srv.Host.Shared.Bindings;
-    using KSociety.Base.Srv.Host.Shared.Class;
     using KSociety.Log.Biz.Interface;
     using KSociety.Log.Srv.Behavior.Biz;
     using Microsoft.AspNetCore.Builder;
@@ -15,10 +16,6 @@ namespace KSociety.Log.Srv.Host
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using ProtoBuf.Grpc.Server;
-    using RabbitMQ.Client;
-    using global::Serilog;
-    using System;
-    using System.IO.Compression;
 
     public class Startup
     {
@@ -27,7 +24,7 @@ namespace KSociety.Log.Srv.Host
 
 
         private bool DebugFlag { get; }
-        private MessageBrokerOptions MessageBrokerOptions { get; }
+        private Base.EventBusRabbitMQ.Binding.MessageBrokerOptions MessageBrokerOptions { get; }
 
         public Startup(IConfiguration configuration)
         {
@@ -35,7 +32,7 @@ namespace KSociety.Log.Srv.Host
 
             this.DebugFlag = this.Configuration.GetValue<bool>("DebugFlag");
 
-            this.MessageBrokerOptions = this.Configuration.GetSection("MessageBroker").Get<MessageBrokerOptions>();
+            this.MessageBrokerOptions = this.Configuration.GetSection("MessageBroker").Get<Base.EventBusRabbitMQ.Binding.MessageBrokerOptions>();
         }
 
         public IConfiguration Configuration { get; }
@@ -74,13 +71,13 @@ namespace KSociety.Log.Srv.Host
                 builder.RegisterModule(new CommandHdlr(AssemblyTool.GetAssembly()));
 
                 //RabbitMQ.
-                builder.RegisterModule(
-                    new MessageBroker<
-                        IExchangeDeclareParameters, IQueueDeclareParameters,
-                        IEventBusParameters, IConnectionFactory,
-                        Base.EventBus.ExchangeDeclareParameters,
-                        Base.EventBus.QueueDeclareParameters,
-                        EventBusParameters>(this.MessageBrokerOptions, this.DebugFlag));
+                builder.RegisterModule(new KSociety.Log.EventBus.MessageBroker(this.MessageBrokerOptions, this.DebugFlag));
+                    //new MessageBroker<
+                    //    IExchangeDeclareParameters, IQueueDeclareParameters,
+                    //    IEventBusParameters, IConnectionFactory,
+                    //    Base.EventBus.ExchangeDeclareParameters,
+                    //    Base.EventBus.QueueDeclareParameters,
+                    //    EventBusParameters>(this.MessageBrokerOptions, this.DebugFlag));
 
                 //Transaction, don't move this line.
                 builder.RegisterModule(new Bindings.Biz.Biz(this.DebugFlag));

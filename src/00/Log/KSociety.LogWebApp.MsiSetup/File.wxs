@@ -6,7 +6,7 @@
             <Exclude Files="..\..\..\..\build\KSociety.Log.Pre.Web.App\bin\Release\$(NetVersion)\publish\KSociety.Log.Pre.Web.App.exe"></Exclude>
         </Files>
       <Component Id="KSociety.Log.Pre.Web.App.exe" Guid="{2EB1A0B2-181B-4EA8-9E6E-E42C0A5756B2}">
-        <File Id="KSociety.Log.Pre.Web.App.exe" Source="SourceDir\KSociety.Log.Pre.Web.App.exe" KeyPath="yes" Checksum="yes">
+        <File Id="KSociety.Log.Pre.Web.App.exe" Source="..\..\..\..\build\KSociety.Log.Pre.Web.App\bin\Release\$(NetVersion)\publish\KSociety.Log.Pre.Web.App.exe" KeyPath="yes" Checksum="yes">
           <fw:FirewallException Id="LOG_WEB_APP_ID" Name="LogWebApp" Description="K-Society LogWebApp $(NetVersion)" IgnoreFailure="yes" Profile="all" Scope="any" />
         </File>
         <ServiceInstall

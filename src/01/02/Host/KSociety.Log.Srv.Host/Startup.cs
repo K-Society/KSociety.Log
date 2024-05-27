@@ -72,12 +72,6 @@ namespace KSociety.Log.Srv.Host
 
                 //RabbitMQ.
                 builder.RegisterModule(new KSociety.Log.EventBus.MessageBroker(this.MessageBrokerOptions, this.DebugFlag));
-                    //new MessageBroker<
-                    //    IExchangeDeclareParameters, IQueueDeclareParameters,
-                    //    IEventBusParameters, IConnectionFactory,
-                    //    Base.EventBus.ExchangeDeclareParameters,
-                    //    Base.EventBus.QueueDeclareParameters,
-                    //    EventBusParameters>(this.MessageBrokerOptions, this.DebugFlag));
 
                 //Transaction, don't move this line.
                 builder.RegisterModule(new Bindings.Biz.Biz(this.DebugFlag));

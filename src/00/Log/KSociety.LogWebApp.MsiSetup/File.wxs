@@ -20,7 +20,7 @@
           Account="LocalSystem"
           Start="auto"
           Interactive="no">
-            <ServiceDependency Id="LogServerService" Group="false"/>
+            <ServiceDependency Id="LogServer" Group="false"/>
         </ServiceInstall>
         <ServiceControl
           Id="LogServerServiceControl"

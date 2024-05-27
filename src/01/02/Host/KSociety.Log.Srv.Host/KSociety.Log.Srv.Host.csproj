@@ -4,7 +4,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Worker">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>net8.0</TargetFrameworks>
     <UserSecretsId>dotnet-KSociety.Log.Srv.Host-9F369CD8-A40D-408E-AFC4-E87EEA70C3B6</UserSecretsId>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
@@ -12,7 +12,7 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="8.0.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="9.0.0" />
-    <PackageReference Include="KSociety.Base.Srv.Host.Shared" Version="1.3.55" />
+    <PackageReference Include="KSociety.Base.Srv.Host.Shared" Version="1.3.91" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="8.0.0" />
     <PackageReference Include="protobuf-net.Grpc.AspNetCore" Version="1.1.1" />

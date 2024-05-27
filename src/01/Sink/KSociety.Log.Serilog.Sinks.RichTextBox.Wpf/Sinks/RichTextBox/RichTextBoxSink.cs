@@ -67,10 +67,10 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Sinks.RichTextBox
                     sb.Append(writer);
 
                     sb.Append("</Paragraph>");
-                    string? xamlParagraphText = sb.ToString();
+                    var xamlParagraphText = sb.ToString();
                     lock (this._syncRoot)
                     {
-                        this._richTextBox.BeginInvoke(/*this._dispatcherPriority,*/ /*this._renderAction,*/ xamlParagraphText);
+                        _ = this._richTextBox.BeginInvoke(/*this._dispatcherPriority,*/ /*this._renderAction,*/ xamlParagraphText);
                     }
                     sb.Clear();
                 }

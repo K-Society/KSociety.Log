@@ -1,40 +1,44 @@
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
-using System.IO;
-using Rendering;
-using Themes;
-using global::Serilog.Events;
+// Copyright © K-Society and contributors. All rights reserved. Licensed under the K-Society License. See LICENSE.TXT file in the project root for full license information.
 
-internal class ExceptionTokenRenderer : OutputTemplateTokenRenderer
+namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output
 {
-    private const string StackFrameLinePrefix = "   ";
+    using System.IO;
+    using Rendering;
+    using Themes;
+    using global::Serilog.Events;
 
-    private readonly RichTextBoxTheme _theme;
-
-    public ExceptionTokenRenderer(RichTextBoxTheme theme)
+    internal class ExceptionTokenRenderer : OutputTemplateTokenRenderer
     {
-        this._theme = theme;
-    }
+        private const string StackFrameLinePrefix = "   ";
 
-    public override void Render(LogEvent logEvent, TextWriter output)
-    {
-        // Padding is never applied by this renderer.
+        private readonly RichTextBoxTheme _theme;
 
-        if (logEvent.Exception is null)
+        public ExceptionTokenRenderer(RichTextBoxTheme theme)
         {
-            return;
+            this._theme = theme;
         }
 
-        var lines = new StringReader(logEvent.Exception.ToString());
-
-        while (lines.ReadLine() is { } nextLine)
+        public override void Render(LogEvent logEvent, TextWriter output)
         {
-            var style = nextLine.StartsWith(StackFrameLinePrefix) ? RichTextBoxThemeStyle.SecondaryText : RichTextBoxThemeStyle.Text;
-            var _ = 0;
+            // Padding is never applied by this renderer.
 
-            using (this._theme.Apply(output, style, ref _))
+            if (logEvent.Exception is null)
             {
-                //output.WriteLine(SpecialCharsEscaping.Apply(nextLine, ref _));
-                output.Write(SpecialCharsEscaping.Apply(nextLine, ref _));
+                return;
+            }
+
+            var lines = new StringReader(logEvent.Exception.ToString());
+
+            while (lines.ReadLine() is { } nextLine)
+            {
+                var style = nextLine.StartsWith(StackFrameLinePrefix) ? RichTextBoxThemeStyle.SecondaryText : RichTextBoxThemeStyle.Text;
+                var _ = 0;
+
+                using (this._theme.Apply(output, style, ref _))
+                {
+                    //output.WriteLine(SpecialCharsEscaping.Apply(nextLine, ref _));
+                    output.Write(SpecialCharsEscaping.Apply(nextLine, ref _));
+                }
             }
         }
     }

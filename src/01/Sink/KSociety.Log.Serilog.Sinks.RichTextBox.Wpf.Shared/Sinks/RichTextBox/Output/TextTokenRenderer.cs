@@ -1,29 +1,33 @@
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
-using System.IO;
-using Rendering;
-using Themes;
-using global::Serilog.Events;
+// Copyright © K-Society and contributors. All rights reserved. Licensed under the K-Society License. See LICENSE.TXT file in the project root for full license information.
 
-internal class TextTokenRenderer : OutputTemplateTokenRenderer
+namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output
 {
-    private readonly RichTextBoxTheme _theme;
-    private readonly string? _text;
+    using System.IO;
+    using Rendering;
+    using Themes;
+    using global::Serilog.Events;
 
-    public TextTokenRenderer(RichTextBoxTheme theme, string? text)
+    internal class TextTokenRenderer : OutputTemplateTokenRenderer
     {
-        this._theme = theme;
-        this._text = text;
-    }
+        private readonly RichTextBoxTheme _theme;
+        private readonly string? _text;
 
-    public override void Render(LogEvent logEvent, TextWriter output)
-    {
-        var _ = 0;
-        var text = this._text;
-
-        using (this._theme.Apply(output, RichTextBoxThemeStyle.TertiaryText, ref _))
+        public TextTokenRenderer(RichTextBoxTheme theme, string? text)
         {
-            text = SpecialCharsEscaping.Apply(text, ref _);
-            output.Write(text);
+            this._theme = theme;
+            this._text = text;
+        }
+
+        public override void Render(LogEvent logEvent, TextWriter output)
+        {
+            var _ = 0;
+            var text = this._text;
+
+            using (this._theme.Apply(output, RichTextBoxThemeStyle.TertiaryText, ref _))
+            {
+                text = SpecialCharsEscaping.Apply(text, ref _);
+                output.Write(text);
+            }
         }
     }
 }

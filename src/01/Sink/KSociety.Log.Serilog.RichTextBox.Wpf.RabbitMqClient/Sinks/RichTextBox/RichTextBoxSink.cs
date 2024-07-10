@@ -1,3 +1,5 @@
+// Copyright © K-Society and contributors. All rights reserved. Licensed under the K-Society License. See LICENSE.TXT file in the project root for full license information.
+
 namespace KSociety.Log.Serilog.RichTextBox.Wpf.RabbitMqClient.Sinks.RichTextBox
 {
     using System;
@@ -69,7 +71,7 @@ namespace KSociety.Log.Serilog.RichTextBox.Wpf.RabbitMqClient.Sinks.RichTextBox
                     sb.Append(writer);
 
                     sb.Append("</Paragraph>");
-                    string? xamlParagraphText = sb.ToString();
+                    var xamlParagraphText = sb.ToString();
                     await this._richTextBox.BeginInvoke(/*this._dispatcherPriority,*/ /*this._renderAction,*/ xamlParagraphText);
                     sb.Clear();
                 }

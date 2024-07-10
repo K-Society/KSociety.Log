@@ -1,3 +1,5 @@
+// Copyright © K-Society and contributors. All rights reserved. Licensed under the K-Society License. See LICENSE.TXT file in the project root for full license information.
+
 namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Sinks.RichTextBox
 {
     using global::Serilog.Events;
@@ -53,7 +55,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Sinks.RichTextBox
 
         private delegate void RenderAction(string xamlParagraphText);
 
-        public Task EmitBatchAsync(IEnumerable<LogEvent> batch)
+        public async Task EmitBatchAsync(IEnumerable<LogEvent> batch)
         {
             if (batch.Any())
             {
@@ -68,15 +70,15 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Sinks.RichTextBox
 
                     sb.Append("</Paragraph>");
                     var xamlParagraphText = sb.ToString();
-                    lock (this._syncRoot)
-                    {
-                        _ = this._richTextBox.BeginInvoke(/*this._dispatcherPriority,*/ /*this._renderAction,*/ xamlParagraphText);
-                    }
+                    //lock (this._syncRoot)
+                    //{
+                    await this._richTextBox.BeginInvoke(/*this._dispatcherPriority,*/ /*this._renderAction,*/ xamlParagraphText).ConfigureAwait(false);
+                    //}
                     sb.Clear();
                 }
             }
 
-            return Task.CompletedTask;
+            return;
         }
 
         public Task OnEmptyBatchAsync()

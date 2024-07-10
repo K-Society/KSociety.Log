@@ -1,28 +1,32 @@
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Formatting;
-using System;
-using System.IO;
-using Themes;
-using global::Serilog.Data;
-using global::Serilog.Events;
+// Copyright © K-Society and contributors. All rights reserved. Licensed under the K-Society License. See LICENSE.TXT file in the project root for full license information.
 
-internal abstract class ThemedValueFormatter : LogEventPropertyValueVisitor<ThemedValueFormatterState, int>
+namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Formatting
 {
-    private readonly RichTextBoxTheme _theme;
+    using System;
+    using System.IO;
+    using Themes;
+    using global::Serilog.Data;
+    using global::Serilog.Events;
 
-    protected ThemedValueFormatter(RichTextBoxTheme theme)
+    internal abstract class ThemedValueFormatter : LogEventPropertyValueVisitor<ThemedValueFormatterState, int>
     {
-        this._theme = theme ?? throw new ArgumentNullException(nameof(theme));
-    }
+        private readonly RichTextBoxTheme _theme;
 
-    protected StyleReset ApplyStyle(TextWriter output, RichTextBoxThemeStyle style, ref int invisibleCharacterCount)
-    {
-        return this._theme.Apply(output, style, ref invisibleCharacterCount);
-    }
+        protected ThemedValueFormatter(RichTextBoxTheme theme)
+        {
+            this._theme = theme ?? throw new ArgumentNullException(nameof(theme));
+        }
 
-    public int Format(LogEventPropertyValue value, TextWriter output, string format, bool literalTopLevel = false)
-    {
-        return this.Visit(new ThemedValueFormatterState { Output = output, Format = format, IsTopLevel = literalTopLevel }, value);
-    }
+        protected StyleReset ApplyStyle(TextWriter output, RichTextBoxThemeStyle style, ref int invisibleCharacterCount)
+        {
+            return this._theme.Apply(output, style, ref invisibleCharacterCount);
+        }
 
-    public abstract ThemedValueFormatter SwitchTheme(RichTextBoxTheme theme);
+        public int Format(LogEventPropertyValue value, TextWriter output, string format, bool literalTopLevel = false)
+        {
+            return this.Visit(new ThemedValueFormatterState { Output = output, Format = format, IsTopLevel = literalTopLevel }, value);
+        }
+
+        public abstract ThemedValueFormatter SwitchTheme(RichTextBoxTheme theme);
+    }
 }

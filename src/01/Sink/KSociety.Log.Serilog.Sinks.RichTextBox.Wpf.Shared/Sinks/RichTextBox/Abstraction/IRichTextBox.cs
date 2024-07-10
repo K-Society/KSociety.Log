@@ -1,16 +1,19 @@
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
+// Copyright © K-Society and contributors. All rights reserved. Licensed under the K-Society License. See LICENSE.TXT file in the project root for full license information.
 
-using System;
-using System.Threading.Tasks;
-using global::Serilog.Events;
-
-public interface IRichTextBox : IObserver<LogEvent>
+namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction
 {
-    void StartRichTextBoxLimiter();
+    using System;
+    using System.Threading.Tasks;
+    using global::Serilog.Events;
 
-    void StopRichTextBoxLimiter();
+    public interface IRichTextBox : IObserver<LogEvent>
+    {
+        void StartRichTextBoxLimiter();
 
-    bool CheckAccess();
+        void StopRichTextBoxLimiter();
 
-    ValueTask BeginInvoke(string? xamlParagraphText);
+        bool CheckAccess();
+
+        ValueTask BeginInvoke(string? xamlParagraphText);
+    }
 }

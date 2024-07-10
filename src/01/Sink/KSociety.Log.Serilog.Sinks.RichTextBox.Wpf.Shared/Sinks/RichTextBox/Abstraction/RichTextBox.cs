@@ -1,218 +1,221 @@
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction;
+// Copyright © K-Society and contributors. All rights reserved. Licensed under the K-Society License. See LICENSE.TXT file in the project root for full license information.
 
-using System;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Documents;
-using System.Windows.Markup;
-using System.Windows.Threading;
-using global::Serilog.Events;
-using global::Serilog.Formatting;
-
-public class RichTextBox : IRichTextBox
+namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Abstraction
 {
-    private readonly System.Windows.Controls.RichTextBox? _richTextBox;
-    private readonly object _syncRoot;
-    private readonly ITextFormatter? _formatter;
-    private readonly DispatcherPriority _dispatcherPriority;
-    private readonly BackgroundWorker _backgroundWorker;
+    using System;
+    using System.ComponentModel;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Windows;
+    using System.Windows.Documents;
+    using System.Windows.Markup;
+    using System.Windows.Threading;
+    using global::Serilog.Events;
+    using global::Serilog.Formatting;
 
-    private const string Paragraph1 = "<Paragraph xmlns =\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xml:space=\"preserve\">";
-    private const string Paragraph2 = "</Paragraph>";
-    private static readonly Thickness Thickness = new(0D);
-    private static readonly StringBuilder StringBuilder = new();
-
-    private delegate void RichTextBoxAppendTextDelegate(System.Windows.Controls.RichTextBox wpfRichTextBox, string xamlParagraphText, object syncRoot);
-
-    private delegate void RichTextBoxLimiterDelegate(System.Windows.Controls.RichTextBox wpfRichTextBox, object? args, object syncRoot);
-
-    //private readonly object[] _backgroundProcessLogicMethodArray;
-    //private readonly object[] _beginInvokeArray;
-    //private readonly StringWriter _writer = new();
-
-    public RichTextBox(System.Windows.Controls.RichTextBox? richTextBox, ITextFormatter? formatter, DispatcherPriority dispatcherPriority, object syncRoot)
+    public class RichTextBox : IRichTextBox
     {
-        this._richTextBox = richTextBox ?? throw new ArgumentNullException(nameof(richTextBox));
-        this._formatter = formatter;
-        this._syncRoot = syncRoot;
-        this._dispatcherPriority = dispatcherPriority;
+        private readonly System.Windows.Controls.RichTextBox? _richTextBox;
+        private readonly object _syncRoot;
+        private readonly ITextFormatter? _formatter;
+        private readonly DispatcherPriority _dispatcherPriority;
+        private readonly BackgroundWorker _backgroundWorker;
 
+        private const string Paragraph1 = "<Paragraph xmlns =\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xml:space=\"preserve\">";
+        private const string Paragraph2 = "</Paragraph>";
+        private static readonly Thickness Thickness = new(0D);
+        private static readonly StringBuilder StringBuilder = new();
 
-        //this._backgroundProcessLogicMethodArray = new object[3];
-        //this._beginInvokeArray = new object[3];
-        this._backgroundWorker = new BackgroundWorker();
+        private delegate void RichTextBoxAppendTextDelegate(System.Windows.Controls.RichTextBox wpfRichTextBox, string xamlParagraphText, object syncRoot);
 
-        this._backgroundWorker.DoWork += this.BackgroundWorkerOnDoWork;
-        this._backgroundWorker.RunWorkerCompleted += this.BackgroundWorkerOnRunWorkerCompleted;
-    }
+        private delegate void RichTextBoxLimiterDelegate(System.Windows.Controls.RichTextBox wpfRichTextBox, object? args, object syncRoot);
 
-    private void BackgroundWorkerOnRunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
-    {
-        //if (e.Cancelled)
-        //{
-        //    return;
-        //}
-        ;
-        //this._backgroundWorker.RunWorkerAsync();
-    }
+        //private readonly object[] _backgroundProcessLogicMethodArray;
+        //private readonly object[] _beginInvokeArray;
+        //private readonly StringWriter _writer = new();
 
-    public void StartRichTextBoxLimiter()
-    {
-        if (!this._backgroundWorker.IsBusy)
+        public RichTextBox(System.Windows.Controls.RichTextBox? richTextBox, ITextFormatter? formatter, DispatcherPriority dispatcherPriority, object syncRoot)
         {
-            this._backgroundWorker.RunWorkerAsync();
+            this._richTextBox = richTextBox ?? throw new ArgumentNullException(nameof(richTextBox));
+            this._formatter = formatter;
+            this._syncRoot = syncRoot;
+            this._dispatcherPriority = dispatcherPriority;
+
+
+            //this._backgroundProcessLogicMethodArray = new object[3];
+            //this._beginInvokeArray = new object[3];
+            this._backgroundWorker = new BackgroundWorker();
+
+            this._backgroundWorker.DoWork += this.BackgroundWorkerOnDoWork;
+            this._backgroundWorker.RunWorkerCompleted += this.BackgroundWorkerOnRunWorkerCompleted;
         }
-    }
 
-    public void StopRichTextBoxLimiter()
-    {
-        //if (!this._backgroundWorker.IsBusy)
-        //{
-            this._backgroundWorker.CancelAsync();
-        //}
-    }
-
-    private async void BackgroundWorkerOnDoWork(object? sender, DoWorkEventArgs e)
-    {
-        var helperBackgroundWorker = sender as BackgroundWorker;
-
-        e.Result = await this.BackgroundProcessLogicMethod(helperBackgroundWorker, e.Argument).ConfigureAwait(false);
-
-        if (helperBackgroundWorker.CancellationPending)
+        private void BackgroundWorkerOnRunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
         {
-            e.Cancel = true;
-        }
-    }
-
-    private async ValueTask<bool> BackgroundProcessLogicMethod(BackgroundWorker helperBackgroundWorker, object? arg)
-    {
-        try
-        {
-            var backgroundProcessLogicMethodArray = new object[3];
-            backgroundProcessLogicMethodArray[0] = this._richTextBox;
-            backgroundProcessLogicMethodArray[1] = arg;
-            backgroundProcessLogicMethodArray[2] = this._syncRoot;
-
-            await this._richTextBox.Dispatcher.BeginInvoke(new RichTextBoxLimiterDelegate(RichTextBoxLimiterDelegateMethod), this._dispatcherPriority, backgroundProcessLogicMethodArray);
-            return true;
-        }
-        catch (Exception ex)
-        {
+            //if (e.Cancelled)
+            //{
+            //    return;
+            //}
             ;
+            //this._backgroundWorker.RunWorkerAsync();
         }
-        return false;
-    }
 
-    public bool CheckAccess()
-    {
-        return this._richTextBox.CheckAccess();
-    }
-
-    public async ValueTask BeginInvoke(string? xamlParagraphText)
-    {
-        try
+        public void StartRichTextBoxLimiter()
         {
-            var beginInvokeArray = new object[3];
-            beginInvokeArray[0] = this._richTextBox;
-            beginInvokeArray[1] = xamlParagraphText;
-            beginInvokeArray[2] = this._syncRoot;
-
-            await this._richTextBox.Dispatcher.BeginInvoke(new RichTextBoxAppendTextDelegate(this.RichTextBoxAppendTextDelegateMethod), this._dispatcherPriority, beginInvokeArray);
-        }
-        catch (Exception ex)
-        {
-            ;
-        }
-    }
-
-    private void RichTextBoxAppendTextDelegateMethod(System.Windows.Controls.RichTextBox wpfRichTextBox, string xamlParagraphText, object syncRoot)
-    {
-        try
-        {
-            var parsedParagraph = (Paragraph)XamlReader.Parse(xamlParagraphText);
-            parsedParagraph.Margin = Thickness;
-
-            var flowDocument = wpfRichTextBox.Document ??= new FlowDocument();
-
-            if (flowDocument.Blocks.LastBlock is Paragraph {Inlines.Count: 0} paragraph)
+            if (!this._backgroundWorker.IsBusy)
             {
-                paragraph.Inlines.AddRange(parsedParagraph.Inlines.ToList());
-                paragraph.Margin = Thickness;
-            }
-            else
-            {
-                flowDocument.Blocks.Add(parsedParagraph);
-            }
-                
-            wpfRichTextBox.ScrollToEnd();
-
-            if (flowDocument.Blocks.Count > 1000)
-            {
-                this.StartRichTextBoxLimiter();
+                this._backgroundWorker.RunWorkerAsync();
             }
         }
-        catch (Exception)
-        {
-            ;
-        }
-    }
 
-    private static void RichTextBoxLimiterDelegateMethod(System.Windows.Controls.RichTextBox wpfRichTextBox, object? args, object syncRoot)
-    {
-        try
+        public void StopRichTextBoxLimiter()
         {
-            if (wpfRichTextBox.Document.Blocks.Count > 1000)
+            //if (!this._backgroundWorker.IsBusy)
+            //{
+                this._backgroundWorker.CancelAsync();
+            //}
+        }
+
+        private async void BackgroundWorkerOnDoWork(object? sender, DoWorkEventArgs e)
+        {
+            var helperBackgroundWorker = sender as BackgroundWorker;
+
+            e.Result = await this.BackgroundProcessLogicMethod(helperBackgroundWorker, e.Argument).ConfigureAwait(false);
+
+            if (helperBackgroundWorker.CancellationPending)
             {
-                var blocksToRemove = wpfRichTextBox.Document.Blocks.Count - 1000;
-                for (var i = 0; i < blocksToRemove; i++)
+                e.Cancel = true;
+            }
+        }
+
+        private async ValueTask<bool> BackgroundProcessLogicMethod(BackgroundWorker helperBackgroundWorker, object? arg)
+        {
+            try
+            {
+                var backgroundProcessLogicMethodArray = new object[3];
+                backgroundProcessLogicMethodArray[0] = this._richTextBox;
+                backgroundProcessLogicMethodArray[1] = arg;
+                backgroundProcessLogicMethodArray[2] = this._syncRoot;
+
+                await this._richTextBox.Dispatcher.BeginInvoke(new RichTextBoxLimiterDelegate(RichTextBoxLimiterDelegateMethod), this._dispatcherPriority, backgroundProcessLogicMethodArray);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ;
+            }
+            return false;
+        }
+
+        public bool CheckAccess()
+        {
+            return this._richTextBox.CheckAccess();
+        }
+
+        public async ValueTask BeginInvoke(string? xamlParagraphText)
+        {
+            try
+            {
+                var beginInvokeArray = new object[3];
+                beginInvokeArray[0] = this._richTextBox;
+                beginInvokeArray[1] = xamlParagraphText;
+                beginInvokeArray[2] = this._syncRoot;
+
+                await this._richTextBox.Dispatcher.BeginInvoke(new RichTextBoxAppendTextDelegate(this.RichTextBoxAppendTextDelegateMethod), this._dispatcherPriority, beginInvokeArray);
+            }
+            catch (Exception ex)
+            {
+                ;
+            }
+        }
+
+        private void RichTextBoxAppendTextDelegateMethod(System.Windows.Controls.RichTextBox wpfRichTextBox, string xamlParagraphText, object syncRoot)
+        {
+            try
+            {
+                var parsedParagraph = (Paragraph)XamlReader.Parse(xamlParagraphText);
+                parsedParagraph.Margin = Thickness;
+
+                var flowDocument = wpfRichTextBox.Document ??= new FlowDocument();
+
+                if (flowDocument.Blocks.LastBlock is Paragraph {Inlines.Count: 0} paragraph)
                 {
-                    wpfRichTextBox.Document.Blocks.Remove(wpfRichTextBox.Document.Blocks.FirstBlock);
+                    paragraph.Inlines.AddRange(parsedParagraph.Inlines.ToList());
+                    paragraph.Margin = Thickness;
+                }
+                else
+                {
+                    flowDocument.Blocks.Add(parsedParagraph);
+                }
+                
+                wpfRichTextBox.ScrollToEnd();
+
+                if (flowDocument.Blocks.Count > 1000)
+                {
+                    this.StartRichTextBoxLimiter();
                 }
             }
+            catch (Exception)
+            {
+                ;
+            }
         }
-        catch (Exception)
+
+        private static void RichTextBoxLimiterDelegateMethod(System.Windows.Controls.RichTextBox wpfRichTextBox, object? args, object syncRoot)
+        {
+            try
+            {
+                if (wpfRichTextBox.Document.Blocks.Count > 1000)
+                {
+                    var blocksToRemove = wpfRichTextBox.Document.Blocks.Count - 1000;
+                    for (var i = 0; i < blocksToRemove; i++)
+                    {
+                        wpfRichTextBox.Document.Blocks.Remove(wpfRichTextBox.Document.Blocks.FirstBlock);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                ;
+            }
+        }
+
+        public void OnCompleted()
         {
             ;
         }
-    }
 
-    public void OnCompleted()
-    {
-        ;
-    }
-
-    public void OnError(Exception error)
-    {
-        ;
-    }
-
-    public async void OnNext(LogEvent value)
-    {
-        
-        
-        try
-        {
-            await using StringWriter writer = new();
-            StringBuilder.Clear();
-            StringBuilder.Append(Paragraph1);
-
-            this._formatter?.Format(value, writer);
-            StringBuilder.Append(writer);
-
-            StringBuilder.Append(Paragraph2);
-            await this.BeginInvoke(StringBuilder.ToString()).ConfigureAwait(false);
-        }
-        catch (Exception)
+        public void OnError(Exception error)
         {
             ;
         }
-        //finally
-        //{
-        //    await writer.DisposeAsync().ConfigureAwait(false);
-        //}
+
+        public async void OnNext(LogEvent value)
+        {
+        
+        
+            try
+            {
+                await using StringWriter writer = new();
+                StringBuilder.Clear();
+                StringBuilder.Append(Paragraph1);
+
+                this._formatter?.Format(value, writer);
+                StringBuilder.Append(writer);
+
+                StringBuilder.Append(Paragraph2);
+                await this.BeginInvoke(StringBuilder.ToString()).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                ;
+            }
+            //finally
+            //{
+            //    await writer.DisposeAsync().ConfigureAwait(false);
+            //}
+        }
     }
 }

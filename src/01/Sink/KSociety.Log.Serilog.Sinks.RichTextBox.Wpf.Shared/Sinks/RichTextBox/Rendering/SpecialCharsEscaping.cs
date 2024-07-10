@@ -1,13 +1,17 @@
-﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Rendering;
-using System.Security;
+﻿// Copyright © K-Society and contributors. All rights reserved. Licensed under the K-Society License. See LICENSE.TXT file in the project root for full license information.
 
-internal static class SpecialCharsEscaping
+namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Rendering
 {
-    public static string? Apply(string? value, ref int invisibleCharacterCount)
-    {
-        var escapedValue = SecurityElement.Escape(value) ?? System.String.Empty;
-        invisibleCharacterCount += escapedValue.Length - value.Length;
+    using System.Security;
 
-        return escapedValue;
+    internal static class SpecialCharsEscaping
+    {
+        public static string? Apply(string? value, ref int invisibleCharacterCount)
+        {
+            var escapedValue = SecurityElement.Escape(value) ?? System.String.Empty;
+            invisibleCharacterCount += escapedValue.Length - value.Length;
+
+            return escapedValue;
+        }
     }
 }

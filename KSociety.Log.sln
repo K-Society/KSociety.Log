@@ -85,7 +85,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.Serilog.Sinks.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventBus", "EventBus", "{E8E04E6B-F588-4789-A8F0-8329997B4B68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSociety.Log.EventBus", "src\01\EventBus\KSociety.Log.EventBus\KSociety.Log.EventBus.csproj", "{28B5665E-455A-42EC-8170-FDBF83496ED3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSociety.Log.EventBus", "src\01\EventBus\KSociety.Log.EventBus\KSociety.Log.EventBus.csproj", "{28B5665E-455A-42EC-8170-FDBF83496ED3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

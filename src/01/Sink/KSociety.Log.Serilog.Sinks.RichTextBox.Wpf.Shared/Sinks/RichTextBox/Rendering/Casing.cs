@@ -1,21 +1,24 @@
-﻿namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Rendering;
+﻿// Copyright © K-Society and contributors. All rights reserved. Licensed under the K-Society License. See LICENSE.TXT file in the project root for full license information.
 
-internal static class Casing
+namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Rendering
 {
-    /// <summary>
-    /// Apply upper or lower casing to <paramref name="value"/> when <paramref name="format"/> is provided.
-    /// Returns <paramref name="value"/> when no or invalid format provided.
-    /// </summary>
-    /// <param name="value">Provided string for formatting.</param>
-    /// <param name="format">Format string.</param>
-    /// <returns>The provided <paramref name="value"/> with formatting applied.</returns>
-    public static string Format(string value, string? format = null)
+    internal static class Casing
     {
-        return format switch
+        /// <summary>
+        /// Apply upper or lower casing to <paramref name="value"/> when <paramref name="format"/> is provided.
+        /// Returns <paramref name="value"/> when no or invalid format provided.
+        /// </summary>
+        /// <param name="value">Provided string for formatting.</param>
+        /// <param name="format">Format string.</param>
+        /// <returns>The provided <paramref name="value"/> with formatting applied.</returns>
+        public static string Format(string value, string? format = null)
         {
-            "u" => value.ToUpperInvariant(),
-            "w" => value.ToLowerInvariant(),
-            _ => value
-        };
+            return format switch
+            {
+                "u" => value.ToUpperInvariant(),
+                "w" => value.ToLowerInvariant(),
+                _ => value
+            };
+        }
     }
 }

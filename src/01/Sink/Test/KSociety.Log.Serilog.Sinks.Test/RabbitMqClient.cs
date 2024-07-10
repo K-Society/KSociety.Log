@@ -1,17 +1,4 @@
-﻿//using Microsoft.Extensions.Logging;
-//using RabbitMQ.Client;
-//using RabbitMQ.Client.Events;
-//using RabbitMQ.Client.Exceptions;
-//using Std.EventBus;
-//using Std.EventBus.Abstractions.EventBus;
-//using Std.EventBusRabbitMQ;
-//using Std.Serilog.Sinks.RabbitMq.Sinks.RabbitMq;
-//using System;
-//using System.Linq;
-//using System.Text;
-//using System.Threading;
-//using System.Threading.Tasks;
-//using Xunit;
+﻿// Copyright © K-Society and contributors. All rights reserved. Licensed under the K-Society License. See LICENSE.TXT file in the project root for full license information.
 
 //namespace Std.ComDriver.Test
 //{

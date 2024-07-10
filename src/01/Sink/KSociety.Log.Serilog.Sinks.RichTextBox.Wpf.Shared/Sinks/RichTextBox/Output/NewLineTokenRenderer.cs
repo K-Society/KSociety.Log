@@ -1,30 +1,34 @@
-namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
-using System;
-using System.IO;
-using Rendering;
-using global::Serilog.Events;
-using global::Serilog.Parsing;
+// Copyright © K-Society and contributors. All rights reserved. Licensed under the K-Society License. See LICENSE.TXT file in the project root for full license information.
 
-internal class NewLineTokenRenderer : OutputTemplateTokenRenderer
+namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output
 {
-    private readonly Alignment? _alignment;
+    using System;
+    using System.IO;
+    using Rendering;
+    using global::Serilog.Events;
+    using global::Serilog.Parsing;
 
-    public NewLineTokenRenderer(Alignment? alignment)
+    internal class NewLineTokenRenderer : OutputTemplateTokenRenderer
     {
-        this._alignment = alignment;
-    }
+        private readonly Alignment? _alignment;
 
-    public override void Render(LogEvent logEvent, TextWriter output)
-    {
-        if (this._alignment.HasValue)
+        public NewLineTokenRenderer(Alignment? alignment)
         {
-            Padding.Apply(output, Environment.NewLine, this._alignment.Value.Widen(Environment.NewLine.Length));
+            this._alignment = alignment;
         }
-        else
-        {
 
-            //output.WriteLine();
-            output.Write(String.Empty);
+        public override void Render(LogEvent logEvent, TextWriter output)
+        {
+            if (this._alignment.HasValue)
+            {
+                Padding.Apply(output, Environment.NewLine, this._alignment.Value.Widen(Environment.NewLine.Length));
+            }
+            else
+            {
+
+                //output.WriteLine();
+                output.Write(String.Empty);
+            }
         }
     }
 }

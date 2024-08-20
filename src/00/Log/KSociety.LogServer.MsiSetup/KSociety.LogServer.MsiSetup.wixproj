@@ -1,13 +1,13 @@
-<Project Sdk="WixToolset.Sdk/5.0.0">
+<Project Sdk="WixToolset.Sdk/5.0.1">
   <PropertyGroup>
     <Cultures>en-US</Cultures>
     <OutputName>KSociety.LogServer</OutputName>
     <NetVersion>net8.0</NetVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="WixToolset.Firewall.wixext" Version="5.0.0" />
-    <PackageReference Include="WixToolset.Heat" Version="5.0.0" />
-    <PackageReference Include="WixToolset.UI.wixext" Version="5.0.0" />
+    <PackageReference Include="WixToolset.Firewall.wixext" Version="5.0.1" />
+    <PackageReference Include="WixToolset.Heat" Version="5.0.1" />
+    <PackageReference Include="WixToolset.UI.wixext" Version="5.0.1" />
   </ItemGroup>
   <Target Name="CustomBeforeBuild" BeforeTargets="BeforeBuild" DependsOnTargets="GetBuildVersion">
     <CreateProperty Value="$(OutputName)-$(BuildVersion3Components)-$(NetVersion)">

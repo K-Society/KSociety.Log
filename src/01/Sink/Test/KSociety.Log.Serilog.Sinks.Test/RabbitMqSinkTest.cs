@@ -1,4 +1,4 @@
-﻿// Copyright © K-Society and contributors. All rights reserved. Licensed under the K-Society License. See LICENSE.TXT file in the project root for full license information.
+// Copyright © K-Society and contributors. All rights reserved. Licensed under the K-Society License. See LICENSE.TXT file in the project root for full license information.
 
 namespace KSociety.Log.Serilog.Sinks.Test
 {
@@ -22,25 +22,12 @@ namespace KSociety.Log.Serilog.Sinks.Test
     [Collection("Sequential")]
     public sealed class RabbitMqSinkTest : IDisposable
     {
-        //Std.Serilog.Sinks.RabbitMq.ProtoModel.Configuration.ProtoBufConfiguration();
         private const string QueueName = "LogQueueDriver";
         private const string HostName = "localhost";
 
         private readonly Logger logger = new LoggerConfiguration()
             .WriteTo.RabbitMq((connectionFactory, exchangeDeclareParameters, queueDeclareParameters, sinkConfiguration) =>
             {
-                //clientConfiguration.Port = 5672;
-                //clientConfiguration.DeliveryMode = RabbitMqDeliveryMode.NonDurable;
-                //clientConfiguration.Exchange = "k-society_log_test";
-                //clientConfiguration.Username = "KSociety";
-                //clientConfiguration.Password = "KSociety";
-                //clientConfiguration.ExchangeType = "fanout";
-                //clientConfiguration.Hostnames.Add(HostName);
-
-                //AutomaticRecoveryEnabled = true,
-                //NetworkRecoveryInterval = TimeSpan.FromSeconds(10),
-                //RequestedHeartbeat = TimeSpan.FromSeconds(10),
-                //DispatchConsumersAsync = true
 
                 connectionFactory.HostName = HostName;
                 connectionFactory.UserName = "KSociety";

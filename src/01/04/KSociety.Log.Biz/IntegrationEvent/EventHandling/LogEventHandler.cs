@@ -11,13 +11,11 @@ namespace KSociety.Log.Biz.IntegrationEvent.EventHandling
 
     public class LogEventHandler : IntegrationEventHandler<WriteLogEvent>
     {
-        private readonly ILoggerFactory _loggerFactory;
-
         public LogEventHandler(
             ILoggerFactory loggerFactory
         ) : base ( loggerFactory )
         {
-            this._loggerFactory = loggerFactory;
+
         }
 
         public override async ValueTask Handle(WriteLogEvent @event, CancellationToken cancellationToken = default)
@@ -26,7 +24,7 @@ namespace KSociety.Log.Biz.IntegrationEvent.EventHandling
             {
                 try
                 {
-                    var logger = this._loggerFactory.CreateLogger(@event.LoggerName);
+                    var logger = this.LoggerFactory.CreateLogger(@event.LoggerName);
                     logger.Log((LogLevel)@event.Level, @event.Message);
                 }
                 catch (Exception ex)

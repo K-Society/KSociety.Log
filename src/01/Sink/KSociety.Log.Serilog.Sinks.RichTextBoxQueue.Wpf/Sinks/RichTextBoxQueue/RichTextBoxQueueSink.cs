@@ -5,7 +5,9 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
     using System.Threading.Tasks.Dataflow;
     using System.Windows.Threading;
@@ -16,8 +18,11 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
     using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Output;
     using KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Themes;
 
-    public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEventSink, IDisposable
+    public sealed class RichTextBoxQueueSink : IRichTextBoxQueueSink, IBatchedLogEventSink, IDisposable, IAsyncDisposable
     {
+        private const int DisposedFlag = 1;
+        private int _isDisposed;
+
         private const string DefaultRichTextBoxOutputTemplate = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
         //private const string DefaultRichTextBoxOutputTemplate = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{Exception}";
         private static readonly object DefaultSyncRoot = new();
@@ -61,16 +66,6 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
             this._observer = this._observable.Subscribe(this._richTextBox);
         }
 
-        public void Dispose()
-        {
-            if (this._richTextBox != null)
-            {
-                this._richTextBox?.StopRichTextBoxLimiter();
-            }
-            this._queue.Complete();
-            this._observer.Dispose();
-        }
-
         public async Task EmitBatchAsync(IEnumerable<LogEvent> batch)
         {
             try
@@ -92,5 +87,97 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
         {
             return Task.CompletedTask;
         }
+
+        #region [Dispose]
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Dispose is implemented correctly, FxCop just doesn't see it.")]
+        public void Dispose()
+        {
+            var wasDisposed = Interlocked.Exchange(ref this._isDisposed, DisposedFlag);
+            if (wasDisposed == DisposedFlag)
+            {
+                return;
+            }
+
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        private void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // Free any other managed objects here.
+                if (this._richTextBox != null)
+                {
+                    this._richTextBox.StopRichTextBoxLimiter();
+                }
+
+                if (this._observer != null)
+                {
+                    this._observer.Dispose();
+                }
+
+                if (this._queue != null)
+                {
+                    this._queue.Complete();
+                }     
+            }
+
+            // Free any unmanaged objects here.
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the current instance has been disposed.
+        /// </summary>
+        public bool IsDisposed
+        {
+            get
+            {
+                Interlocked.MemoryBarrier();
+                return this._isDisposed == DisposedFlag;
+            }
+        }
+
+        /// <inheritdoc/>
+        [SuppressMessage(
+            "Usage",
+            "CA1816:Dispose methods should call SuppressFinalize", Justification = "DisposeAsync should also call SuppressFinalize (see various .NET internal implementations).")]
+        public ValueTask DisposeAsync()
+        {
+            // Still need to check if we've already disposed; can't do both.
+            var wasDisposed = Interlocked.Exchange(ref this._isDisposed, DisposedFlag);
+            if (wasDisposed != DisposedFlag)
+            {
+                GC.SuppressFinalize(this);
+
+                // Always true, but means we get the similar syntax as Dispose,
+                // and separates the two overloads.
+                return this.DisposeAsync(true);
+            }
+
+            return default;
+        }
+
+        /// <summary>
+        ///  Releases unmanaged and - optionally - managed resources, asynchronously.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        private ValueTask DisposeAsync(bool disposing)
+        {
+            // Default implementation does a synchronous dispose.
+            this.Dispose(disposing);
+
+            return default;
+        }
+
+        #endregion
     }
 }

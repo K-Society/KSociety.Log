@@ -72,10 +72,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Ab
 
         public void StopRichTextBoxLimiter()
         {
-            //if (!this._backgroundWorker.IsBusy)
-            //{
-                this._backgroundWorker?.CancelAsync();
-            //}
+            this._backgroundWorker?.CancelAsync();
         }
 
         private async void BackgroundWorkerOnDoWork(object? sender, DoWorkEventArgs e)

@@ -63,7 +63,10 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
 
         public void Dispose()
         {
-            this._richTextBox?.StopRichTextBoxLimiter();
+            if (this._richTextBox != null)
+            {
+                this._richTextBox?.StopRichTextBoxLimiter();
+            }
             this._queue.Complete();
             this._observer.Dispose();
         }

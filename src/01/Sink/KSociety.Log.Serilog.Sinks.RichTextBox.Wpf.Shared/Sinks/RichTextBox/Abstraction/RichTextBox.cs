@@ -74,7 +74,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Ab
         {
             //if (!this._backgroundWorker.IsBusy)
             //{
-                this._backgroundWorker.CancelAsync();
+                this._backgroundWorker?.CancelAsync();
             //}
         }
 

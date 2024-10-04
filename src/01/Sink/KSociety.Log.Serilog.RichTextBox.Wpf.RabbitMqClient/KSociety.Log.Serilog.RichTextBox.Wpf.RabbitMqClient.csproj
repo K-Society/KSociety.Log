@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\EventBus\KSociety.Log.EventBus\KSociety.Log.EventBus.csproj" />
     <ProjectReference Include="..\KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared\KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.csproj" />
   </ItemGroup>
 

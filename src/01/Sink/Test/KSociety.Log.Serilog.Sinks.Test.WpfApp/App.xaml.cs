@@ -106,7 +106,7 @@ namespace KSociety.Log.Serilog.Sinks.Test.WpfApp
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            if (ProcessUtil.PriorProcess() != null)
+            if (ProcessUtil.PriorProcess() == null)
             {
                 var messageBoxText = @"Another instance of the app is already running.";
                 var caption = "Conflicting instance";
@@ -114,7 +114,7 @@ namespace KSociety.Log.Serilog.Sinks.Test.WpfApp
                 var icon = MessageBoxImage.Warning;
 
                 var result = MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.OK);
-                Current.Shutdown();
+                Current.Shutdown(-1);
                 return;
             }
 

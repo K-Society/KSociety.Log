@@ -12,7 +12,7 @@ namespace KSociety.Log.EventBus
         public LogSubscriber(
             ILoggerFactory loggerFactory,
             IConnectionFactory connectionFactory,
-            IEventBusLogParameters eventBusParameters, int eventBusNumber, bool dispatchConsumersAsync) : base(loggerFactory, connectionFactory, eventBusParameters, eventBusNumber, dispatchConsumersAsync)
+            IEventBusLogParameters eventBusParameters, int eventBusNumber) : base(loggerFactory, connectionFactory, eventBusParameters, eventBusNumber)
         {
 
         }
@@ -20,9 +20,9 @@ namespace KSociety.Log.EventBus
         public LogSubscriber(
             IConnectionFactory connectionFactory,
             IEventBusLogParameters eventBusParameters,
-            int eventBusNumber, bool dispatchConsumersAsync,
+            int eventBusNumber,
             ILogger<EventBusRabbitMq> loggerEventBusRabbitMq = default,
-            ILogger<DefaultRabbitMqPersistentConnection> loggerDefaultRabbitMqPersistentConnection = default) : base(connectionFactory, eventBusParameters, eventBusNumber, dispatchConsumersAsync, loggerEventBusRabbitMq, loggerDefaultRabbitMqPersistentConnection)
+            ILogger<DefaultRabbitMqPersistentConnection> loggerDefaultRabbitMqPersistentConnection = default) : base(connectionFactory, eventBusParameters, eventBusNumber, loggerEventBusRabbitMq, loggerDefaultRabbitMqPersistentConnection)
         {
 
         }
@@ -30,15 +30,15 @@ namespace KSociety.Log.EventBus
         public LogSubscriber(
             ILoggerFactory loggerFactory,
             IRabbitMqPersistentConnection persistentConnection,
-            IEventBusLogParameters eventBusParameters, int eventBusNumber, bool dispatchConsumersAsync) : base(loggerFactory, persistentConnection, eventBusParameters, eventBusNumber, dispatchConsumersAsync)
+            IEventBusLogParameters eventBusParameters, int eventBusNumber) : base(loggerFactory, persistentConnection, eventBusParameters, eventBusNumber)
         {
 
         }
 
         public LogSubscriber(
             IRabbitMqPersistentConnection persistentConnection,
-            IEventBusLogParameters eventBusParameters, int eventBusNumber, bool dispatchConsumersAsync,
-            ILogger<EventBusRabbitMq> loggerEventBusRabbitMq = default) : base(persistentConnection, eventBusParameters, eventBusNumber, dispatchConsumersAsync, loggerEventBusRabbitMq)
+            IEventBusLogParameters eventBusParameters, int eventBusNumber,
+            ILogger<EventBusRabbitMq> loggerEventBusRabbitMq = default) : base(persistentConnection, eventBusParameters, eventBusNumber, loggerEventBusRabbitMq)
         {
 
         }

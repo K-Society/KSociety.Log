@@ -18,13 +18,12 @@ namespace KSociety.Log.EventBus
     {
         public MessageBroker(
             int eventBusNumber,
-            bool dispatchConsumersAsync,
             string brokerName, Base.EventBus.ExchangeType exchangeType,
             bool exchangeDurable, bool exchangeAutoDelete,
             string mqHostName, string mqUserName, string mqPassword, bool debug,
             bool queueDurable,
             bool queueExclusive,
-            bool queueAutoDelete) : base(eventBusNumber, dispatchConsumersAsync, brokerName, exchangeType, exchangeDurable, exchangeAutoDelete, mqHostName, mqUserName, mqPassword, debug, queueDurable, queueExclusive, queueAutoDelete)
+            bool queueAutoDelete) : base(eventBusNumber, brokerName, exchangeType, exchangeDurable, exchangeAutoDelete, mqHostName, mqUserName, mqPassword, debug, queueDurable, queueExclusive, queueAutoDelete)
         {
 
         }

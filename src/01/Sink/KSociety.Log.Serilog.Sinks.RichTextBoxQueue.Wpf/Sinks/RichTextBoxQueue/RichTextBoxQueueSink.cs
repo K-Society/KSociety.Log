@@ -114,21 +114,28 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.Sinks.RichTextBoxQueue
         {
             if (disposing)
             {
-                // Free any other managed objects here.
-                if (this._richTextBox != null)
+                try
                 {
-                    this._richTextBox.StopRichTextBoxLimiter();
-                }
+                    // Free any other managed objects here.
+                    if (this._richTextBox != null)
+                    {
+                        this._richTextBox.StopRichTextBoxLimiter();
+                    }
 
-                if (this._observer != null)
-                {
-                    this._observer.Dispose();
-                }
+                    if (this._observer != null)
+                    {
+                        this._observer.Dispose();
+                    }
 
-                if (this._queue != null)
+                    if (this._queue != null)
+                    {
+                        this._queue.Complete();
+                    }
+                }
+                catch
                 {
-                    this._queue.Complete();
-                }     
+
+                }
             }
 
             // Free any unmanaged objects here.

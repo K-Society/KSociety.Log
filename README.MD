@@ -8,7 +8,7 @@
 ## Introduction
 
 This is the README file for KSociety.Log.
-KSociety.Log is a .NET 6.0, .NET 7.0 and .NET 8.0 centralized log system, to work properly it needs [RabbitMQ](https://github.com/K-Society/KSociety.RabbitMQ.Install/releases).
+KSociety.Log is a .NET 8.0 centralized log system, to work properly it needs [RabbitMQ](https://github.com/K-Society/KSociety.RabbitMQ.Install/releases).
 
 ### Examples
 
@@ -164,7 +164,7 @@ The project is under Microsoft Reciprocal License [(MS-RL)](http://www.opensourc
 
 List of technologies, frameworks and libraries used for implementation:
 
-- [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0) [.NET 7](https://dotnet.microsoft.com/download/dotnet/7.0)(platform). Note for Visual Studio users: **VS 2022** is required.
+- [.NET 8](https://dotnet.microsoft.com/download/dotnet/8.0)(platform). Note for Visual Studio users: **VS 2022** is required.
 - [Autofac](https://autofac.org/) (Inversion of Control Container)
 - [protobuf-net](https://github.com/protobuf-net/protobuf-net) (protobuf-net is a contract based serializer for .NET code)
 - [RabbitMQ.Client](https://www.rabbitmq.com/dotnet.html) (The RabbitMQ .NET client is an implementation of an AMQP 0-9-1 client library for C#)

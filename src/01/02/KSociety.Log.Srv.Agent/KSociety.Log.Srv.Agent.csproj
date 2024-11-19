@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KSociety.Base.Srv.Agent" Version="1.4.13" />
+    <PackageReference Include="KSociety.Base.Srv.Agent" Version="1.4.15" />
   </ItemGroup>
 
   <ItemGroup>

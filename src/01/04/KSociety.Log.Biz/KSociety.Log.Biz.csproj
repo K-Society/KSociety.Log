@@ -11,6 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="KSociety.Base.EventBusRabbitMQ" Version="1.4.15" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\EventBus\KSociety.Log.EventBus\KSociety.Log.EventBus.csproj" />
     <ProjectReference Include="..\KSociety.Log.Biz.Event\KSociety.Log.Biz.Event.csproj" />
   </ItemGroup>

@@ -12,7 +12,8 @@ namespace KSociety.Log.EventBus
         public LogSubscriber(
             ILoggerFactory loggerFactory,
             IConnectionFactory connectionFactory,
-            IEventBusLogParameters eventBusParameters, int eventBusNumber) : base(loggerFactory, connectionFactory, eventBusParameters, eventBusNumber)
+            IEventBusLogParameters eventBusParameters, int eventBusNumber, bool purgeQueue = false)
+            : base(loggerFactory, connectionFactory, eventBusParameters, eventBusNumber, purgeQueue)
         {
 
         }
@@ -22,7 +23,8 @@ namespace KSociety.Log.EventBus
             IEventBusLogParameters eventBusParameters,
             int eventBusNumber,
             ILogger<EventBusRabbitMq> loggerEventBusRabbitMq = default,
-            ILogger<DefaultRabbitMqPersistentConnection> loggerDefaultRabbitMqPersistentConnection = default) : base(connectionFactory, eventBusParameters, eventBusNumber, loggerEventBusRabbitMq, loggerDefaultRabbitMqPersistentConnection)
+            ILogger<DefaultRabbitMqPersistentConnection> loggerDefaultRabbitMqPersistentConnection = default, bool purgeQueue = false)
+            : base(connectionFactory, eventBusParameters, eventBusNumber, loggerEventBusRabbitMq, loggerDefaultRabbitMqPersistentConnection, purgeQueue)
         {
 
         }
@@ -30,7 +32,8 @@ namespace KSociety.Log.EventBus
         public LogSubscriber(
             ILoggerFactory loggerFactory,
             IRabbitMqPersistentConnection persistentConnection,
-            IEventBusLogParameters eventBusParameters, int eventBusNumber) : base(loggerFactory, persistentConnection, eventBusParameters, eventBusNumber)
+            IEventBusLogParameters eventBusParameters, int eventBusNumber, bool purgeQueue = false)
+            : base(loggerFactory, persistentConnection, eventBusParameters, eventBusNumber, purgeQueue)
         {
 
         }
@@ -38,7 +41,8 @@ namespace KSociety.Log.EventBus
         public LogSubscriber(
             IRabbitMqPersistentConnection persistentConnection,
             IEventBusLogParameters eventBusParameters, int eventBusNumber,
-            ILogger<EventBusRabbitMq> loggerEventBusRabbitMq = default) : base(persistentConnection, eventBusParameters, eventBusNumber, loggerEventBusRabbitMq)
+            ILogger<EventBusRabbitMq> loggerEventBusRabbitMq = default, bool purgeQueue = false)
+            : base(persistentConnection, eventBusParameters, eventBusNumber, loggerEventBusRabbitMq, purgeQueue)
         {
 
         }

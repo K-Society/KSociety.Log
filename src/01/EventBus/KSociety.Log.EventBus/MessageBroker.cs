@@ -21,9 +21,10 @@ namespace KSociety.Log.EventBus
             string brokerName, Base.EventBus.ExchangeType exchangeType,
             bool exchangeDurable, bool exchangeAutoDelete,
             string mqHostName, string mqUserName, string mqPassword, bool debug,
+            bool purgeQueue,
             bool queueDurable,
             bool queueExclusive,
-            bool queueAutoDelete) : base(eventBusNumber, brokerName, exchangeType, exchangeDurable, exchangeAutoDelete, mqHostName, mqUserName, mqPassword, debug, queueDurable, queueExclusive, queueAutoDelete)
+            bool queueAutoDelete) : base(eventBusNumber, brokerName, exchangeType, exchangeDurable, exchangeAutoDelete, mqHostName, mqUserName, mqPassword, debug, purgeQueue, queueDurable, queueExclusive, queueAutoDelete)
         {
 
         }

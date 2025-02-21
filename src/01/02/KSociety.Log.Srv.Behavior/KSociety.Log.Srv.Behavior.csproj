@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KSociety.Base.Srv.Shared" Version="1.4.25" />
+    <PackageReference Include="KSociety.Base.Srv.Shared" Version="1.4.30" />
   </ItemGroup>
 
   <ItemGroup>

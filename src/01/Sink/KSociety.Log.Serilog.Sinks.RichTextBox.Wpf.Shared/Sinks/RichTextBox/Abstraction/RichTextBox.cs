@@ -32,10 +32,6 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Ab
 
         private delegate void RichTextBoxLimiterDelegate(System.Windows.Controls.RichTextBox wpfRichTextBox, object? args, object syncRoot);
 
-        //private readonly object[] _backgroundProcessLogicMethodArray;
-        //private readonly object[] _beginInvokeArray;
-        //private readonly StringWriter _writer = new();
-
         public RichTextBox(System.Windows.Controls.RichTextBox? richTextBox, ITextFormatter? formatter, DispatcherPriority dispatcherPriority, object syncRoot)
         {
             this._richTextBox = richTextBox ?? throw new ArgumentNullException(nameof(richTextBox));
@@ -43,9 +39,6 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Ab
             this._syncRoot = syncRoot;
             this._dispatcherPriority = dispatcherPriority;
 
-
-            //this._backgroundProcessLogicMethodArray = new object[3];
-            //this._beginInvokeArray = new object[3];
             this._backgroundWorker = new BackgroundWorker();
 
             this._backgroundWorker.DoWork += this.BackgroundWorkerOnDoWork;
@@ -54,12 +47,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Ab
 
         private void BackgroundWorkerOnRunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
         {
-            //if (e.Cancelled)
-            //{
-            //    return;
-            //}
-            ;
-            //this._backgroundWorker.RunWorkerAsync();
+
         }
 
         public void StartRichTextBoxLimiter()
@@ -99,7 +87,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Ab
                 await this._richTextBox.Dispatcher.BeginInvoke(new RichTextBoxLimiterDelegate(RichTextBoxLimiterDelegateMethod), this._dispatcherPriority, backgroundProcessLogicMethodArray);
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ;
             }
@@ -122,7 +110,7 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Ab
 
                 await this._richTextBox.Dispatcher.BeginInvoke(new RichTextBoxAppendTextDelegate(this.RichTextBoxAppendTextDelegateMethod), this._dispatcherPriority, beginInvokeArray);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ;
             }
@@ -209,10 +197,6 @@ namespace KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.Sinks.RichTextBox.Ab
             {
                 ;
             }
-            //finally
-            //{
-            //    await writer.DisposeAsync().ConfigureAwait(false);
-            //}
         }
     }
 }

@@ -4,14 +4,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <!--<GeneratePackageOnBuild>true</GeneratePackageOnBuild>-->
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KSociety.Base.EventBusRabbitMQ" Version="1.4.34" />
+    <PackageReference Include="KSociety.Base.EventBusRabbitMQ" Version="1.5.5" />
   </ItemGroup>
 
   <ItemGroup>

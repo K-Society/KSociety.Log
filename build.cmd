@@ -19,17 +19,17 @@ msbuild src\01\02\Host\KSociety.Log.Srv.Host\KSociety.Log.Srv.Host.csproj -t:Pub
 
 REM WiX
 
-msbuild src\00\Log\KSociety.LogServer.MsiSetup\KSociety.LogServer.MsiSetup.wixproj -t:clean;restore -p:Configuration=%_C% -p:NetVersion=%1 || exit /b
+REM msbuild src\00\Log\KSociety.LogServer.MsiSetup\KSociety.LogServer.MsiSetup.wixproj -t:clean;restore -p:Configuration=%_C% -p:NetVersion=%1 || exit /b
 
-msbuild src\00\Log\KSociety.LogServer.MsiSetup\KSociety.LogServer.MsiSetup.wixproj -p:Configuration=%_C% -p:NetVersion=%1 -p:OutputPath=%_P%\KSociety.LogServer.MsiSetup\bin\%_C%\%1\ || exit /b
+REM msbuild src\00\Log\KSociety.LogServer.MsiSetup\KSociety.LogServer.MsiSetup.wixproj -p:Configuration=%_C% -p:NetVersion=%1 -p:OutputPath=%_P%\KSociety.LogServer.MsiSetup\bin\%_C%\%1\ || exit /b
 
-msbuild src\00\Log\KSociety.LogWebApp.MsiSetup\KSociety.LogWebApp.MsiSetup.wixproj -t:clean;restore -p:Configuration=%_C% -p:NetVersion=%1 || exit /b
+REM msbuild src\00\Log\KSociety.LogWebApp.MsiSetup\KSociety.LogWebApp.MsiSetup.wixproj -t:clean;restore -p:Configuration=%_C% -p:NetVersion=%1 || exit /b
 
-msbuild src\00\Log\KSociety.LogWebApp.MsiSetup\KSociety.LogWebApp.MsiSetup.wixproj -p:Configuration=%_C% -p:NetVersion=%1 -p:OutputPath=%_P%\KSociety.LogWebApp.MsiSetup\bin\%_C%\%1\ || exit /b
+REM msbuild src\00\Log\KSociety.LogWebApp.MsiSetup\KSociety.LogWebApp.MsiSetup.wixproj -p:Configuration=%_C% -p:NetVersion=%1 -p:OutputPath=%_P%\KSociety.LogWebApp.MsiSetup\bin\%_C%\%1\ || exit /b
 
-msbuild src\00\Log\KSociety.Log.Install\KSociety.Log.Install.wixproj -t:clean;restore -p:Configuration=%_C% -p:NetVersion=%1 || exit /b
+REM msbuild src\00\Log\KSociety.Log.Install\KSociety.Log.Install.wixproj -t:clean;restore -p:Configuration=%_C% -p:NetVersion=%1 || exit /b
 
-msbuild src\00\Log\KSociety.Log.Install\KSociety.Log.Install.wixproj -p:Configuration=%_C% -p:NetVersion=%1 -p:OutputPath=%_P%\KSociety.Log.Install\bin\%_C%\%1\ || exit /b
+REM msbuild src\00\Log\KSociety.Log.Install\KSociety.Log.Install.wixproj -p:Configuration=%_C% -p:NetVersion=%1 -p:OutputPath=%_P%\KSociety.Log.Install\bin\%_C%\%1\ || exit /b
 
 goto LExit
 

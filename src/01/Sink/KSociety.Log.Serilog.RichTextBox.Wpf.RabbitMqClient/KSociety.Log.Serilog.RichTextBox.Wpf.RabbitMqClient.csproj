@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KSociety.Base.EventBusRabbitMQ" Version="1.5.5" />
+    <PackageReference Include="KSociety.Base.EventBusRabbitMQ" Version="1.5.9" />
     <PackageReference Include="Serilog.Sinks.PeriodicBatching" Version="5.0.0" />
   </ItemGroup>
 

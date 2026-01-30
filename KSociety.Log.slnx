@@ -1,0 +1,69 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="ARM64" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/00. Installer/" />
+  <Folder Name="/00. Installer/Log/" />
+  <Folder Name="/01. Infrastructure Sub Layer/" />
+  <Folder Name="/01. Infrastructure Sub Layer/01. Presentation Layer/" />
+  <Folder Name="/01. Infrastructure Sub Layer/01. Presentation Layer/Web/">
+    <Project Path="src/01/01/Web/KSociety.Log.Pre.Web.App/KSociety.Log.Pre.Web.App.csproj">
+      <Build Project="false" />
+    </Project>
+  </Folder>
+  <Folder Name="/01. Infrastructure Sub Layer/02. Service Layer/">
+    <Project Path="src/01/02/KSociety.Log.Srv.Agent/KSociety.Log.Srv.Agent.csproj" />
+    <Project Path="src/01/02/KSociety.Log.Srv.Behavior/KSociety.Log.Srv.Behavior.csproj" />
+    <Project Path="src/01/02/KSociety.Log.Srv.Contract/KSociety.Log.Srv.Contract.csproj" />
+    <Project Path="src/01/02/KSociety.Log.Srv.Dto/KSociety.Log.Srv.Dto.csproj" />
+  </Folder>
+  <Folder Name="/01. Infrastructure Sub Layer/02. Service Layer/Host/">
+    <Project Path="src/01/02/Host/KSociety.Log.Srv.Host/KSociety.Log.Srv.Host.csproj">
+      <Build Solution="*|Any CPU" Project="false" />
+      <Build Solution="*|x64" Project="false" />
+      <Build Solution="*|x86" Project="false" />
+    </Project>
+  </Folder>
+  <Folder Name="/01. Infrastructure Sub Layer/03. Application Layer/">
+    <Project Path="src/01/03/KSociety.Log.App.Dto/KSociety.Log.App.Dto.csproj" />
+    <Project Path="src/01/03/KSociety.Log.App.ReqHdlr/KSociety.Log.App.ReqHdlr.csproj" />
+  </Folder>
+  <Folder Name="/01. Infrastructure Sub Layer/04. Business Layer/">
+    <Project Path="src/01/04/KSociety.Log.Biz.Event/KSociety.Log.Biz.Event.csproj" />
+    <Project Path="src/01/04/KSociety.Log.Biz/KSociety.Log.Biz.csproj" />
+  </Folder>
+  <Folder Name="/01. Infrastructure Sub Layer/05. Domain Layer/" />
+  <Folder Name="/01. Infrastructure Sub Layer/06. Infrastructure Layer/" />
+  <Folder Name="/01. Infrastructure Sub Layer/EventBus/">
+    <Project Path="src/01/EventBus/KSociety.Log.EventBus/KSociety.Log.EventBus.csproj" />
+  </Folder>
+  <Folder Name="/01. Infrastructure Sub Layer/Sink/">
+    <Project Path="src/01/Sink/KSociety.Log.Serilog.RichTextBox.Wpf.RabbitMqClient/KSociety.Log.Serilog.RichTextBox.Wpf.RabbitMqClient.csproj" />
+    <Project Path="src/01/Sink/KSociety.Log.Serilog.Sinks.Grpc/KSociety.Log.Serilog.Sinks.Grpc.csproj" />
+    <Project Path="src/01/Sink/KSociety.Log.Serilog.Sinks.RabbitMq/KSociety.Log.Serilog.Sinks.RabbitMq.csproj" />
+    <Project Path="src/01/Sink/KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared/KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.Shared.csproj" />
+    <Project Path="src/01/Sink/KSociety.Log.Serilog.Sinks.RichTextBox.Wpf/KSociety.Log.Serilog.Sinks.RichTextBox.Wpf.csproj" />
+    <Project Path="src/01/Sink/KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf/KSociety.Log.Serilog.Sinks.RichTextBoxQueue.Wpf.csproj" />
+    <Project Path="src/01/Sink/KSociety.Log.Serilog.Sinks.SignalR/KSociety.Log.Serilog.Sinks.SignalR.csproj" />
+    <Project Path="src/01/Sink/KSociety.Log.Serilog.Sinks.XUnit/KSociety.Log.Serilog.Sinks.XUnit.csproj" />
+  </Folder>
+  <Folder Name="/01. Infrastructure Sub Layer/Sink/Test/">
+    <Project Path="src/01/Sink/Test/KSociety.Log.Serilog.Sinks.Test.WpfApp/KSociety.Log.Serilog.Sinks.Test.WpfApp.csproj">
+      <Build Solution="Release|Any CPU" Project="false" />
+      <Build Solution="Release|x64" Project="false" />
+    </Project>
+    <Project Path="src/01/Sink/Test/KSociety.Log.Serilog.Sinks.Test/KSociety.Log.Serilog.Sinks.Test.csproj">
+      <Build Solution="Release|Any CPU" Project="false" />
+      <Build Solution="Release|x64" Project="false" />
+    </Project>
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="build.cmd" />
+    <File Path="global.json" />
+    <File Path="README.MD" />
+    <File Path="version.json" />
+  </Folder>
+</Solution>

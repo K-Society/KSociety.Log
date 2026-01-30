@@ -1,4 +1,4 @@
-// Copyright © K-Society and contributors. All rights reserved. Licensed under the K-Society License. See LICENSE.TXT file in the project root for full license information.
+// Copyright Â© K-Society and contributors. All rights reserved. Licensed under the K-Society License. See LICENSE.TXT file in the project root for full license information.
 
 namespace KSociety.Log.Serilog.Sinks.XUnit.Sinks.XUnit
 {
@@ -10,12 +10,13 @@ namespace KSociety.Log.Serilog.Sinks.XUnit.Sinks.XUnit
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
+
     /// <summary>
     /// A sink to direct Serilog output to the XUnit test output
     /// </summary>
     public class TestOutputSink : ILogEventSink
     {
-        private readonly IMessageSink? _messageSink;
+        private readonly Xunit.Abstractions.IMessageSink? _messageSink;
         private readonly ITestOutputHelper? _testOutputHelper;
         private readonly ITextFormatter _textFormatter;
 
@@ -24,7 +25,7 @@ namespace KSociety.Log.Serilog.Sinks.XUnit.Sinks.XUnit
         /// </summary>
         /// <param name="messageSink">An <see cref="IMessageSink"/> implementation that can be used to provide test output</param>
         /// <param name="textFormatter">The <see cref="ITextFormatter"/> used when rendering the message</param>
-        public TestOutputSink(IMessageSink? messageSink, ITextFormatter textFormatter)
+        public TestOutputSink(Xunit.Abstractions.IMessageSink? messageSink, ITextFormatter textFormatter)
         {
             this._messageSink = messageSink ?? throw new ArgumentNullException(nameof(messageSink));
             this._textFormatter = textFormatter ?? throw new ArgumentNullException(nameof(textFormatter));
@@ -52,7 +53,8 @@ namespace KSociety.Log.Serilog.Sinks.XUnit.Sinks.XUnit
             var renderSpace = new StringWriter();
             this._textFormatter.Format(logEvent, renderSpace);
             var message = renderSpace.ToString().Trim();
-            this._messageSink?.OnMessage(new DiagnosticMessage(message));
+            var diagnosticMessage = new DiagnosticMessage(message);
+            this._messageSink?.OnMessage(diagnosticMessage);
             this._testOutputHelper?.WriteLine(message);
         }
     }

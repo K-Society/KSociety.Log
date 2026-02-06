@@ -8,7 +8,6 @@ namespace KSociety.Log.Serilog.Sinks.XUnit.Sinks.XUnit
     using global::Serilog.Events;
     using global::Serilog.Formatting;
     using Xunit.Abstractions;
-    using Xunit.Sdk;
 
 
     /// <summary>
@@ -16,7 +15,7 @@ namespace KSociety.Log.Serilog.Sinks.XUnit.Sinks.XUnit
     /// </summary>
     public class TestOutputSink : ILogEventSink
     {
-        private readonly Xunit.Abstractions.IMessageSink? _messageSink;
+        private readonly IMessageSink? _messageSink;
         private readonly ITestOutputHelper? _testOutputHelper;
         private readonly ITextFormatter _textFormatter;
 
@@ -25,7 +24,7 @@ namespace KSociety.Log.Serilog.Sinks.XUnit.Sinks.XUnit
         /// </summary>
         /// <param name="messageSink">An <see cref="IMessageSink"/> implementation that can be used to provide test output</param>
         /// <param name="textFormatter">The <see cref="ITextFormatter"/> used when rendering the message</param>
-        public TestOutputSink(Xunit.Abstractions.IMessageSink? messageSink, ITextFormatter textFormatter)
+        public TestOutputSink(IMessageSink? messageSink, ITextFormatter textFormatter)
         {
             this._messageSink = messageSink ?? throw new ArgumentNullException(nameof(messageSink));
             this._textFormatter = textFormatter ?? throw new ArgumentNullException(nameof(textFormatter));

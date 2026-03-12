@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KSociety.Base.EventBus" Version="1.5.23" />
+    <PackageReference Include="KSociety.Base.EventBus" Version="1.5.28" />
   </ItemGroup>
 
 </Project>
